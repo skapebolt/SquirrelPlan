@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="An interactive tool for planning and simulating your financial future and wealth growth.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Wealth Planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Wealth Planner</a>
+            <div class="d-flex">
+                <div class="form-check form-switch me-3 d-none d-md-block">
+                    <input class="form-check-input" type="checkbox" id="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <label class="form-check-label" for="dark-mode-toggle"><span class="text-white">Dark mode</span></label>
+                </div>
+                <button class="btn btn-success me-2" id="import-btn" aria-label="Import data">Import</button>
+                <button class="btn btn-primary me-2" id="export-btn" aria-label="Export data">Export</button>
+                <button class="btn btn-danger" id="clear-btn">Clear</button>
+                <button class="btn btn-info ms-2" id="help-btn" aria-label="Help"><i class="bi bi-question-lg"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-4">
+        <h1 class="visually-hidden">Interactive Wealth Planner</h1>
+        <div class="row">
+            <div class="col-lg-2">
+                <section aria-labelledby="settings-heading">
+                    <h3 id="settings-heading">Settings</h3>
+                    <div class="mb-3">
+                        <label for="inflation" class="form-label" data-bs-toggle="tooltip" title="The average annual increase in prices. This is used to calculate the future value of money.">Inflation (%) <i class="bi bi-info-circle"></i></label>
+                        <input type="text" class="form-control" id="inflation" value="2.50" aria-label="Inflation in percent">
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-10">
+                <section aria-labelledby="financial-data-heading">
+                    <h3 id="financial-data-heading">Financial Data</h3>
+                    <div class="accordion" id="financial-data-accordion">
+                        <!-- Assets -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-assets">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-assets" aria-expanded="true" aria-controls="collapse-assets">
+                                    Assets
+                                </button>
+                            </h2>
+                            <div id="collapse-assets" class="accordion-collapse collapse show" aria-labelledby="heading-assets" role="region">
+                                <div class="accordion-body">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div id="asset-categories-container"></div>
+                                            <button class="btn btn-secondary mt-3" id="add-asset-category-btn">New Asset Class</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Liabilities -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-liabilities">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-liabilities" aria-expanded="false" aria-controls="collapse-liabilities">
+                                    Liabilities
+                                </button>
+                            </h2>
+                            <div id="collapse-liabilities" class="accordion-collapse collapse" aria-labelledby="heading-liabilities" role="region">
+                                <div class="accordion-body">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div id="liability-categories-container"></div>
+                                            <button class="btn btn-secondary mt-3" id="add-liability-category-btn">New Liability Class</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Income -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-income">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-income" aria-expanded="false" aria-controls="collapse-income">
+                                    Income
+                                </button>
+                            </h2>
+                            <div id="collapse-income" class="accordion-collapse collapse" aria-labelledby="heading-income" role="region">
+                                <div class="accordion-body">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div id="income-categories-container"></div>
+                                            <button class="btn btn-secondary mt-3" id="add-income-category-btn">New Income Category</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Expenses -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-expenses">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-expenses" aria-expanded="false" aria-controls="collapse-expenses">
+                                    Expenses
+                                </button>
+                            </h2>
+                            <div id="collapse-expenses" class="accordion-collapse collapse" aria-labelledby="heading-expenses" role="region">
+                                <div class="accordion-body">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div id="expense-categories-container"></div>
+                                            <button class="btn btn-secondary mt-3" id="add-expense-category-btn">New Expense Category</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Savings Allocation -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-allocation">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-allocation" aria-expanded="false" aria-controls="collapse-allocation">
+                                    Savings Allocation
+                                </button>
+                            </h2>
+                            <div id="collapse-allocation" class="accordion-collapse collapse" aria-labelledby="heading-allocation" role="region">
+                                <div class="accordion-body">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div id="allocation-periods-container"></div>
+                                            <button class="btn btn-secondary mt-3" id="add-allocation-period-btn">New Allocation Period</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Retirement -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-retirement">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-retirement" aria-expanded="false" aria-controls="collapse-retirement">
+                                    Retirement Planning
+                                </button>
+                            </h2>
+                            <div id="collapse-retirement" class="accordion-collapse collapse" aria-labelledby="heading-retirement" role="region">
+                                <div class="accordion-body">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="current-age" class="form-label" data-bs-toggle="tooltip" title="Your current age in years.">Current Age <i class="bi bi-info-circle"></i></label>
+                                                    <input type="text" class="form-control" id="current-age" value="30" aria-label="Current age">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="pension-age" class="form-label" data-bs-toggle="tooltip" title="The age at which you plan to retire.">Retirement Age <i class="bi bi-info-circle"></i></label>
+                                                    <input type="text" class="form-control" id="pension-age" value="67" aria-label="Retirement age">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="estimated-pension" class="form-label" data-bs-toggle="tooltip" title="The estimated net monthly pension you will receive from the government.">Monthly Pension (net) <i class="bi bi-info-circle"></i></label>
+                                                    <input type="text" class="form-control" id="estimated-pension" value="1500" aria-label="Estimated monthly pension net">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="withdrawal-rate" class="form-label" data-bs-toggle="tooltip" title="The percentage of your total assets that you plan to withdraw annually after retirement (e.g., the 4% rule).">Withdrawal Rate (%) <i class="bi bi-info-circle"></i></label>
+                                                    <input type="text" class="form-control" id="withdrawal-rate" value="4" aria-label="Withdrawal rate in percent">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <button class="btn btn-primary mt-3" id="run-simulation-btn">Run Simulation</button>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <section id="results" class="mt-4" style="display: none;" aria-labelledby="results-heading">
+            <h3 id="results-heading">Results</h3>
+            <div id="early-retirement-message" class="alert alert-success" style="display: none;" role="alert"></div>
+            <div id="pension-withdrawal-message" class="alert alert-info" style="display: none;" role="alert"></div>
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <canvas id="wealth-evolution-chart" role="img" aria-label="Chart of wealth evolution"></canvas>
+                </div>
+            </div>
+            <div class="mt-4 table-responsive">
+                <table class="table table-striped" aria-label="Results table">
+                    <thead id="results-table-head">
+                    </thead>
+                    <tbody id="results-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div id="help-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Help</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Welcome to the Interactive Wealth Planner!</p>
+                    <p>This tool helps you plan and visualize your financial future.</p>
+                    <h6>How to use:</h6>
+                    <ol>
+                        <li><strong>Settings:</strong> Adjust the inflation rate as desired.</li>
+                        <li><strong>Financial Data:</strong> Fill in your assets, liabilities, income, and expenses.</li>
+                        <li><strong>Savings Allocation:</strong> Determine how your savings are invested over different periods.</li>
+                        <li><strong>Retirement Planning:</strong> Fill in your current age, desired retirement age, and expected pension.</li>
+                        <li><strong>Run Simulation:</strong> Click the button to see the evolution of your wealth.</li>
+                    </ol>
+                    <p>The results are displayed in a chart and a table.</p>
+                    <p>With the buttons at the top right, you can import, export, or clear all your data.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="simulation.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

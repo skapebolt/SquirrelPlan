@@ -1,0 +1,179 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1368px;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #ffffff;
+    background-color: #0a58ca;
+}
+
+.table {
+    background-color: #fff;
+}
+
+[data-bs-theme="dark"] body {
+    background-color: #212529;
+}
+
+[data-bs-theme="dark"] .table {
+    background-color: #343a40;
+}
+
+@media print {
+    body {
+        background-color: #fff;
+    }
+
+    .navbar,
+    .accordion,
+    .btn,
+    hr {
+        display: none;
+    }
+
+    #resultaten {
+        display: block !important;
+    }
+
+    .col-lg-8,
+    .col-lg-4 {
+        width: 100%;
+    }
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 1;
+    border-bottom: 2px solid #dee2e6;
+}
+
+[data-bs-theme="dark"] th {
+    background-color: #212529;
+    border-bottom: 2px solid #495057;
+}
+
+.row {
+    --bs-gutter-x: 1.5rem;
+}
+
+.category-row {
+    margin-bottom: 1rem !important;
+}
+
+.card {
+    margin-top: 1rem;
+}
+
+.delete-category-btn,
+.delete-period-btn {
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.category-row:hover .delete-category-btn,
+.allocation-period:hover .delete-period-btn {
+    opacity: 1;
+}
+
+/* Always show delete buttons on small screens */
+@media (max-width: 1368px) {
+    .delete-category-btn,
+    .delete-period-btn {
+        opacity: 1;
+    }
+}
+
+#add-asset-category-btn,
+#add-liability-category-btn,
+#add-income-category-btn,
+#add-expense-category-btn,
+#add-allocation-period-btn {
+    font-size: 0.875rem;
+}
+
+#help-btn {
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .modal-header {
+    background-color: #343a40;
+}
+
+.modal-body p {
+    font-size: 1.1rem;
+}
+
+.modal-body h6 {
+
+    font-size: 1.2rem;
+
+    margin-top: 1rem;
+
+}
+
+
+
+.table-responsive {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.accordion-button:focus {
+
+    outline: 2px solid #0d6efd;
+
+    outline-offset: 2px;
+
+}
+
+
+
+.form-control,
+
+
+
+.form-select {
+
+
+
+    border-color: #6c757d;
+
+
+
+}
+
+/* Accessibility contrast fixes */
+.btn-primary {
+    background-color: #0a58ca;
+}
+
+.btn-success {
+    background-color: #0f5132;
+}
+
+.btn-danger {
+    background-color: #b02a37;
+}
+
+.btn-secondary {
+    background-color: #343a40;
+}
+
+.accordion-button {
+    color: #212529;
+}
+
+[data-bs-theme="dark"] .accordion-button {
+    color: #fff;
+}
