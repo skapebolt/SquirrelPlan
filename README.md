@@ -9,6 +9,7 @@ The application is entirely client-side, with all calculations performed in the 
 ## Building and Running
 
 This is a static web project with no build process. To run the application, simply open the `index.html` file in a modern web browser.
+The main branch is live at [skapebolt.github.io/wealth-planner-tool](https://skapebolt.github.io/wealth-planner-tool/)
 
 ## Development Conventions
 
