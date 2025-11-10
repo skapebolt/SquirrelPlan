@@ -442,6 +442,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const netWorthData = results.map(r => r.net_worth);
 
+        const isDarkMode = () => document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        const textColor = isDarkMode() ? 'rgba(255, 255, 255, 0.8)' : Chart.defaults.color;
+        const gridColor = isDarkMode() ? 'rgba(255, 255, 255, 0.1)' : Chart.defaults.borderColor;
+
         const wealthCtx = document.getElementById('wealth-evolution-chart').getContext('2d');
         wealthChart = new Chart(wealthCtx, {
             type: 'bar',
@@ -459,17 +463,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     x: {
                         stacked: true,
+                        ticks: {
+                            color: textColor,
+                        },
+                        grid: {
+                            color: gridColor
+                        }
                     },
                     y: {
                         stacked: true,
                         ticks: {
+                            color: textColor,
                             callback: function(value) {
                                 return value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
                             }
+                        },
+                        grid: {
+                            color: gridColor
                         }
                     }
                 },
                 plugins: {
+                    legend: {
+                        labels: {
+                            color: textColor
+                        }
+                    },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
@@ -646,5 +665,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.documentElement.setAttribute('data-bs-theme', 'light');
             localStorage.setItem('theme', 'light');
         }
+        runAndRender();
     });
 });
