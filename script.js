@@ -412,7 +412,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (amountPensionMessage > 0) {
             const monthlyWithdrawal = amountPensionMessage / 12;
-            let message = `Your first annual withdrawal upon reaching retirement age would be <strong>$${amountPensionMessage.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}</strong> ($${monthlyWithdrawal.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})} per month).`;
+            let message = `Your first annual withdrawal upon reaching retirement age would be <strong>${amountPensionMessage.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}</strong> (${monthlyWithdrawal.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})} per month).`;
             pensionWithdrawalMessage.innerHTML = message;
             pensionWithdrawalMessage.style.display = 'block';
         } else {
