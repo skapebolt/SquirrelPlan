@@ -181,6 +181,22 @@ function runSimulation(inputs) {
             }
         }
 
+        const currentAllocation = getCurrentAllocation(currentYear, inputs.allocationPeriods);
+        if (currentAllocation && currentAllocation.rebalance) {
+            const rebalanceAssets = Object.keys(currentAllocation.allocation)
+                .filter(assetName => currentAllocation.allocation[assetName] > 0);
+
+            if (rebalanceAssets.length > 0) {
+                const totalRebalanceValue = rebalanceAssets.reduce((total, assetName) => total + assets[assetName], 0);
+                
+                rebalanceAssets.forEach(assetName => {
+                    const targetPercentage = currentAllocation.allocation[assetName];
+                    const targetValue = totalRebalanceValue * targetPercentage;
+                    assets[assetName] = targetValue;
+                });
+            }
+        }
+
         const totalAssets = Object.values(assets).reduce((a, b) => a + b, 0);
         const totalLiabilities = Object.values(liabilities).reduce((sum, l) => sum + l.value, 0);
         const netWorth = totalAssets - totalLiabilities;

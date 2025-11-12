@@ -177,3 +177,12 @@ th {
 [data-bs-theme="dark"] .accordion-button {
     color: #fff;
 }
+
+.form-label {
+    display: inline-flex;
+    align-items: center;
+}
+
+.form-label .bi {
+    margin-left: 0.25rem;
+}

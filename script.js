@@ -1,24 +1,81 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
     let uniqueIdCounter = 0;
     function getUniqueId(prefix = 'id') {
         uniqueIdCounter++;
         return `${prefix}-${uniqueIdCounter}`;
     }
 
-    // Buttons
-    const importBtn = document.getElementById('import-btn');
-    const exportBtn = document.getElementById('export-btn');
-    const runSimulationBtn = document.getElementById('run-simulation-btn');
-    const addIncomeCategoryBtn = document.getElementById('add-income-category-btn');
-    const addExpenseCategoryBtn = document.getElementById('add-expense-category-btn');
-    const addAssetCategoryBtn = document.getElementById('add-asset-category-btn');
-    const addLiabilityCategoryBtn = document.getElementById('add-liability-category-btn');
-    const addAllocationPeriodBtn = document.getElementById('add-allocation-period-btn');
-    const clearBtn = document.getElementById('clear-btn');
-    const helpBtn = document.getElementById('help-btn');
+    function displayAlerts(messages, type = 'danger') {
+        const alertsContainer = document.getElementById('alerts-container');
+        alertsContainer.innerHTML = '';
+        messages.forEach(msg => {
+            const alertEl = document.createElement('div');
+            alertEl.className = `alert alert-${type} alert-dismissible fade show`;
+            alertEl.setAttribute('role', 'alert');
+            alertEl.innerHTML = `
+                ${msg}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            alertsContainer.appendChild(alertEl);
+        });
+    }
+
+    function validateAllInputs() {
+        const errors = [];
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+        const clearValidation = (event) => {
+            event.target.classList.remove('is-invalid');
+            const stillInvalid = document.querySelector('.is-invalid');
+            if (!stillInvalid) {
+                document.getElementById('alerts-container').innerHTML = '';
+            }
+        };
+
+        document.querySelectorAll('.category-row').forEach(row => {
+            const startYearInput = row.querySelector('.category-start-year');
+            const endYearInput = row.querySelector('.category-end-year');
+
+            if (startYearInput && endYearInput) {
+                const startYear = parseFormattedNumber(startYearInput.value);
+                const endYear = parseFormattedNumber(endYearInput.value);
+
+                if (!isNaN(endYear) && !isNaN(startYear) && endYear < startYear) {
+                    errors.push(getTranslation('endYearBeforeStartYearError'));
+                    [startYearInput, endYearInput].forEach(input => {
+                        input.classList.add('is-invalid');
+                        input.addEventListener('input', clearValidation, { once: true });
+                    });
+                }
+            }
+        });
+
+        const currentAgeInput = document.getElementById('current-age');
+        const pensionAgeInput = document.getElementById('pension-age');
+        const currentAge = parseFormattedNumber(currentAgeInput.value);
+        const pensionAge = parseFormattedNumber(pensionAgeInput.value);
+
+        // Allow currentAge > pensionAge if pensionAge is a plausible past retirement age (e.g., >= 18)
+        if (!isNaN(currentAge) && !isNaN(pensionAge) && pensionAge < currentAge && pensionAge < 18) {
+            errors.push(getTranslation('retirementAgeBeforeCurrentAgeError'));
+            [currentAgeInput, pensionAgeInput].forEach(input => {
+                input.classList.add('is-invalid');
+                input.addEventListener('input', clearValidation, { once: true });
+            });
+        }
+
+        return [...new Set(errors)];
+    }
+
+    let toastInstance = null;
+    function showToast(message) {
+        const toastEl = document.getElementById('app-toast');
+        if (!toastInstance) {
+            toastInstance = new bootstrap.Toast(toastEl);
+        }
+        toastEl.querySelector('.toast-body').textContent = message;
+        toastInstance.show();
+    }
 
     // Containers
     const incomeCategoriesContainer = document.getElementById('income-categories-container');
@@ -27,23 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const liabilityCategoriesContainer = document.getElementById('liability-categories-container');
     const allocationPeriodsContainer = document.getElementById('allocation-periods-container');
 
-    // Modal
-    const helpModal = new bootstrap.Modal(document.getElementById('help-modal'));
-
-    // Event Listeners
-    importBtn.addEventListener('click', importData);
-    exportBtn.addEventListener('click', exportData);
-    runSimulationBtn.addEventListener('click', runAndRender);
-    addIncomeCategoryBtn.addEventListener('click', () => addCategory(incomeCategoriesContainer, 'income'));
-    addExpenseCategoryBtn.addEventListener('click', () => addCategory(expenseCategoriesContainer, 'expense'));
-    addAssetCategoryBtn.addEventListener('click', () => addCategory(assetCategoriesContainer, 'asset'));
-    addLiabilityCategoryBtn.addEventListener('click', () => addCategory(liabilityCategoriesContainer, 'liability'));
-    addAllocationPeriodBtn.addEventListener('click', addAllocationPeriod);
-    clearBtn.addEventListener('click', clearData);
-    helpBtn.addEventListener('click', () => helpModal.show());
-
     const formattingRules = {
-        // selector: { decimals, thousands }
         '#inflation': { decimals: 2, thousands: true },
         '#estimated-pension': { decimals: 0, thousands: true },
         '#withdrawal-rate': { decimals: 2, thousands: false },
@@ -103,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
         for (const selector in formattingRules) {
             const rules = formattingRules[selector];
             container.querySelectorAll(selector).forEach(input => {
-                // Prevent duplicate listeners
                 const isListenerAttached = input.dataset.formattingAttached;
                 if (isListenerAttached) return;
 
@@ -143,6 +183,11 @@ document.addEventListener('DOMContentLoaded', function () {
         row.innerHTML = fields;
         container.appendChild(row);
 
+        row.querySelectorAll('[data-i18n-title-key]').forEach(element => {
+            const key = element.getAttribute('data-i18n-title-key');
+            element.setAttribute('title', getTranslation(key));
+        });
+
         const tooltipTriggerList = row.querySelectorAll('[data-bs-toggle="tooltip"]');
         [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
@@ -160,14 +205,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const endYearId = getUniqueId('asset-end-year');
         const withdrawalOrderId = getUniqueId('asset-withdrawal-order');
         return `
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${nameId}" class="form-label" data-bs-toggle="tooltip" title="A unique name for this category.">Name <i class="bi bi-info-circle"></i></label><input type="text" id="${nameId}" class="form-control category-name" value="${category.name || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${valueId}" class="form-label" data-bs-toggle="tooltip" title="The current value in your currency.">Value <i class="bi bi-info-circle"></i></label><input type="text" id="${valueId}" class="form-control category-value" value="${category.value || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${returnId}" class="form-label" data-bs-toggle="tooltip" title="The expected annual return on this asset, after costs.">Return (%) <i class="bi bi-info-circle"></i></label><input type="text" id="${returnId}" class="form-control category-return" value="${category.return || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${taxId}" class="form-label" data-bs-toggle="tooltip" title="The annual tax on the return or capital gain.">Tax (%) <i class="bi bi-info-circle"></i></label><input type="text" id="${taxId}" class="form-control category-tax" value="${category.tax || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${startYearId}" class="form-label" data-bs-toggle="tooltip" title="The year this category becomes active.">Start <i class="bi bi-info-circle"></i></label><input type="text" id="${startYearId}" class="form-control category-start-year" value="${category.startYear || new Date().getFullYear()}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${endYearId}" class="form-label" data-bs-toggle="tooltip" title="The year this category stops. Leave empty if not applicable.">End <i class="bi bi-info-circle"></i></label><input type="text" id="${endYearId}" class="form-control category-end-year" value="${category.endYear || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${withdrawalOrderId}" class="form-label" data-bs-toggle="tooltip" title="The withdrawal order in case of a deficit or after retirement (1 = first, 99 = last).">Order <i class="bi bi-info-circle"></i></label><input type="text" id="${withdrawalOrderId}" class="form-control category-withdrawal-order" value="${category.withdrawalOrder || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1 d-flex align-items-end"><button class="btn btn-danger btn-sm delete-category-btn w-100" aria-label="Delete asset category"><i class="bi bi-trash"></i></button></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${nameId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="assetNameTooltip">${getTranslation('nameLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${nameId}" class="form-control category-name" value="${category.name || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${valueId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="assetValueTooltip">${getTranslation('valueLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${valueId}" class="form-control category-value" value="${category.value || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${returnId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="assetReturnTooltip">${getTranslation('returnLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${returnId}" class="form-control category-return" value="${category.return || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${taxId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="assetTaxTooltip">${getTranslation('taxLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${taxId}" class="form-control category-tax" value="${category.tax || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${startYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="assetStartYearTooltip">${getTranslation('startLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${startYearId}" class="form-control category-start-year" value="${category.startYear || new Date().getFullYear()}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${endYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="assetEndYearTooltip">${getTranslation('endLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${endYearId}" class="form-control category-end-year" value="${category.endYear || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${withdrawalOrderId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="assetWithdrawalOrderTooltip">${getTranslation('withdrawalOrderLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${withdrawalOrderId}" class="form-control category-withdrawal-order" value="${category.withdrawalOrder || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1 d-flex align-items-end"><i class="bi bi-grip-vertical drag-handle me-2" style="cursor: move; font-size: 1.2rem;"></i><button class="btn btn-danger btn-sm delete-category-btn" aria-label="${getTranslation('deleteAssetCategoryLabel')}"><i class="bi bi-trash"></i></button></div>
         `;
     }
 
@@ -177,11 +222,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const startYearId = getUniqueId('liability-start-year');
         const endYearId = getUniqueId('liability-end-year');
         return `
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${nameId}" class="form-label" data-bs-toggle="tooltip" title="A unique name for this category.">Name <i class="bi bi-info-circle"></i></label><input type="text" id="${nameId}" class="form-control category-name" value="${category.name || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${valueId}" class="form-label" data-bs-toggle="tooltip" title="The current value in your currency.">Value <i class="bi bi-info-circle"></i></label><input type="text" id="${valueId}" class="form-control category-value" value="${category.value || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${startYearId}" class="form-label" data-bs-toggle="tooltip" title="The year this category becomes active.">Start <i class="bi bi-info-circle"></i></label><input type="text" id="${startYearId}" class="form-control category-start-year" value="${category.startYear || new Date().getFullYear()}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${endYearId}" class="form-label" data-bs-toggle="tooltip" title="The year this category stops. Leave empty if not applicable.">End <i class="bi bi-info-circle"></i></label><input type="text" id="${endYearId}" class="form-control category-end-year" value="${category.endYear || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1 d-flex align-items-end"><button class="btn btn-danger btn-sm delete-category-btn w-100" aria-label="Delete liability category"><i class="bi bi-trash"></i></button></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${nameId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="liabilityNameTooltip">${getTranslation('nameLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${nameId}" class="form-control category-name" value="${category.name || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${valueId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="liabilityValueTooltip">${getTranslation('valueLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${valueId}" class="form-control category-value" value="${category.value || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${startYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="liabilityStartYearTooltip">${getTranslation('startLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${startYearId}" class="form-control category-start-year" value="${category.startYear || new Date().getFullYear()}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${endYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="liabilityEndYearTooltip">${getTranslation('endLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${endYearId}" class="form-control category-end-year" value="${category.endYear || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1 d-flex align-items-end"><i class="bi bi-grip-vertical drag-handle me-2" style="cursor: move; font-size: 1.2rem;"></i><button class="btn btn-danger btn-sm delete-category-btn" aria-label="${getTranslation('deleteLiabilityCategoryLabel')}"><i class="bi bi-trash"></i></button></div>
         `;
     }
 
@@ -193,13 +238,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const startYearId = getUniqueId('income-start-year');
         const endYearId = getUniqueId('income-end-year');
         return `
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${nameId}" class="form-label" data-bs-toggle="tooltip" title="A unique name for this category.">Name <i class="bi bi-info-circle"></i></label><input type="text" id="${nameId}" class="form-control category-name" value="${category.name || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${valueId}" class="form-label" data-bs-toggle="tooltip" title="The current value in your currency.">Value <i class="bi bi-info-circle"></i></label><input type="text" id="${valueId}" class="form-control category-value" value="${category.value || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${frequencyId}" class="form-label" data-bs-toggle="tooltip" title="How often this income occurs.">Frequency <i class="bi bi-info-circle"></i></label><select id="${frequencyId}" class="form-select category-frequency"><option value="monthly" ${category.frequency === 'monthly' ? 'selected' : ''}>Monthly</option><option value="yearly" ${category.frequency === 'yearly' ? 'selected' : ''}>Yearly</option></select></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${indexedId}" class="form-label" data-bs-toggle="tooltip" title="Check if this amount should increase annually with inflation.">Index <i class="bi bi-info-circle"></i></label><input id="${indexedId}" class="form-check-input d-block category-indexed" type="checkbox" ${category.indexed ? 'checked' : ''}></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${startYearId}" class="form-label" data-bs-toggle="tooltip" title="The year this category becomes active.">Start <i class="bi bi-info-circle"></i></label><input type="text" id="${startYearId}" class="form-control category-start-year" value="${category.startYear || new Date().getFullYear()}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${endYearId}" class="form-label" data-bs-toggle="tooltip" title="The year this category stops. Leave empty if not applicable.">End <i class="bi bi-info-circle"></i></label><input type="text" id="${endYearId}" class="form-control category-end-year" value="${category.endYear || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1 d-flex align-items-end"><button class="btn btn-danger btn-sm delete-category-btn w-100" aria-label="Delete income category"><i class="bi bi-trash"></i></button></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${nameId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="incomeNameTooltip">${getTranslation('nameLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${nameId}" class="form-control category-name" value="${category.name || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${valueId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="incomeValueTooltip">${getTranslation('valueLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${valueId}" class="form-control category-value" value="${category.value || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${frequencyId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="incomeFrequencyTooltip">${getTranslation('frequencyLabel')} <i class="bi bi-info-circle"></i></label><select id="${frequencyId}" class="form-select category-frequency"><option value="monthly" ${category.frequency === 'monthly' ? 'selected' : ''}>${getTranslation('monthlyOption')}</option><option value="yearly" ${category.frequency === 'yearly' ? 'selected' : ''}>${getTranslation('yearlyOption')}</option></select></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${indexedId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="incomeIndexedTooltip">${getTranslation('indexedLabel')} <i class="bi bi-info-circle"></i></label><input id="${indexedId}" class="form-check-input d-block category-indexed" type="checkbox" ${category.indexed ? 'checked' : ''}></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${startYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="incomeStartYearTooltip">${getTranslation('startLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${startYearId}" class="form-control category-start-year" value="${category.startYear || new Date().getFullYear()}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${endYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="incomeEndYearTooltip">${getTranslation('endLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${endYearId}" class="form-control category-end-year" value="${category.endYear || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1 d-flex align-items-end"><i class="bi bi-grip-vertical drag-handle me-2" style="cursor: move; font-size: 1.2rem;"></i><button class="btn btn-danger btn-sm delete-category-btn" aria-label="${getTranslation('deleteIncomeCategoryLabel')}"><i class="bi bi-trash"></i></button></div>
         `;
     }
 
@@ -211,28 +256,35 @@ document.addEventListener('DOMContentLoaded', function () {
         const startYearId = getUniqueId('expense-start-year');
         const endYearId = getUniqueId('expense-end-year');
         return `
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${nameId}" class="form-label" data-bs-toggle="tooltip" title="A unique name for this category.">Name <i class="bi bi-info-circle"></i></label><input type="text" id="${nameId}" class="form-control category-name" value="${category.name || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${valueId}" class="form-label" data-bs-toggle="tooltip" title="The current value in your currency.">Value <i class="bi bi-info-circle"></i></label><input type="text" id="${valueId}" class="form-control category-value" value="${category.value || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${frequencyId}" class="form-label" data-bs-toggle="tooltip" title="How often this expense occurs.">Frequency <i class="bi bi-info-circle"></i></label><select id="${frequencyId}" class="form-select category-frequency"><option value="monthly" ${category.frequency === 'monthly' ? 'selected' : ''}>Monthly</option><option value="yearly" ${category.frequency === 'yearly' ? 'selected' : ''}>Yearly</option></select></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${indexedId}" class="form-label" data-bs-toggle="tooltip" title="Check if this amount should increase annually with inflation.">Index <i class="bi bi-info-circle"></i></label><input id="${indexedId}" class="form-check-input d-block category-indexed" type="checkbox" ${category.indexed ? 'checked' : ''}></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${startYearId}" class="form-label" data-bs-toggle="tooltip" title="The year this category becomes active.">Start <i class="bi bi-info-circle"></i></label><input type="text" id="${startYearId}" class="form-control category-start-year" value="${category.startYear || new Date().getFullYear()}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${endYearId}" class="form-label" data-bs-toggle="tooltip" title="The year this category stops. Leave empty if not applicable.">End <i class="bi bi-info-circle"></i></label><input type="text" id="${endYearId}" class="form-control category-end-year" value="${category.endYear || ''}"></div>
-            <div class="col-6 col-md-4 col-lg-3 col-xxl-1 d-flex align-items-end"><button class="btn btn-danger btn-sm delete-category-btn w-100" aria-label="Delete expense category"><i class="bi bi-trash"></i></button></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${nameId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="expenseNameTooltip">${getTranslation('nameLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${nameId}" class="form-control category-name" value="${category.name || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${valueId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="expenseValueTooltip">${getTranslation('valueLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${valueId}" class="form-control category-value" value="${category.value || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${frequencyId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="expenseFrequencyTooltip">${getTranslation('frequencyLabel')} <i class="bi bi-info-circle"></i></label><select id="${frequencyId}" class="form-select category-frequency"><option value="monthly" ${category.frequency === 'monthly' ? 'selected' : ''}>${getTranslation('monthlyOption')}</option><option value="yearly" ${category.frequency === 'yearly' ? 'selected' : ''}>${getTranslation('yearlyOption')}</option></select></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${indexedId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="expenseIndexedTooltip">${getTranslation('indexedLabel')} <i class="bi bi-info-circle"></i></label><input id="${indexedId}" class="form-check-input d-block category-indexed" type="checkbox" ${category.indexed ? 'checked' : ''}></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${startYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="expenseStartYearTooltip">${getTranslation('startLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${startYearId}" class="form-control category-start-year" value="${category.startYear || new Date().getFullYear()}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${endYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="expenseEndYearTooltip">${getTranslation('endLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${endYearId}" class="form-control category-end-year" value="${category.endYear || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-1 d-flex align-items-end"><i class="bi bi-grip-vertical drag-handle me-2" style="cursor: move; font-size: 1.2rem;"></i><button class="btn btn-danger btn-sm delete-category-btn" aria-label="${getTranslation('deleteExpenseCategoryLabel')}"><i class="bi bi-trash"></i></button></div>
         `;
     }
 
     function addAllocationPeriod(period = {}) {
         const periodId = getUniqueId('period');
         const startYearId = getUniqueId('allocation-start-year');
+        const rebalanceId = getUniqueId('rebalance-period');
         const row = document.createElement('div');
         row.classList.add('row', 'mb-3', 'allocation-period');
         row.innerHTML = `
-            <div class="col-xxl-3">
-                <label for="${startYearId}" class="form-label">Start Year</label>
+            <div class="col-xxl-2">
+                <label for="${startYearId}" class="form-label">${getTranslation('startYearLabel')}</label>
                 <input type="text" id="${startYearId}" class="form-control allocation-start-year" value="${period.startYear || new Date().getFullYear()}">
             </div>
             <div class="col-xxl-6" id="allocation-assets-${periodId}"></div>
-            <div class="col-xxl-3"><button class="btn btn-danger btn-sm delete-period-btn" aria-label="Delete allocation period"><i class="bi bi-trash"></i></button></div>
+            <div class="col-xxl-4 d-flex align-items-center">
+                <div class="form-check form-switch me-3">
+                    <input class="form-check-input auto-rebalance-period-checkbox" type="checkbox" id="${rebalanceId}" ${period.rebalance ? 'checked' : ''}>
+                    <label class="form-check-label" for="${rebalanceId}" data-bs-toggle="tooltip" data-i18n-title-key="autoRebalanceTooltip">${getTranslation('autoRebalanceLabel')} <i class="bi bi-info-circle"></i></label>
+                </div>
+                <button class="btn btn-danger btn-sm delete-period-btn" aria-label="${getTranslation('deleteAllocationPeriodLabel')}"><i class="bi bi-trash"></i></button>
+            </div>
             <div class="col-xxl-12"><div class="progress mt-2"><div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div></div>
         `;
         allocationPeriodsContainer.appendChild(row);
@@ -240,6 +292,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         row.querySelector('.delete-period-btn').addEventListener('click', () => row.remove());
         applyNumberFormatting(row);
+
+        const tooltipTriggerList = row.querySelectorAll('[data-bs-toggle="tooltip"]');
+        [...tooltipTriggerList].map(tooltipTriggerEl => {
+            const key = tooltipTriggerEl.getAttribute('data-i18n-title-key');
+            if (key) {
+                tooltipTriggerEl.setAttribute('title', getTranslation(key));
+            }
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
     }
 
     function updateAllocationAssets(periodRow, allocation) {
@@ -291,24 +352,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return names;
     }
 
-    function clearData() {
-        if (confirm('Are you sure you want to clear all data?')) {
-            document.getElementById('current-age').value = '';
-            document.getElementById('inflation').value = '';
-            document.getElementById('pension-age').value = '';
-            document.getElementById('estimated-pension').value = '';
-			document.getElementById('withdrawal-rate').value = '';
-
-            incomeCategoriesContainer.innerHTML = '';
-            expenseCategoriesContainer.innerHTML = '';
-            assetCategoriesContainer.innerHTML = '';
-            liabilityCategoriesContainer.innerHTML = '';
-            allocationPeriodsContainer.innerHTML = '';
-        }
-    }
-
     function getUserInputs() {
-
         const incomes = [];
         document.querySelectorAll('#income-categories-container .category-row').forEach(row => {
             const name = row.querySelector('.category-name').value;
@@ -371,9 +415,11 @@ document.addEventListener('DOMContentLoaded', function () {
             row.querySelectorAll('.allocation-asset').forEach(input => {
                 allocation[input.dataset.assetName] = parseFormattedNumber(input.value) / 100 || 0;
             });
+            const rebalance = row.querySelector('.auto-rebalance-period-checkbox').checked;
             allocationPeriods.push({
                 startYear: parseInt(parseFormattedNumber(row.querySelector('.allocation-start-year').value)) || 0,
                 allocation: allocation,
+                rebalance: rebalance,
             });
         });
 
@@ -392,7 +438,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function runAndRender() {
-        console.log('runAndRender called');
+        const errors = validateAllInputs();
+        if (errors.length > 0) {
+            displayAlerts(errors);
+            return;
+        }
+        document.getElementById('alerts-container').innerHTML = '';
+
         const inputs = getUserInputs();
         const { results, earlyRetirementYear, amountPensionMessage } = window.runSimulation(inputs);
         renderTable(results);
@@ -402,8 +454,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const pensionWithdrawalMessage = document.getElementById('pension-withdrawal-message');
 
         if (earlyRetirementYear) {
-            const earlyRetirementAge = results.find(r => r.year === earlyRetirementYear).age;
-            let message = `You may be able to retire early in <strong>${earlyRetirementYear}</strong> at the age of <strong>${earlyRetirementAge}</strong>!`;
+            const earlyRetirementData = results.find(r => r.year === earlyRetirementYear);
+            const earlyRetirementAge = earlyRetirementData.age;
+            const netWorth = earlyRetirementData.net_worth.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            let message = getTranslation('earlyRetirementMessage', { year: earlyRetirementYear, age: earlyRetirementAge, netWorth: netWorth });
             earlyRetirementMessage.innerHTML = message;
             earlyRetirementMessage.style.display = 'block';
         } else {
@@ -412,7 +466,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (amountPensionMessage > 0) {
             const monthlyWithdrawal = amountPensionMessage / 12;
-            let message = `Your first annual withdrawal upon reaching retirement age would be <strong>${amountPensionMessage.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}</strong> (${monthlyWithdrawal.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})} per month).`;
+            const pensionAge = parseInt(parseFormattedNumber(document.getElementById('pension-age').value)) || 0;
+            const pensionYearData = results.find(r => r.age === pensionAge);
+            const netWorth = pensionYearData.net_worth.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            const withdrawalRate = (parseFormattedNumber(document.getElementById('withdrawal-rate').value) || 0);
+
+            let message = getTranslation('pensionWithdrawalMessage', { 
+                amount: amountPensionMessage.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}), 
+                monthly: monthlyWithdrawal.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}),
+                netWorth: netWorth,
+                rate: withdrawalRate
+            });
             pensionWithdrawalMessage.innerHTML = message;
             pensionWithdrawalMessage.style.display = 'block';
         } else {
@@ -452,7 +516,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: {
                 labels: labels,
                 datasets: assetDatasets.concat({
-                    label: 'Net Worth',
+                    label: getTranslation('netWorthLabel'),
                     data: netWorthData,
                     type: 'line',
                     borderColor: '#0d6efd',
@@ -508,8 +572,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
-
     function exportData() {
         const data = getUserInputs();
         const json = JSON.stringify(data, null, 2);
@@ -524,39 +586,41 @@ document.addEventListener('DOMContentLoaded', function () {
         URL.revokeObjectURL(url);
     }
 
-    function importData() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.json';
-        input.onchange = e => {
-            const file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = readerEvent => {
-                const content = readerEvent.target.result;
-                const data = JSON.parse(content);
-                setUserValues(data);
-            };
-            reader.readAsText(file);
+    function importData(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const data = JSON.parse(e.target.result);
+            setUserValues(data);
+            event.target.value = '';
         };
-        input.click();
+        reader.readAsText(file);
     }
 
     function setUserValues(data) {
-        document.getElementById('current-age').value = data.currentAge;
+        document.getElementById('current-age').value = String(data.currentAge);
         document.getElementById('inflation').value = String(data.inflation * 100);
-        document.getElementById('pension-age').value = data.pensionAge;
-        document.getElementById('estimated-pension').value = data.estimatedPension;
+        document.getElementById('pension-age').value = String(data.pensionAge);
+        document.getElementById('estimated-pension').value = String(data.estimatedPension);
         document.getElementById('withdrawal-rate').value = String(data.withdrawalRate * 100);
 
         incomeCategoriesContainer.innerHTML = '';
-        data.incomes.forEach(income => addCategory(incomeCategoriesContainer, 'income', income));
+        data.incomes.forEach(income => {
+            const modifiedIncome = { ...income, value: String(income.value) };
+            addCategory(incomeCategoriesContainer, 'income', modifiedIncome);
+        });
 
         expenseCategoriesContainer.innerHTML = '';
-        data.expenses.forEach(expense => addCategory(expenseCategoriesContainer, 'expense', expense));
+        data.expenses.forEach(expense => {
+            const modifiedExpense = { ...expense, value: String(expense.value) };
+            addCategory(expenseCategoriesContainer, 'expense', modifiedExpense);
+        });
 
         assetCategoriesContainer.innerHTML = '';
         data.assets.forEach(asset => {
-            const modifiedAsset = { ...asset };
+            const modifiedAsset = { ...asset, value: String(asset.value) };
             if (typeof modifiedAsset.return === 'number') {
                 modifiedAsset.return = String(modifiedAsset.return * 100);
             }
@@ -567,27 +631,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         liabilityCategoriesContainer.innerHTML = '';
-        data.liabilities.forEach(liability => addCategory(liabilityCategoriesContainer, 'liability', liability));
+        data.liabilities.forEach(liability => {
+            const modifiedLiability = { ...liability, value: String(liability.value) };
+            addCategory(liabilityCategoriesContainer, 'liability', modifiedLiability);
+        });
 
         allocationPeriodsContainer.innerHTML = '';
         data.allocationPeriods.forEach(period => {
             const modifiedPeriod = { ...period };
             if (modifiedPeriod.allocation) {
                 Object.keys(modifiedPeriod.allocation).forEach(assetName => {
-                    modifiedPeriod.allocation[assetName] = String(modifiedPeriod.allocation[assetName] * 100);
+                    // Handle backward compatibility for old object format
+                    const assetAllocation = modifiedPeriod.allocation[assetName];
+                    if (typeof assetAllocation === 'object' && assetAllocation !== null) {
+                        modifiedPeriod.allocation[assetName] = String(assetAllocation.percentage * 100);
+                    } else {
+                        modifiedPeriod.allocation[assetName] = String(assetAllocation * 100);
+                    }
                 });
             }
             addAllocationPeriod(modifiedPeriod);
         });
 
         applyNumberFormatting(document.body);
+        initializeSortable();
+        initializeTooltips();
     }
 
     function renderTable(results) {
         const tableHead = document.getElementById('results-table-head');
         const tableBody = document.getElementById('results-table-body');
-        tableHead.innerHTML = ''; // Clear previous results
-        tableBody.innerHTML = ''; // Clear previous results
+        tableHead.innerHTML = '';
+        tableBody.innerHTML = '';
 
         if(results.length === 0) return;
 
@@ -595,9 +670,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const liabilityKeys = Object.keys(results[0].liabilities);
 
         const headerRow = document.createElement('tr');
-        let headerHtml = `<th>Year</th><th>Age</th><th>Net Income</th><th>Expenses</th><th>Savings Capacity</th><th>Savings Rate</th><th>Net Worth</th>`;
-        assetKeys.forEach(key => headerHtml += `<th>${key} (Asset)</th>`);
-        liabilityKeys.forEach(key => headerHtml += `<th>${key} (Liability)</th>`);
+        let headerHtml = `
+            <th>${getTranslation('yearHeader')}</th>
+            <th>${getTranslation('ageHeader')}</th>
+            <th>${getTranslation('netIncomeHeader')}</th>
+            <th>${getTranslation('expensesHeader')}</th>
+            <th>${getTranslation('savingsCapacityHeader')}</th>
+            <th>${getTranslation('savingsRateHeader')}</th>
+            <th>${getTranslation('netWorthHeader')}</th>
+        `;
+        assetKeys.forEach(key => headerHtml += `<th>${getTranslation('assetHeader', { asset: key })}</th>`);
+        liabilityKeys.forEach(key => headerHtml += `<th>${getTranslation('liabilityHeader', { liability: key })}</th>`);
         headerRow.innerHTML = headerHtml;
         tableHead.appendChild(headerRow);
 
@@ -634,19 +717,97 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         return color;
     }
-    // Initial setup
-    addCategory(assetCategoriesContainer, 'asset', { name: 'Own Home', value: '300000', return: '4', tax: '0', withdrawalOrder: 3 });
-    addCategory(assetCategoriesContainer, 'asset', { name: 'Stocks', value: '50000', return: '8', tax: '0', withdrawalOrder: 1 });
-    addCategory(assetCategoriesContainer, 'asset', { name: 'Savings Account', value: '20000', return: '1', tax: '0', withdrawalOrder: 2 });
-    addCategory(liabilityCategoriesContainer, 'liability', { name: 'Mortgage', value: '250000', endYear: '2045' });
-    addCategory(incomeCategoriesContainer, 'income', { name: 'Salary', value: '3000', frequency: 'monthly', indexed: true });
-    addCategory(expenseCategoriesContainer, 'expense', { name: 'Living Expenses', value: '1700', frequency: 'monthly', indexed: true });
-    addCategory(expenseCategoriesContainer, 'expense', { name: 'Mortgage Repayment', value: '1250', frequency: 'monthly', indexed: false, endYear: '2045' });
-	addAllocationPeriod({ allocation: { 'Stocks': 90, 'Savings Account': 10 } });
-    
+
+    function clearAllInputs() {
+        document.getElementById('current-age').value = '';
+        document.getElementById('inflation').value = '';
+        document.getElementById('pension-age').value = '';
+        document.getElementById('estimated-pension').value = '';
+        document.getElementById('withdrawal-rate').value = '';
+
+        incomeCategoriesContainer.innerHTML = '';
+        expenseCategoriesContainer.innerHTML = '';
+        assetCategoriesContainer.innerHTML = '';
+        liabilityCategoriesContainer.innerHTML = '';
+        allocationPeriodsContainer.innerHTML = '';
+    }
+
+    function initDefaultData() {
+        incomeCategoriesContainer.innerHTML = '';
+        expenseCategoriesContainer.innerHTML = '';
+        assetCategoriesContainer.innerHTML = '';
+        liabilityCategoriesContainer.innerHTML = '';
+        allocationPeriodsContainer.innerHTML = '';
+
+        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('ownHome'), value: '300000', return: '4', tax: '0', withdrawalOrder: 3 });
+        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('stocks'), value: '50000', return: '8', tax: '0', withdrawalOrder: 1 });
+        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('savingsAccount'), value: '20000', return: '1', tax: '0', withdrawalOrder: 2 });
+        addCategory(liabilityCategoriesContainer, 'liability', { name: getTranslation('mortgage'), value: '250000', endYear: '2045' });
+        addCategory(incomeCategoriesContainer, 'income', { name: getTranslation('salary'), value: '3000', frequency: 'monthly', indexed: true });
+        addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('livingExpenses'), value: '1700', frequency: 'monthly', indexed: true });
+        addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('mortgageRepayment'), value: '1250', frequency: 'monthly', indexed: false, endYear: '2045' });
+        addAllocationPeriod({ allocation: { [getTranslation('stocks')]: 90, [getTranslation('savingsAccount')]: 10 } });
+    }
+
+    function clearSimulationResults() {
+        document.getElementById('results').style.display = 'none';
+        document.getElementById('early-retirement-message').style.display = 'none';
+        document.getElementById('pension-withdrawal-message').style.display = 'none';
+        if (wealthChart) {
+            wealthChart.destroy();
+            wealthChart = null;
+        }
+        document.getElementById('results-table-head').innerHTML = '';
+        document.getElementById('results-table-body').innerHTML = '';
+    }
+
+    function initializeTooltips() {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
+
+    function initializeSortable() {
+        const options = {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'sortable-chosen',
+            dragClass: 'sortable-drag',
+            handle: '.drag-handle'
+        };
+
+        new Sortable(assetCategoriesContainer, options);
+        new Sortable(liabilityCategoriesContainer, options);
+        new Sortable(incomeCategoriesContainer, options);
+        new Sortable(expenseCategoriesContainer, options);
+    }
+
+    initDefaultData();
+    initializeTooltips();
+    initializeSortable();
     applyNumberFormatting(document.body);
 
-    // Dark Mode Toggle
+    document.getElementById('add-asset-category-btn').addEventListener('click', () => addCategory(assetCategoriesContainer, 'asset'));
+    document.getElementById('add-liability-category-btn').addEventListener('click', () => addCategory(liabilityCategoriesContainer, 'liability'));
+    document.getElementById('add-income-category-btn').addEventListener('click', () => addCategory(incomeCategoriesContainer, 'income'));
+    document.getElementById('add-expense-category-btn').addEventListener('click', () => addCategory(expenseCategoriesContainer, 'expense'));
+    document.getElementById('add-allocation-period-btn').addEventListener('click', () => addAllocationPeriod());
+    document.getElementById('run-simulation-btn').addEventListener('click', runAndRender);
+    document.getElementById('export-btn').addEventListener('click', exportData);
+    document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-file-input').click());
+    document.getElementById('import-file-input').addEventListener('change', importData);
+    document.getElementById('clear-btn').addEventListener('click', () => {
+        if (confirm(getTranslation('clearDataConfirmation'))) {
+            clearSimulationResults();
+            clearAllInputs();
+        }
+    });
+
+    window.addEventListener('languageChanged', () => {
+        clearSimulationResults();
+        initDefaultData();
+        initializeTooltips();
+    });
+
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const currentTheme = localStorage.getItem('theme');
 

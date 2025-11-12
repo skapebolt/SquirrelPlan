@@ -21,4 +21,11 @@ The main branch is live at [skapebolt.github.io/wealth-planner-tool](https://ska
     *   `style.css`: Custom styles.
     *   `script.js`: Handles UI logic, data input/output, and rendering of results.
     *   `simulation.js`: Contains the core financial simulation logic.
+    *   `translator.js`: Handles the translation of the user interface.
 *   **Data:** The application state is managed in the browser. Users can import and export their data as a JSON file.
+*   **Libraries:**
+    *   `bootstrap.bundle.min.js`: Bootstrap's JavaScript components.
+    *   `bootstrap.min.css`: Bootstrap's CSS.
+    *   `bootstrap-icons.min.css`: Bootstrap's icons.
+    *   `chart.js`: A library for creating charts.
+    *   `Sortable.min.js`: A library for creating sortable lists.
