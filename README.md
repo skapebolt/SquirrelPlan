@@ -28,4 +28,4 @@ The main branch is live at [skapebolt.github.io/wealth-planner-tool](https://ska
     *   `bootstrap.min.css`: Bootstrap's CSS.
     *   `bootstrap-icons.min.css`: Bootstrap's icons.
     *   `chart.js`: A library for creating charts.
-    *   `Sortable.min.js`: A library for creating sortable lists.
+    *   `sortable.min.js`: A library for creating sortable lists.
