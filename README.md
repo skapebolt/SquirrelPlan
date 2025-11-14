@@ -1,31 +1,39 @@
-## Project Overview
+# Project Overview
 
-This project is an interactive wealth planner tool. It is a single-page web application built with HTML, CSS, and JavaScript. It uses the Bootstrap framework for styling and Chart.js for data visualization.
+This is a client-side "Wealth Planner Tool" designed for personal financial planning and simulation. It allows users to model their financial future by inputting assets, liabilities, income, and expenses.
 
-The tool allows users to input their financial data, including assets, liabilities, income, and expenses. It then runs a simulation to project the user's wealth over time, taking into account factors like inflation, investment returns, and retirement.
+The application is a single-page web application built with vanilla HTML, CSS, and JavaScript. It uses Bootstrap for styling, Chart.js for data visualization, and Sortable.js for list reordering. The application is self-contained and does not require a backend server.
 
-The application is entirely client-side, with all calculations performed in the user's browser. Data can be imported and exported as a JSON file.
+## Key Features
 
-## Building and Running
+*   **Financial Modeling:** Users can define their financial situation, including:
+    *   **Assets:** Savings, investments, property, etc., with expected returns and taxes.
+    *   **Liabilities:** Loans, mortgages, etc., with interest rates.
+    *   **Income:** Salaries and other income sources, with options for indexation.
+    *   **Expenses:** Living costs and other regular expenses.
+*   **Simulation:**
+    *   **Standard Simulation:** A deterministic projection of wealth over time based on the provided data.
+    *   **Monte Carlo Simulation:** A probabilistic simulation that runs hundreds of scenarios with randomized asset returns to assess the likelihood of achieving financial goals.
+*   **Retirement Planning:** Includes settings for current age, retirement age, and estimated pension to model retirement scenarios.
+*   **Data Management:** Users can import and export their financial data as a JSON file for persistence and reuse.
+*   **Internationalization:** The application supports multiple languages.
+
+# Building and Running
 
 This is a static web project with no build process. To run the application, simply open the `index.html` file in a modern web browser.
 The main branch is live at [skapebolt.github.io/wealth-planner-tool](https://skapebolt.github.io/wealth-planner-tool/)
 
-## Development Conventions
+## Dependencies
 
-*   **Language:** The user interface and the code comments are in English.
-*   **Styling:** The project uses [Bootstrap 5](https://getbootstrap.com/) for its UI components and layout. Custom styles, including a dark mode, are defined in `style.css`.
-*   **Charts:** The application uses [Chart.js](https://www.chartjs.org/) to render charts of the wealth evolution.
-*   **Code Structure:**
-    *   `index.html`: The main application page.
-    *   `style.css`: Custom styles.
-    *   `script.js`: Handles UI logic, data input/output, and rendering of results.
-    *   `simulation.js`: Contains the core financial simulation logic.
-    *   `translator.js`: Handles the translation of the user interface.
-*   **Data:** The application state is managed in the browser. Users can import and export their data as a JSON file.
-*   **Libraries:**
-    *   `bootstrap.bundle.min.js`: Bootstrap's JavaScript components.
-    *   `bootstrap.min.css`: Bootstrap's CSS.
-    *   `bootstrap-icons.min.css`: Bootstrap's icons.
-    *   `chart.js`: A library for creating charts.
-    *   `sortable.min.js`: A library for creating sortable lists.
+The project relies on the following third-party libraries, which are included in the `assets/` directory:
+
+*   Bootstrap v5
+*   Chart.js
+*   Sortable.js
+
+# Development Conventions
+
+*   **Code Style:** The project uses plain JavaScript (ES6 features are present), standard HTML5, and CSS. Code is organized into separate files for structure (`index.html`), styling (`style.css`), and logic (`script.js`, `simulation.js`, `translator.js`).
+*   **DOM Manipulation:** The application directly manipulates the DOM using standard browser APIs.
+*   **State Management:** Application state is managed in memory and can be saved/loaded via JSON import/export. There is no centralized state management library.
+*   **Testing:** There are no apparent unit or end-to-end tests in the project.

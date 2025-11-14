@@ -102,6 +102,10 @@ th {
     border-color: #0dcaf0;
 }
 
+.modal-dialog {
+    max-width: 800px;
+}
+
 .modal-header {
     background-color: #f8f9fa;
 }
@@ -110,7 +114,7 @@ th {
     background-color: #343a40;
 }
 
-.modal-body p {
+.modal-body, .modal-body li {
     font-size: 1.1rem;
 }
 
@@ -184,5 +188,15 @@ th {
 }
 
 .form-label .bi {
+    margin-left: 0.25rem;
+}
+
+.form-check-label {
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+}
+
+.form-check-label .bi {
     margin-left: 0.25rem;
 }

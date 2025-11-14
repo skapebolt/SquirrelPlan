@@ -5,6 +5,22 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${prefix}-${uniqueIdCounter}`;
     }
 
+    let hasSimulationRanOnce = false;
+    let assetColors = {};
+
+    function autoRunSimulationIfEnabled() {
+        if (hasSimulationRanOnce) {
+            runAndRender(false);
+        }
+    }
+
+    function getAssetColor(assetName) {
+        if (!assetColors[assetName]) {
+            assetColors[assetName] = getRandomColor();
+        }
+        return assetColors[assetName];
+    }
+
     function displayAlerts(messages, type = 'danger') {
         const alertsContainer = document.getElementById('alerts-container');
         alertsContainer.innerHTML = '';
@@ -90,9 +106,11 @@ document.addEventListener('DOMContentLoaded', function () {
         '#withdrawal-rate': { decimals: 2, thousands: false },
         '#current-age': { decimals: 0, thousands: false },
         '#pension-age': { decimals: 0, thousands: false },
+        '#early-retirement-age': { decimals: 0, thousands: false },
         '.category-value': { decimals: 0, thousands: true },
         '.category-return': { decimals: 2, thousands: true },
         '.category-tax': { decimals: 2, thousands: false },
+        '.category-interest-rate': { decimals: 2, thousands: false },
         '.category-start-year': { decimals: 0, thousands: false },
         '.category-end-year': { decimals: 0, thousands: false },
         '.category-withdrawal-order': { decimals: 0, thousands: false },
@@ -219,11 +237,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function getLiabilityFields(category) {
         const nameId = getUniqueId('liability-name');
         const valueId = getUniqueId('liability-value');
+        const interestRateId = getUniqueId('liability-interest-rate');
         const startYearId = getUniqueId('liability-start-year');
         const endYearId = getUniqueId('liability-end-year');
         return `
             <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${nameId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="liabilityNameTooltip">${getTranslation('nameLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${nameId}" class="form-control category-name" value="${category.name || ''}"></div>
             <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${valueId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="liabilityValueTooltip">${getTranslation('valueLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${valueId}" class="form-control category-value" value="${category.value || ''}"></div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2"><label for="${interestRateId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="liabilityInterestRateTooltip">${getTranslation('interestRateLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${interestRateId}" class="form-control category-interest-rate" value="${category.interestRate || ''}"></div>
             <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${startYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="liabilityStartYearTooltip">${getTranslation('startLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${startYearId}" class="form-control category-start-year" value="${category.startYear || new Date().getFullYear()}"></div>
             <div class="col-6 col-md-4 col-lg-3 col-xxl-1"><label for="${endYearId}" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="liabilityEndYearTooltip">${getTranslation('endLabel')} <i class="bi bi-info-circle"></i></label><input type="text" id="${endYearId}" class="form-control category-end-year" value="${category.endYear || ''}"></div>
             <div class="col-6 col-md-4 col-lg-3 col-xxl-1 d-flex align-items-end"><i class="bi bi-grip-vertical drag-handle me-2" style="cursor: move; font-size: 1.2rem;"></i><button class="btn btn-danger btn-sm delete-category-btn" aria-label="${getTranslation('deleteLiabilityCategoryLabel')}"><i class="bi bi-trash"></i></button></div>
@@ -404,6 +424,7 @@ document.addEventListener('DOMContentLoaded', function () {
             liabilities.push({
                 name: name,
                 value: parseFormattedNumber(row.querySelector('.category-value').value) || 0,
+                interestRate: parseFormattedNumber(row.querySelector('.category-interest-rate').value) / 100 || 0,
                 startYear: parseInt(parseFormattedNumber(row.querySelector('.category-start-year').value)) || 0,
                 endYear: parseInt(parseFormattedNumber(row.querySelector('.category-end-year').value)) || 0,
             });
@@ -427,6 +448,7 @@ document.addEventListener('DOMContentLoaded', function () {
             currentAge: parseInt(parseFormattedNumber(document.getElementById('current-age').value)) || 0,
             inflation: parseFormattedNumber(document.getElementById('inflation').value) / 100 || 0,
             pensionAge: parseInt(parseFormattedNumber(document.getElementById('pension-age').value)) || 0,
+            earlyRetirementAge: parseInt(parseFormattedNumber(document.getElementById('early-retirement-age').value)) || 0,
             estimatedPension: parseFormattedNumber(document.getElementById('estimated-pension').value) || 0,
             withdrawalRate: parseFormattedNumber(document.getElementById('withdrawal-rate').value) / 100 || 0,
             incomes: incomes,
@@ -437,7 +459,12 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    function runAndRender() {
+    function runAndRender(isManualRun = false) {
+        if (isManualRun) {
+            assetColors = {};
+        }
+        hasSimulationRanOnce = true;
+
         const errors = validateAllInputs();
         if (errors.length > 0) {
             displayAlerts(errors);
@@ -445,10 +472,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         document.getElementById('alerts-container').innerHTML = '';
 
+        // Hide Monte Carlo results, show standard table
+        document.getElementById('monte-carlo-success-message').style.display = 'none';
+        document.querySelector('#results .table-responsive').style.display = 'block';
+
         const inputs = getUserInputs();
         const { results, earlyRetirementYear, amountPensionMessage } = window.runSimulation(inputs);
         renderTable(results);
-        renderCharts(results);
+        renderCharts(results, isManualRun);
 
         const earlyRetirementMessage = document.getElementById('early-retirement-message');
         const pensionWithdrawalMessage = document.getElementById('pension-withdrawal-message');
@@ -488,7 +519,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let wealthChart = null;
 
-    function renderCharts(results) {
+    function renderCharts(results, isManualRun = true) {
         if (wealthChart) wealthChart.destroy();
 
         if(results.length === 0) return;
@@ -500,7 +531,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return {
                 label: key,
                 data: results.map(r => r.assets[key]),
-                backgroundColor: getRandomColor(),
+                backgroundColor: getAssetColor(key),
             };
         });
 
@@ -509,6 +540,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const isDarkMode = () => document.documentElement.getAttribute('data-bs-theme') === 'dark';
         const textColor = isDarkMode() ? 'rgba(255, 255, 255, 0.8)' : Chart.defaults.color;
         const gridColor = isDarkMode() ? 'rgba(255, 255, 255, 0.1)' : Chart.defaults.borderColor;
+
+        const animationDuration = isManualRun ? 1000 : 0;
 
         const wealthCtx = document.getElementById('wealth-evolution-chart').getContext('2d');
         wealthChart = new Chart(wealthCtx, {
@@ -524,6 +557,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
             },
             options: {
+                animation: {
+                    duration: animationDuration
+                },
                 scales: {
                     x: {
                         stacked: true,
@@ -603,6 +639,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('current-age').value = String(data.currentAge);
         document.getElementById('inflation').value = String(data.inflation * 100);
         document.getElementById('pension-age').value = String(data.pensionAge);
+        document.getElementById('early-retirement-age').value = String(data.earlyRetirementAge || '');
         document.getElementById('estimated-pension').value = String(data.estimatedPension);
         document.getElementById('withdrawal-rate').value = String(data.withdrawalRate * 100);
 
@@ -633,6 +670,9 @@ document.addEventListener('DOMContentLoaded', function () {
         liabilityCategoriesContainer.innerHTML = '';
         data.liabilities.forEach(liability => {
             const modifiedLiability = { ...liability, value: String(liability.value) };
+            if (typeof modifiedLiability.interestRate === 'number') {
+                modifiedLiability.interestRate = String(modifiedLiability.interestRate * 100);
+            }
             addCategory(liabilityCategoriesContainer, 'liability', modifiedLiability);
         });
 
@@ -722,6 +762,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('current-age').value = '';
         document.getElementById('inflation').value = '';
         document.getElementById('pension-age').value = '';
+        document.getElementById('early-retirement-age').value = '';
         document.getElementById('estimated-pension').value = '';
         document.getElementById('withdrawal-rate').value = '';
 
@@ -739,14 +780,21 @@ document.addEventListener('DOMContentLoaded', function () {
         liabilityCategoriesContainer.innerHTML = '';
         allocationPeriodsContainer.innerHTML = '';
 
-        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('ownHome'), value: '300000', return: '4', tax: '0', withdrawalOrder: 3 });
-        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('stocks'), value: '50000', return: '8', tax: '0', withdrawalOrder: 1 });
-        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('savingsAccount'), value: '20000', return: '1', tax: '0', withdrawalOrder: 2 });
-        addCategory(liabilityCategoriesContainer, 'liability', { name: getTranslation('mortgage'), value: '250000', endYear: '2045' });
+        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('ownHome'), value: '300000', return: '4', tax: '0', withdrawalOrder: 4 });
+        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('stocks'), value: '25000', return: '8', tax: '0', withdrawalOrder: 1 });
+		addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('bonds'), value: '0', return: '4', tax: '0', withdrawalOrder: 2 });
+        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('savingsAccount'), value: '25000', return: '1', tax: '0', withdrawalOrder: 3 });
+        addCategory(liabilityCategoriesContainer, 'liability', { name: getTranslation('mortgage'), value: '250000', endYear: '2044', interestRate: '4.0' });
         addCategory(incomeCategoriesContainer, 'income', { name: getTranslation('salary'), value: '3000', frequency: 'monthly', indexed: true });
         addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('livingExpenses'), value: '1700', frequency: 'monthly', indexed: true });
-        addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('mortgageRepayment'), value: '1250', frequency: 'monthly', indexed: false, endYear: '2045' });
+        addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('mortgageRepayment'), value: '1250', frequency: 'monthly', indexed: false, endYear: '2044' });
+		addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('bigexpense1'), value: '500', frequency: 'monthly', indexed: true, startYear: '2045', endYear: '2054' });
+		addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('bigexpense2'), value: '1000', frequency: 'monthly', indexed: true, startYear: '2055', endYear: '2064' });
+		addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('bigexpense3'), value: '1500', frequency: 'monthly', indexed: true, startYear: '2065' });
         addAllocationPeriod({ allocation: { [getTranslation('stocks')]: 90, [getTranslation('savingsAccount')]: 10 } });
+		addAllocationPeriod({ startYear: 2035, allocation: { [getTranslation('stocks')]: 80, [getTranslation('bonds')]: 20 }, rebalance: true });
+		addAllocationPeriod({ startYear: 2055, allocation: { [getTranslation('stocks')]: 60, [getTranslation('bonds')]: 40 }, rebalance: true });
+        document.getElementById('withdrawal-rate').value = '0';
     }
 
     function clearSimulationResults() {
@@ -781,6 +829,115 @@ document.addEventListener('DOMContentLoaded', function () {
         new Sortable(expenseCategoriesContainer, options);
     }
 
+    function runAndRenderMonteCarlo() {
+        const errors = validateAllInputs();
+        if (errors.length > 0) {
+            displayAlerts(errors);
+            return;
+        }
+        document.getElementById('alerts-container').innerHTML = '';
+
+        // Show a loading indicator
+        const monteCarloBtn = document.getElementById('run-monte-carlo-btn');
+        const originalBtnText = monteCarloBtn.textContent;
+        monteCarloBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`;
+        monteCarloBtn.disabled = true;
+
+        // Hide standard results messages and table
+        document.getElementById('early-retirement-message').style.display = 'none';
+        document.getElementById('pension-withdrawal-message').style.display = 'none';
+        document.querySelector('#results .table-responsive').style.display = 'none';
+
+
+        // Use a timeout to allow the UI to update before the heavy computation starts
+        setTimeout(() => {
+            const inputs = getUserInputs();
+            const { successRate, percentileData, labels } = window.runMonteCarloSimulation(inputs);
+
+            // Display success rate
+            const successMessageEl = document.getElementById('monte-carlo-success-message');
+            successMessageEl.textContent = getTranslation('monteCarloSuccessRateMessage', { successRate: (successRate * 100).toFixed(2) });
+            successMessageEl.style.display = 'block';
+            
+            renderMonteCarloChart(percentileData, labels);
+            document.getElementById('results').style.display = 'block';
+
+            // Restore button
+            monteCarloBtn.textContent = originalBtnText;
+            monteCarloBtn.disabled = false;
+
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
+
+    function renderMonteCarloChart(percentileData, labels) {
+        if (wealthChart) wealthChart.destroy();
+
+        const isDarkMode = () => document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        const textColor = isDarkMode() ? 'rgba(255, 255, 255, 0.8)' : Chart.defaults.color;
+        const gridColor = isDarkMode() ? 'rgba(255, 255, 255, 0.1)' : Chart.defaults.borderColor;
+
+        const datasets = Object.keys(percentileData).map(percentile => {
+            return {
+                label: percentile,
+                data: percentileData[percentile],
+                type: 'line',
+                borderColor: getRandomColor(),
+                tension: 0.1,
+                fill: false,
+                borderWidth: percentile === 'Median' ? 3 : 1.5,
+            };
+        });
+
+        const wealthCtx = document.getElementById('wealth-evolution-chart').getContext('2d');
+        wealthChart = new Chart(wealthCtx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                animation: {
+                    duration: 1000
+                },
+                scales: {
+                    x: {
+                        ticks: { color: textColor },
+                        grid: { color: gridColor }
+                    },
+                    y: {
+                        ticks: {
+                            color: textColor,
+                            callback: function(value) {
+                                return value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                            }
+                        },
+                        grid: { color: gridColor }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: textColor }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     initDefaultData();
     initializeTooltips();
     initializeSortable();
@@ -791,7 +948,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('add-income-category-btn').addEventListener('click', () => addCategory(incomeCategoriesContainer, 'income'));
     document.getElementById('add-expense-category-btn').addEventListener('click', () => addCategory(expenseCategoriesContainer, 'expense'));
     document.getElementById('add-allocation-period-btn').addEventListener('click', () => addAllocationPeriod());
-    document.getElementById('run-simulation-btn').addEventListener('click', runAndRender);
+    document.getElementById('run-standard-simulation-btn').addEventListener('click', () => runAndRender(true));
+    document.getElementById('run-monte-carlo-btn').addEventListener('click', () => runAndRenderMonteCarlo());
     document.getElementById('export-btn').addEventListener('click', exportData);
     document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-file-input').click());
     document.getElementById('import-file-input').addEventListener('change', importData);
@@ -799,6 +957,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (confirm(getTranslation('clearDataConfirmation'))) {
             clearSimulationResults();
             clearAllInputs();
+        }
+    });
+
+    document.getElementById('enable-monte-carlo').addEventListener('change', (event) => {
+        const monteCarloBtn = document.getElementById('run-monte-carlo-btn');
+        if (event.target.checked) {
+            monteCarloBtn.classList.remove('d-none');
+        } else {
+            monteCarloBtn.classList.add('d-none');
         }
     });
 
@@ -826,6 +993,76 @@ document.addEventListener('DOMContentLoaded', function () {
             document.documentElement.setAttribute('data-bs-theme', 'light');
             localStorage.setItem('theme', 'light');
         }
-        runAndRender();
+        runAndRender(false);
     });
+
+    document.getElementById('financial-data-accordion').addEventListener('change', autoRunSimulationIfEnabled);
+    document.querySelector('#collapse-retirement .card-body').addEventListener('change', autoRunSimulationIfEnabled);
+    document.querySelector('#collapse-advanced .card-body').addEventListener('change', autoRunSimulationIfEnabled);
+
+    function manageSlider(input) {
+        if (input.parentElement.querySelector('.temp-slider')) {
+            return;
+        }
+
+        const slider = document.createElement('input');
+        slider.type = 'range';
+        slider.classList.add('form-range', 'mt-1', 'temp-slider');
+
+        let min = 0, max = 100, step = 1;
+
+        switch (input.id) {
+            case 'inflation':
+                max = 20; step = 0.1;
+                break;
+            case 'withdrawal-rate':
+                max = 15; step = 0.1;
+                break;
+            case 'early-retirement-age':
+                min = parseInt(document.getElementById('current-age').value) || 18;
+                max = parseInt(document.getElementById('pension-age').value) || 80;
+                break;
+            default:
+                return;
+        }
+
+        slider.min = min;
+        slider.max = max;
+        slider.step = step;
+        
+        const initialValue = parseFormattedNumber(input.value);
+        slider.value = isNaN(initialValue) ? min : initialValue;
+
+        slider.addEventListener('input', () => {
+            input.value = slider.value;
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+
+        input.addEventListener('input', () => {
+            const val = parseFormattedNumber(input.value);
+            if (!isNaN(val)) {
+                slider.value = val;
+            }
+        });
+
+        const removeSlider = () => {
+            setTimeout(() => {
+                if (document.activeElement !== slider && document.activeElement !== input) {
+                    slider.remove();
+                    input.removeEventListener('blur', removeSlider);
+                    slider.removeEventListener('blur', removeSlider);
+                }
+            }, 200);
+        };
+
+        input.addEventListener('blur', removeSlider);
+        slider.addEventListener('blur', removeSlider);
+
+        input.parentElement.appendChild(slider);
+        slider.focus();
+    }
+
+    document.getElementById('inflation').addEventListener('focus', (e) => manageSlider(e.target));
+    document.getElementById('withdrawal-rate').addEventListener('focus', (e) => manageSlider(e.target));
+    document.getElementById('early-retirement-age').addEventListener('focus', (e) => manageSlider(e.target));
 });
