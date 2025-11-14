@@ -206,12 +206,32 @@ function runSimulation(inputs, isMonteCarlo = false) {
             }
 
             const withdrawalAmount = initialPensionWithdrawal;
-            let cashflow = savingsCapacity + withdrawalAmount;
+            let amountToWithdrawFromAssets = withdrawalAmount;
 
-            let amountToWithdrawFromAssets = 0;
-            amountToWithdrawFromAssets += withdrawalAmount;
-            if (cashflow < 0) {
-                amountToWithdrawFromAssets += -cashflow;
+            if (savingsCapacity < 0) {
+                amountToWithdrawFromAssets += -savingsCapacity; // Cover deficit
+            } else if (savingsCapacity > 0) {
+                // Surplus from pension, invest it
+                let savings = savingsCapacity;
+                const expenseBuffer = totalAnnualExpenses / 2;
+                if (assetMap.has('Savings Account')) {
+                    if (assets['Savings Account'] === undefined) assets['Savings Account'] = 0;
+
+                    if (assets['Savings Account'] < expenseBuffer) {
+                        const bufferTopUp = Math.min(savings, expenseBuffer - assets['Savings Account']);
+                        assets['Savings Account'] += bufferTopUp;
+                        savings -= bufferTopUp;
+                    }
+                }
+
+                const currentAllocation = getCurrentAllocation(currentYear, inputs.allocationPeriods);
+                if (currentAllocation && savings > 0) {
+                    Object.keys(currentAllocation.allocation).forEach(assetName => {
+                        if (assets[assetName] !== undefined) {
+                            assets[assetName] += savings * currentAllocation.allocation[assetName];
+                        }
+                    });
+                }
             }
 
             const activeAssetNames = Object.keys(assets);
