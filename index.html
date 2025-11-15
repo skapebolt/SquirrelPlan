@@ -32,172 +32,105 @@
     <main class="container mt-4">
         <h1 class="visually-hidden" data-i18n-key="pageTitle">Interactive Wealth Planner</h1>
         <div class="row">
-                        <div class="col-lg-12">
-                            <section aria-labelledby="financial-data-heading">
-                                <h3 id="financial-data-heading" data-i18n-key="financialDataTitle">Financial Data</h3>
-                                <div class="accordion" id="financial-data-accordion">
-                                    <!-- Assets -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-assets">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-assets" aria-expanded="true" aria-controls="collapse-assets" data-i18n-key="assetsAccordionButton">
-                                                Assets
-                                            </button>
-                                        </h2>
-                                        <div id="collapse-assets" class="accordion-collapse collapse show" aria-labelledby="heading-assets" role="region">
-                                            <div class="accordion-body">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div id="asset-categories-container"></div>
-                                                        <button class="btn btn-secondary mt-3" id="add-asset-category-btn" data-i18n-key="newAssetButton">New Asset Class</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Liabilities -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-liabilities">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-liabilities" aria-expanded="false" aria-controls="collapse-liabilities" data-i18n-key="liabilitiesAccordionButton">
-                                                Liabilities
-                                            </button>
-                                        </h2>
-                                        <div id="collapse-liabilities" class="accordion-collapse collapse" aria-labelledby="heading-liabilities" role="region">
-                                            <div class="accordion-body">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div id="liability-categories-container"></div>
-                                                        <button class="btn btn-secondary mt-3" id="add-liability-category-btn" data-i18n-key="newLiabilityButton">New Liability Class</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Income -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-income">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-income" aria-expanded="false" aria-controls="collapse-income" data-i18n-key="incomeAccordionButton">
-                                                Income
-                                            </button>
-                                        </h2>
-                                        <div id="collapse-income" class="accordion-collapse collapse" aria-labelledby="heading-income" role="region">
-                                            <div class="accordion-body">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div id="income-categories-container"></div>
-                                                        <button class="btn btn-secondary mt-3" id="add-income-category-btn" data-i18n-key="newIncomeButton">New Income Category</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Expenses -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-expenses">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-expenses" aria-expanded="false" aria-controls="collapse-expenses" data-i18n-key="expensesAccordionButton">
-                                                Expenses
-                                            </button>
-                                        </h2>
-                                        <div id="collapse-expenses" class="accordion-collapse collapse" aria-labelledby="heading-expenses" role="region">
-                                            <div class="accordion-body">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div id="expense-categories-container"></div>
-                                                        <button class="btn btn-secondary mt-3" id="add-expense-category-btn" data-i18n-key="newExpenseButton">New Expense Category</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Savings Allocation -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-allocation">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-allocation" aria-expanded="false" aria-controls="collapse-allocation" data-i18n-key="savingsAllocationAccordionButton">
-                                                Savings Allocation
-                                            </button>
-                                        </h2>
-                                        <div id="collapse-allocation" class="accordion-collapse collapse" aria-labelledby="heading-allocation" role="region">
-                                            <div class="accordion-body">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div id="allocation-periods-container"></div>
-                                                        <button class="btn btn-secondary mt-3" id="add-allocation-period-btn" data-i18n-key="newAllocationPeriodButton">New Allocation Period</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Retirement -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-retirement">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-retirement" aria-expanded="false" aria-controls="collapse-retirement" data-i18n-key="retirementPlanningAccordionButton">
-                                                Retirement Planning
-                                            </button>
-                                        </h2>
-                                        <div id="collapse-retirement" class="accordion-collapse collapse" aria-labelledby="heading-retirement" role="region">
-                                            <div class="accordion-body">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <label for="current-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="currentAgeTooltip" data-i18n-key="currentAgeLabel">Current Age <i class="bi bi-info-circle"></i></label>
-                                                                <input type="text" class="form-control" id="current-age" value="30" aria-label="Current age">
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <label for="pension-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="legalRetirementAgeTooltip" data-i18n-key="legalRetirementAgeLabel">Legal Retirement Age <i class="bi bi-info-circle"></i></label>
-                                                                <input type="text" class="form-control" id="pension-age" value="67" aria-label="Retirement age">
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <label for="estimated-pension" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="monthlyPensionTooltip" data-i18n-key="monthlyPensionLabel">Monthly Pension (net) <i class="bi bi-info-circle"></i></label>
-                                                                <input type="text" class="form-control" id="estimated-pension" value="1500" aria-label="Estimated monthly pension net">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Advanced -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-advanced">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-advanced" aria-expanded="false" aria-controls="collapse-advanced" data-i18n-key="advancedAccordionButton">
-                                                Advanced
-                                            </button>
-                                        </h2>
-                                        <div id="collapse-advanced" class="accordion-collapse collapse" aria-labelledby="heading-advanced" role="region">
-                                            <div class="accordion-body">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-md-3">
-                                                                <label for="inflation" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="inflationTooltip" data-i18n-key="inflationLabel">Inflation (%) <i class="bi bi-info-circle"></i></label>
-                                                                <input type="text" class="form-control" id="inflation" value="2.50" aria-label="Inflation in percent">
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <label for="withdrawal-rate" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="withdrawalRateTooltip" data-i18n-key="withdrawalRateLabel">Withdrawal Rate (%) <i class="bi bi-info-circle"></i></label>
-                                                                <input type="text" class="form-control" id="withdrawal-rate" value="0" aria-label="Withdrawal rate in percent">
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <label for="early-retirement-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="earlyRetirementAgeTooltip" data-i18n-key="earlyRetirementAgeLabel">Early Retirement Age <i class="bi bi-info-circle"></i></label>
-                                                                <input type="text" class="form-control" id="early-retirement-age" aria-label="Early retirement age">
-                                                            </div>
-                                                            <div class="col-md-3 d-flex align-items-center mt-3">
-                                                                <div class="form-check form-switch">
-                                                                    <input class="form-check-input" type="checkbox" id="enable-monte-carlo">
-                                                                    <label class="form-check-label" for="enable-monte-carlo" data-i18n-key="enableMonteCarloLabel" data-bs-toggle="tooltip" data-i18n-title-key="enableMonteCarloTooltip">Enable Monte Carlo Simulation <i class="bi bi-info-circle"></i></label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                            <button class="btn btn-primary mt-3" id="run-standard-simulation-btn" data-i18n-key="runStandardSimulationButton">Run Standard Simulation</button>
-                            <button class="btn btn-warning mt-3 d-none" id="run-monte-carlo-btn" data-i18n-key="runMonteCarloSimulationButton">Run Monte Carlo Simulation</button>
+            <!-- Left Column: Navigation -->
+            <div class="col-md-2">
+                <nav id="financial-nav" class="nav flex-column">
+                    <a class="nav-link active" href="#section-assets" data-i18n-key="assetsAccordionButton">Assets</a>
+                    <a class="nav-link" href="#section-liabilities" data-i18n-key="liabilitiesAccordionButton">Liabilities</a>
+                    <a class="nav-link" href="#section-income" data-i18n-key="incomeAccordionButton">Income</a>
+                    <a class="nav-link" href="#section-expenses" data-i18n-key="expensesAccordionButton">Expenses</a>
+                    <a class="nav-link" href="#section-allocation" data-i18n-key="savingsAllocationAccordionButton">Savings Allocation</a>
+                    <a class="nav-link" href="#section-retirement" data-i18n-key="retirementPlanningAccordionButton">Retirement Planning</a>
+                    <a class="nav-link" href="#section-advanced" data-i18n-key="advancedAccordionButton">Advanced</a>
+					<button class="btn btn-primary mt-3" id="run-standard-simulation-btn" data-i18n-key="runStandardSimulationButton">Run Standard Simulation</button>
+					<button class="btn btn-warning mt-3 d-none" id="run-monte-carlo-btn" data-i18n-key="runMonteCarloSimulationButton">Run Monte Carlo Simulation</button>
+                </nav>
+            </div>
+
+            <!-- Right Column: Content -->
+            <div class="col-md-10">
+                <section id="financial-data-content">
+                    <!-- Assets Section -->
+                    <div id="section-assets" class="content-section">
+                        <h3 data-i18n-key="assetsAccordionButton">Assets</h3>
+                        <div id="asset-categories-container"></div>
+                        <button class="btn btn-secondary mt-3" id="add-asset-category-btn" data-i18n-key="newAssetButton">New Asset Class</button>
+                    </div>
+
+                    <!-- Liabilities Section -->
+                    <div id="section-liabilities" class="content-section" style="display: none;">
+                        <h3 data-i18n-key="liabilitiesAccordionButton">Liabilities</h3>
+                        <div id="liability-categories-container"></div>
+                        <button class="btn btn-secondary mt-3" id="add-liability-category-btn" data-i18n-key="newLiabilityButton">New Liability Class</button>
+                    </div>
+
+                    <!-- Income Section -->
+                    <div id="section-income" class="content-section" style="display: none;">
+                        <h3 data-i18n-key="incomeAccordionButton">Income</h3>
+                        <div id="income-categories-container"></div>
+                        <button class="btn btn-secondary mt-3" id="add-income-category-btn" data-i18n-key="newIncomeButton">New Income Category</button>
+                    </div>
+
+                    <!-- Expenses Section -->
+                    <div id="section-expenses" class="content-section" style="display: none;">
+                        <h3 data-i18n-key="expensesAccordionButton">Expenses</h3>
+                        <div id="expense-categories-container"></div>
+                        <button class="btn btn-secondary mt-3" id="add-expense-category-btn" data-i18n-key="newExpenseButton">New Expense Category</button>
+                    </div>
+
+                    <!-- Savings Allocation Section -->
+                    <div id="section-allocation" class="content-section" style="display: none;">
+                        <h3 data-i18n-key="savingsAllocationAccordionButton">Savings Allocation</h3>
+                        <div id="allocation-periods-container"></div>
+                        <button class="btn btn-secondary mt-3" id="add-allocation-period-btn" data-i18n-key="newAllocationPeriodButton">New Allocation Period</button>
+                    </div>
+
+                    <!-- Retirement Section -->
+                    <div id="section-retirement" class="content-section" style="display: none;">
+                        <h3 data-i18n-key="retirementPlanningAccordionButton">Retirement Planning</h3>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="current-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="currentAgeTooltip" data-i18n-key="currentAgeLabel">Current Age <i class="bi bi-info-circle"></i></label>
+                                <input type="text" class="form-control" id="current-age" value="30" aria-label="Current age">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="pension-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="legalRetirementAgeTooltip" data-i18n-key="legalRetirementAgeLabel">Legal Retirement Age <i class="bi bi-info-circle"></i></label>
+                                <input type="text" class="form-control" id="pension-age" value="67" aria-label="Retirement age">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="estimated-pension" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="monthlyPensionTooltip" data-i18n-key="monthlyPensionLabel">Monthly Pension (net) <i class="bi bi-info-circle"></i></label>
+                                <input type="text" class="form-control" id="estimated-pension" value="1500" aria-label="Estimated monthly pension net">
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Advanced Section -->
+                    <div id="section-advanced" class="content-section" style="display: none;">
+                        <h3 data-i18n-key="advancedAccordionButton">Advanced</h3>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="inflation" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="inflationTooltip" data-i18n-key="inflationLabel">Inflation (%) <i class="bi bi-info-circle"></i></label>
+                                <input type="text" class="form-control" id="inflation" value="2.50" aria-label="Inflation in percent">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="withdrawal-rate" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="withdrawalRateTooltip" data-i18n-key="withdrawalRateLabel">Withdrawal Rate (%) <i class="bi bi-info-circle"></i></label>
+                                <input type="text" class="form-control" id="withdrawal-rate" value="0" aria-label="Withdrawal rate in percent">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="early-retirement-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="earlyRetirementAgeTooltip" data-i18n-key="earlyRetirementAgeLabel">Early Retirement Age <i class="bi bi-info-circle"></i></label>
+                                <input type="text" class="form-control" id="early-retirement-age" aria-label="Early retirement age">
+                            </div>
+                            <div class="col-md-3 d-flex align-items-center mt-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="enable-monte-carlo">
+                                    <label class="form-check-label" for="enable-monte-carlo" data-i18n-key="enableMonteCarloLabel" data-bs-toggle="tooltip" data-i18n-title-key="enableMonteCarloTooltip">Enable Monte Carlo Simulation <i class="bi bi-info-circle"></i></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
         <hr class="my-4">
 
         <section id="results" class="mt-4" style="display: none;" aria-labelledby="results-heading">

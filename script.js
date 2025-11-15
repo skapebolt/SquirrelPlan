@@ -960,6 +960,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    const financialNav = document.getElementById('financial-nav');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    financialNav.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+
+            // Update nav link active state
+            financialNav.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+
+            // Show/hide content sections
+            contentSections.forEach(section => {
+                if (`#${section.id}` === targetId) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+    });
+
     document.getElementById('enable-monte-carlo').addEventListener('change', (event) => {
         const monteCarloBtn = document.getElementById('run-monte-carlo-btn');
         if (event.target.checked) {
@@ -996,9 +1019,7 @@ document.addEventListener('DOMContentLoaded', function () {
         runAndRender(false);
     });
 
-    document.getElementById('financial-data-accordion').addEventListener('change', autoRunSimulationIfEnabled);
-    document.querySelector('#collapse-retirement .card-body').addEventListener('change', autoRunSimulationIfEnabled);
-    document.querySelector('#collapse-advanced .card-body').addEventListener('change', autoRunSimulationIfEnabled);
+    document.getElementById('financial-data-content').addEventListener('change', autoRunSimulationIfEnabled);
 
     function manageSlider(input) {
         if (input.parentElement.querySelector('.temp-slider')) {

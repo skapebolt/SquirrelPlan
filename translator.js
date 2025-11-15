@@ -687,7 +687,7 @@ const ALL_TRANSLATIONS = {
         "startLabel": "Start",
         "endLabel": "Einde",
         "withdrawalOrderLabel": "Volgorde",
-        "interestRateLabel": "Rentepercentage (%)",
+        "interestRateLabel": "Interestvoet (%)",
         "frequencyLabel": "Frequentie",
         "indexedLabel": "Geïndexeerd",
         "monthlyOption": "Maandelijks",
