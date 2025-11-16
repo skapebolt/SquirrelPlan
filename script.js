@@ -983,12 +983,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+
+    const monteCarloEnabled = localStorage.getItem('monteCarloEnabled');
+    if (monteCarloEnabled) {
+        document.getElementById('enable-monte-carlo').checked = monteCarloEnabled === 'true';
+        if (document.getElementById('enable-monte-carlo').checked) {
+            document.getElementById('run-monte-carlo-btn').classList.remove('d-none');
+        } else {
+            document.getElementById('run-monte-carlo-btn').classList.add('d-none');
+        }
+    }
+
     document.getElementById('enable-monte-carlo').addEventListener('change', (event) => {
         const monteCarloBtn = document.getElementById('run-monte-carlo-btn');
         if (event.target.checked) {
             monteCarloBtn.classList.remove('d-none');
+            localStorage.setItem('monteCarloEnabled', 'true');
         } else {
             monteCarloBtn.classList.add('d-none');
+            localStorage.setItem('monteCarloEnabled', 'false');
         }
     });
 
