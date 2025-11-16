@@ -552,7 +552,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     label: getTranslation('netWorthLabel'),
                     data: netWorthData,
                     type: 'line',
-                    borderColor: '#0d6efd',
+                    borderColor: '#20c997',
                     tension: 0.1
                 })
             },
@@ -583,27 +583,29 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 },
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: textColor
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
+                                plugins: {
+                                    legend: {
+                                        labels: { color: textColor }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                                                        title: function(context) {
+                                                                            const year = context[0].label;
+                                                                            const age = parseInt(year) - new Date().getFullYear() + parseInt(document.getElementById('current-age').value);
+                                                                            return `${year} (${getTranslation('ageLabel')}: ${age})`;
+                                                                        },                                            label: function(context) {
+                                                let label = context.dataset.label || '';
+                                                if (label) {
+                                                    label += ': ';
+                                                }
+                                                if (context.parsed.y !== null) {
+                                                    label += context.parsed.y.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                                                }
+                                                return label;
+                                            }
+                                        }
+                                    }
                                 }
-                                if (context.parsed.y !== null) {
-                                    label += context.parsed.y.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-                                }
-                                return label;
-                            }
-                        }
-                    }
-                }
             }
         });
     }
@@ -877,19 +879,57 @@ document.addEventListener('DOMContentLoaded', function () {
         const textColor = isDarkMode() ? 'rgba(255, 255, 255, 0.8)' : Chart.defaults.color;
         const gridColor = isDarkMode() ? 'rgba(255, 255, 255, 0.1)' : Chart.defaults.borderColor;
 
-        const datasets = Object.keys(percentileData).map(percentile => {
+        const wealthCtx = document.getElementById('wealth-evolution-chart').getContext('2d');
+
+        const percentileOrder = ["Top 5%", "Top 10%", "Top 15%", "Top 25%", "Median", "Bottom 25%", "Bottom 15%", "Bottom 10%", "Bottom 5%"];
+        
+        const percentileColors = {
+            "Top 5%": '#2ECC71',
+            "Top 10%": '#58D68D',
+            "Top 15%": '#82E0AA',
+            "Top 25%": '#ABEBC6',
+            "Median": '#20c997',
+            "Bottom 25%": '#F5B7B1',
+            "Bottom 15%": '#F1948A',
+            "Bottom 10%": '#EC7063',
+            "Bottom 5%": '#E74C3C',
+        };
+
+        function createGradient(ctx, color) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            const rgb = hexToRgb(color);
+            if (!rgb) return 'rgba(0,0,0,0)';
+            gradient.addColorStop(0, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.6)`);
+            gradient.addColorStop(1, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)`);
+            return gradient;
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        const datasets = percentileOrder.map((percentile, index) => {
+            const color = percentileColors[percentile] || getRandomColor();
+            const fill = index < (percentileOrder.length -1) ? (index + 1).toString() : 'origin';
             return {
                 label: percentile,
                 data: percentileData[percentile],
                 type: 'line',
-                borderColor: getRandomColor(),
+                borderColor: color,
+                backgroundColor: createGradient(wealthCtx, color),
                 tension: 0.1,
-                fill: false,
+                fill: fill,
                 borderWidth: percentile === 'Median' ? 3 : 1.5,
+                pointRadius: 0,
+                pointHitRadius: 10,
             };
         });
 
-        const wealthCtx = document.getElementById('wealth-evolution-chart').getContext('2d');
         wealthChart = new Chart(wealthCtx, {
             type: 'line',
             data: {
@@ -921,6 +961,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     tooltip: {
                         callbacks: {
+                            title: function(context) {
+                                const year = context[0].label;
+                                const age = parseInt(year) - new Date().getFullYear() + parseInt(document.getElementById('current-age').value);
+                                return `${year} (${getTranslation('ageLabel')}: ${age})`;
+                            },
                             label: function(context) {
                                 let label = context.dataset.label || '';
                                 if (label) {
@@ -1099,4 +1144,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('inflation').addEventListener('focus', (e) => manageSlider(e.target));
     document.getElementById('withdrawal-rate').addEventListener('focus', (e) => manageSlider(e.target));
     document.getElementById('early-retirement-age').addEventListener('focus', (e) => manageSlider(e.target));
+
+    // First-time user onboarding
+    if (!localStorage.getItem('hasVisited')) {
+        const helpModal = new bootstrap.Modal(document.getElementById('help-modal'));
+        helpModal.show();
+        localStorage.setItem('hasVisited', 'true');
+    }
 });

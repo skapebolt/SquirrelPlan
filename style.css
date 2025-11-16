@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 :root {
-    --primary-color: #007bff;
-    --primary-hover-color: #0056b3;
+    --primary-color: #20c997;
+    --primary-hover-color: #1baa80;
     --background-color: #f8f9fa;
     --surface-color: #ffffff;
     --text-color: #212529;
@@ -15,8 +15,8 @@
 }
 
 [data-bs-theme="dark"] {
-    --primary-color: #0d6efd;
-    --primary-hover-color: #0b5ed7;
+    --primary-color: #20c997;
+    --primary-hover-color: #1baa80;
     --background-color: #212529;
     --surface-color: #2b3035;
     --text-color: #f8f9fa;
@@ -86,8 +86,8 @@ th {
 }
 
 #help-btn {
-    background-color: #0dcaf0;
-    border-color: #0dcaf0;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .modal-dialog {
@@ -122,7 +122,7 @@ th {
 .form-control:focus,
 .form-select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25);
+    box-shadow: 0 0 0 0.25rem rgba(32, 201, 151, 0.25);
 }
 
 .btn-primary {
@@ -133,6 +133,15 @@ th {
 .btn-primary:hover {
     background-color: var(--primary-hover-color);
     border-color: var(--primary-hover-color);
+}
+
+.btn {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-label {
@@ -173,13 +182,13 @@ th {
 
 #financial-nav .nav-link:hover {
     color: var(--primary-color);
-    background-color: rgba(0, 123, 255, 0.05);
+    background-color: rgba(32, 201, 151, 0.05);
 }
 
 #financial-nav .nav-link.active {
     color: var(--primary-color);
     border-left-color: var(--primary-color);
-    background-color: rgba(0, 123, 255, 0.1);
+    background-color: rgba(32, 201, 151, 0.1);
 }
 
 .content-section h3 {

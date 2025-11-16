@@ -1,39 +1,32 @@
 # Project Overview
 
-This is a client-side "Wealth Planner Tool" designed for personal financial planning and simulation. It allows users to model their financial future by inputting assets, liabilities, income, and expenses.
+SquirrelPlan is a client-side, single-page web application for personal financial planning and wealth simulation. It allows users to input detailed financial data—including assets, liabilities, income, and expenses—to project their financial future.
 
-The application is a single-page web application built with vanilla HTML, CSS, and JavaScript. It uses Bootstrap for styling, Chart.js for data visualization, and Sortable.js for list reordering. The application is self-contained and does not require a backend server.
+The application is built with vanilla HTML, CSS, and JavaScript. It leverages the following libraries:
+- **Bootstrap 5**: For the user interface and responsive layout.
+- **Chart.js**: To visualize the wealth evolution and Monte Carlo simulation results.
+- **Sortable.js**: To enable drag-and-drop reordering of financial items.
 
 ## Key Features
 
-*   **Financial Modeling:** Users can define their financial situation, including:
-    *   **Assets:** Savings, investments, property, etc., with expected returns and taxes.
-    *   **Liabilities:** Loans, mortgages, etc., with interest rates.
-    *   **Income:** Salaries and other income sources, with options for indexation.
-    *   **Expenses:** Living costs and other regular expenses.
-*   **Simulation:**
-    *   **Standard Simulation:** A deterministic projection of wealth over time based on the provided data.
-    *   **Monte Carlo Simulation:** A probabilistic simulation that runs hundreds of scenarios with randomized asset returns to assess the likelihood of achieving financial goals.
-*   **Retirement Planning:** Includes settings for current age, retirement age, and estimated pension to model retirement scenarios.
-*   **Data Management:** Users can import and export their financial data as a JSON file for persistence and reuse.
-*   **Internationalization:** The application supports multiple languages.
+- **Financial Simulation**: Projects wealth growth year-by-year based on user inputs.
+- **Monte Carlo Simulation**: Runs hundreds of simulations with randomized variables (like asset returns and inflation) to assess the probability of success for a financial plan.
+- **Retirement Planning**: Helps users plan for both standard and early retirement by calculating required capital.
+- **Data Management**: Users can import and export their financial data as a JSON file.
+- **Internationalization**: The UI is translated into multiple languages (English, German, Spanish, French, Italian, Dutch, Portuguese).
+- **Customization**: Includes features like a dark mode theme.
 
 # Building and Running
 
 This is a static web project with no build process. To run the application, simply open the `index.html` file in a modern web browser.
-The main branch is live at [skapebolt.github.io/wealth-planner-tool](https://skapebolt.github.io/wealth-planner-tool/)
-
-## Dependencies
-
-The project relies on the following third-party libraries, which are included in the `assets/` directory:
-
-*   Bootstrap v5
-*   Chart.js
-*   Sortable.js
+The main branch is live at [squirrelplan.app](squirrelplan.app)
 
 # Development Conventions
 
-*   **Code Style:** The project uses plain JavaScript (ES6 features are present), standard HTML5, and CSS. Code is organized into separate files for structure (`index.html`), styling (`style.css`), and logic (`script.js`, `simulation.js`, `translator.js`).
-*   **DOM Manipulation:** The application directly manipulates the DOM using standard browser APIs.
-*   **State Management:** Application state is managed in memory and can be saved/loaded via JSON import/export. There is no centralized state management library.
-*   **Testing:** There are no apparent unit or end-to-end tests in the project.
+- **Code Style**: The code is written in plain JavaScript (ES6+), HTML, and CSS. It follows standard formatting.
+- **Dependencies**: Third-party libraries are included directly in the `assets/` directory.
+- **Modularity**: The JavaScript logic is separated into three main files:
+    - `script.js`: Handles UI logic, DOM manipulation, and user interactions.
+    - `simulation.js`: Contains the core financial calculation and simulation algorithms.
+    - `translator.js`: Manages internationalization and language switching.
+- **State Management**: Application state is managed directly within the JavaScript modules. Some user preferences (like theme and language) are persisted in the browser's `localStorage`.

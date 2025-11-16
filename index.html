@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="description" content="An interactive tool for planning and simulating your financial future and wealth growth.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Wealth Planner</title>
+    <title>SquirrelPlan</title>
     <link href="assets/bootstrap.min.css" rel="stylesheet">
     <link href="assets/bootstrap-icons.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
@@ -12,13 +12,13 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" data-i18n-key="navbarBrand">Wealth Planner</a>
+            <a class="navbar-brand" href="#" data-i18n-key="navbarBrand"><i class="bi bi-cash-coin"></i> SquirrelPlan</a>
             <div class="d-flex align-items-center">
 			    <div class="form-check form-switch ms-3 d-none d-md-block">
                     <input class="form-check-input" type="checkbox" id="dark-mode-toggle" aria-label="Toggle dark mode">
                     <label class="form-check-label" for="dark-mode-toggle"><span class="text-white" data-i18n-key="darkModeLabel">Dark mode</span></label>
                 </div>
-                <button class="btn btn-success me-2" id="import-btn" aria-label="Import data" data-i18n-key="importButton">Import</button>
+                <button class="btn btn-info me-2" id="import-btn" aria-label="Import data" data-i18n-key="importButton">Import</button>
                 <input type="file" id="import-file-input" class="d-none" accept=".json">
                 <button class="btn btn-primary me-2" id="export-btn" aria-label="Export data" data-i18n-key="exportButton">Export</button>
                 <button class="btn btn-danger me-2" id="clear-btn" data-i18n-key="clearButton">Clear</button>
@@ -30,7 +30,7 @@
     <div id="alerts-container" class="container"></div>
 
     <main class="container mt-4">
-        <h1 class="visually-hidden" data-i18n-key="pageTitle">Interactive Wealth Planner</h1>
+        <h1 class="visually-hidden" data-i18n-key="pageTitle">SquirrelPlan</h1>
         <div class="row">
             <!-- Left Column: Navigation -->
             <div class="col-md-2">
@@ -164,6 +164,7 @@
                 <div class="modal-body">
                     <p data-i18n-key="helpModalWelcome">Welcome to the Interactive Wealth Planner!</p>
                     <p data-i18n-key="helpModalIntro">This free and open source tool helps you plan and visualize your financial future.</p>
+					<p data-i18n-key="helpModalSampleData" class="alert alert-info">Sample data is loaded by default to demonstrate the tool's features. You can clear it using the "Clear" button in the top menu.</p>
                     <h6 data-i18n-key="helpModalHowToUse">How to use:</h6>
                     <ol>
                         <li data-i18n-key="helpModalStep1"><strong>Financial Data:</strong> Fill in your assets (e.g., savings, investments), liabilities (e.g., loans), monthly income, and monthly expenses. For assets and liabilities, you can specify an annual return or interest rate. For income and expenses, you can specify an annual increase.</li>
@@ -180,7 +181,7 @@
                     <p data-i18n-key="helpModalResultsInfo">The results are displayed in a chart and a table, showing the evolution of your wealth over time.</p>
                     <p data-i18n-key="helpModalButtonsInfo">With the buttons at the top right, you can import or export your data as a JSON file, or clear all fields.</p>
 					<p data-i18n-key="helpModalPrivacy">Privacy first: Your data will never be stored or shared in any way, shape or form.</p>
-					<p data-i18n-key="helpModalSourceCode">Source code availaible at: <a href="https://github.com/skapebolt/wealth-planner-tool">https://github.com/skapebolt/wealth-planner-tool</a></p>
+					<p data-i18n-key="helpModalSourceCode">Source code availaible at: <a href="https://github.com/skapebolt/SquirrelPlan">https://github.com/skapebolt/SquirrelPlan</a></p>
                 </div>
             </div>
         </div>

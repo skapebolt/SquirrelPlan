@@ -1,8 +1,8 @@
 const ALL_TRANSLATIONS = {
     "de": {
-        "pageTitle": "Interaktiver Vermögensplaner",
+        "pageTitle": "SquirrelPlan",
         "languageSelector": "Sprache",
-        "navbarBrand": "Vermögensplaner",
+        "navbarBrand": "SquirrelPlan",
         "darkModeLabel": "Dunkelmodus",
         "importButton": "Importieren",
         "exportButton": "Exportieren",
@@ -33,7 +33,8 @@ const ALL_TRANSLATIONS = {
         "earlyRetirementAgeLabel": "Frührentenalter",
         "enableMonteCarloLabel": "Monte-Carlo-Simulation aktivieren",
         "monteCarloSuccessRateMessage": "Das aktuelle Szenario hat eine Erfolgsquote von {successRate}%.",
-        "helpModalWelcome": "Willkommen beim Interaktiven Vermögensplaner!",
+        "helpModalWelcome": "Willkommen bei SquirrelPlan!",
+        "helpModalSampleData": "Beispieldaten werden standardmäßig geladen, um die Funktionen des Tools zu demonstrieren. Sie können diese mit der Schaltfläche „Löschen“ im oberen Menü löschen.",
         "helpModalIntro": "Dieses kostenlose und quelloffene Tool hilft Ihnen bei der Planung und Visualisierung Ihrer finanziellen Zukunft.",
         "helpModalHowToUse": "Wie zu verwenden:",
         "helpModalStep1": "<strong>Finanzdaten:</strong> Geben Sie Ihre Vermögenswerte (z. B. Ersparnisse, Investitionen), Verbindlichkeiten (z. B. Kredite), monatlichen Einnahmen und monatlichen Ausgaben ein. Für Vermögenswerte und Verbindlichkeiten können Sie eine jährliche Rendite oder einen Zinssatz angeben. Für Einnahmen und Ausgaben können Sie eine jährliche Steigerung angeben.",
@@ -69,6 +70,7 @@ const ALL_TRANSLATIONS = {
         "netWorthLabel": "Nettovermögen",
         "yearHeader": "Jahr",
         "ageHeader": "Alter",
+        "ageLabel": "Alter",
         "netIncomeHeader": "Nettoeinkommen",
         "expensesHeader": "Ausgaben",
         "savingsCapacityHeader": "Sparkapazität",
@@ -127,9 +129,9 @@ const ALL_TRANSLATIONS = {
         "autoRebalanceTooltip": "Wenn diese Option aktiviert ist, werden die prozentualen Anteile der Vermögenswerte während der gesamten Simulation durch automatisches Auswuchten beibehalten."
     },
     "en": {
-        "pageTitle": "Interactive Wealth Planner",
+        "pageTitle": "SquirrelPlan",
         "languageSelector": "Language",
-        "navbarBrand": "Wealth Planner",
+        "navbarBrand": "SquirrelPlan",
         "darkModeLabel": "Dark mode",
         "importButton": "Import",
         "exportButton": "Export",
@@ -160,7 +162,8 @@ const ALL_TRANSLATIONS = {
         "earlyRetirementAgeLabel": "Early Retirement Age",
         "enableMonteCarloLabel": "Enable Monte Carlo Simulation",
         "monteCarloSuccessRateMessage": "The current scenario has a success rate of {successRate}%.",
-        "helpModalWelcome": "Welcome to the Interactive Wealth Planner!",
+        "helpModalWelcome": "Welcome to SquirrelPlan!",
+        "helpModalSampleData": "Sample data is loaded by default to demonstrate the tool's features. You can clear it using the \"Clear\" button in the top menu.",
         "helpModalIntro": "This free and open source tool helps you plan and visualize your financial future.",
         "helpModalHowToUse": "How to use:",
         "helpModalStep1": "<strong>Financial Data:</strong> Fill in your assets (e.g., savings, investments), liabilities (e.g., loans), monthly income, and monthly expenses. For assets and liabilities, you can specify an annual return or interest rate. For income and expenses, you can specify an annual increase.",
@@ -196,6 +199,7 @@ const ALL_TRANSLATIONS = {
         "netWorthLabel": "Net Worth",
         "yearHeader": "Year",
         "ageHeader": "Age",
+        "ageLabel": "Age",
         "netIncomeHeader": "Net Income",
         "expensesHeader": "Expenses",
         "savingsCapacityHeader": "Savings Capacity",
@@ -254,9 +258,9 @@ const ALL_TRANSLATIONS = {
         "autoRebalanceTooltip": "If checked, the asset allocation percentages will be maintained throughout the simulation by automatically rebalancing the portfolio."
     },
     "es": {
-        "pageTitle": "Planificador de Riqueza Interactivo",
+        "pageTitle": "SquirrelPlan",
         "languageSelector": "Idioma",
-        "navbarBrand": "Planificador de Riqueza",
+        "navbarBrand": "SquirrelPlan",
         "darkModeLabel": "Modo oscuro",
         "importButton": "Importar",
         "exportButton": "Exportar",
@@ -287,7 +291,8 @@ const ALL_TRANSLATIONS = {
         "earlyRetirementAgeLabel": "Edad de Jubilación Temprana",
         "enableMonteCarloLabel": "Habilitar Simulación Monte Carlo",
         "monteCarloSuccessRateMessage": "El escenario actual tiene una tasa de éxito de {successRate}%.",
-        "helpModalWelcome": "¡Bienvenido al Planificador de Riqueza Interactivo!",
+        "helpModalWelcome": "¡Bienvenido a SquirrelPlan!",
+        "helpModalSampleData": "Los datos de ejemplo se cargan por defecto para demostrar las características de la herramienta. Puede borrarlos usando el botón \"Borrar\" en el menú superior.",
         "helpModalIntro": "Esta herramienta gratuita y de código abierto le ayuda a planificar y visualizar su futuro financiero.",
         "helpModalHowToUse": "Cómo utilizar:",
         "helpModalStep1": "<strong>Datos Financieros:</strong> Rellene sus activos (p. ej., ahorros, inversiones), pasivos (p. ej., préstamos), ingresos mensuales y gastos mensuales. Para activos y pasivos, puede especificar un rendimiento anual o una tasa de interés. Para ingresos y gastos, puede especificar un aumento anual.",
@@ -323,6 +328,7 @@ const ALL_TRANSLATIONS = {
         "netWorthLabel": "Patrimonio neto",
         "yearHeader": "Año",
         "ageHeader": "Edad",
+        "ageLabel": "Edad",
         "netIncomeHeader": "Ingresos netos",
         "expensesHeader": "Gastos",
         "savingsCapacityHeader": "Capacidad de ahorro",
@@ -381,9 +387,9 @@ const ALL_TRANSLATIONS = {
         "autoRebalanceTooltip": "Si está marcada, los porcentajes de asignación de activos se mantendrán a lo largo de la simulación mediante el rebalanceo automático de la cartera."
     },
     "fr": {
-        "pageTitle": "Planificateur de Patrimoine Interactif",
+        "pageTitle": "SquirrelPlan",
         "languageSelector": "Langue",
-        "navbarBrand": "Planificateur de Patrimoine",
+        "navbarBrand": "SquirrelPlan",
         "darkModeLabel": "Mode sombre",
         "importButton": "Importer",
         "exportButton": "Exporter",
@@ -414,7 +420,8 @@ const ALL_TRANSLATIONS = {
         "earlyRetirementAgeLabel": "Âge de la retraite anticipée",
         "enableMonteCarloLabel": "Activer la simulation Monte Carlo",
         "monteCarloSuccessRateMessage": "Le scénario actuel a un taux de réussite de {successRate}%.",
-        "helpModalWelcome": "Bienvenue dans le Planificateur de Patrimoine Interactif !",
+        "helpModalWelcome": "Bienvenue sur SquirrelPlan!",
+        "helpModalSampleData": "Des exemples de données sont chargés par défaut pour démontrer les fonctionnalités de l'outil. Vous pouvez les effacer à l'aide du bouton \"Effacer\" dans le menu supérieur.",
         "helpModalIntro": "Cet outil gratuit et open source vous aide à planifier et à visualiser votre avenir financier.",
         "helpModalHowToUse": "Comment utiliser :",
         "helpModalStep1": "<strong>Données financières :</strong> Remplissez vos actifs (par exemple, épargne, investissements), vos passifs (par exemple, prêts), vos revenus mensuels et vos dépenses mensuelles. Pour les actifs et les passifs, vous pouvez spécifier un rendement annuel ou un taux d'intérêt. Pour les revenus et les dépenses, vous pouvez spécifier une augmentation annuelle.",
@@ -450,6 +457,7 @@ const ALL_TRANSLATIONS = {
         "netWorthLabel": "Valeur nette",
         "yearHeader": "Année",
         "ageHeader": "Âge",
+        "ageLabel": "Âge",
         "netIncomeHeader": "Revenu net",
         "expensesHeader": "Dépenses",
         "savingsCapacityHeader": "Capacité d'épargne",
@@ -508,9 +516,9 @@ const ALL_TRANSLATIONS = {
         "autoRebalanceTooltip": "Si cette case est cochée, les pourcentages d'allocation d'actifs seront maintenus tout au long de la simulation en rééquilibrant automatiquement le portefeuille."
     },
     "it": {
-        "pageTitle": "Pianificatore Patrimoniale Interattivo",
+        "pageTitle": "SquirrelPlan",
         "languageSelector": "Lingua",
-        "navbarBrand": "Pianificatore Patrimoniale",
+        "navbarBrand": "SquirrelPlan",
         "darkModeLabel": "Modalità oscura",
         "importButton": "Importa",
         "exportButton": "Esporta",
@@ -541,7 +549,8 @@ const ALL_TRANSLATIONS = {
         "earlyRetirementAgeLabel": "Età di pensionamento anticipato",
         "enableMonteCarloLabel": "Abilita Simulazione Monte Carlo",
         "monteCarloSuccessRateMessage": "Lo scenario attuale ha un tasso di successo del {successRate}%.",
-        "helpModalWelcome": "Benvenuti nel Pianificatore Patrimoniale Interattivo!",
+        "helpModalWelcome": "Benvenuti in SquirrelPlan!",
+        "helpModalSampleData": "I dati di esempio vengono caricati per impostazione predefinita per dimostrare le funzionalità dello strumento. È possibile cancellarli utilizzando il pulsante \"Cancella\" nel menu in alto.",
         "helpModalIntro": "Questo strumento gratuito e open source ti aiuta a pianificare e visualizzare il tuo futuro finanziario.",
         "helpModalHowToUse": "Come usare:",
         "helpModalStep1": "<strong>Dati Finanziari:</strong> Inserisci i tuoi attivi (ad es. risparmi, investimenti), passivi (ad es. prestiti), reddito mensile e spese mensili. Per attività e passività, puoi specificare un rendimento annuo o un tasso di interesse. Per reddito e spese, puoi specificare un aumento annuo.",
@@ -577,6 +586,7 @@ const ALL_TRANSLATIONS = {
         "netWorthLabel": "Patrimonio netto",
         "yearHeader": "Anno",
         "ageHeader": "Età",
+        "ageLabel": "Età",
         "netIncomeHeader": "Reddito netto",
         "expensesHeader": "Spese",
         "savingsCapacityHeader": "Capacità di risparmio",
@@ -635,9 +645,9 @@ const ALL_TRANSLATIONS = {
         "autoRebalanceTooltip": "Se selezionato, le percentuali di allocazione degli asset verranno mantenute durante la simulazione ribilanciando automaticamente il portafoglio."
     },
     "nl": {
-        "pageTitle": "Interactieve Vermogensplanner",
+        "pageTitle": "SquirrelPlan",
         "languageSelector": "Taal",
-        "navbarBrand": "Vermogensplanner",
+        "navbarBrand": "SquirrelPlan",
         "darkModeLabel": "Donkere modus",
         "importButton": "Importeren",
         "exportButton": "Exporteren",
@@ -668,7 +678,8 @@ const ALL_TRANSLATIONS = {
         "earlyRetirementAgeLabel": "Vervroegde pensioenleeftijd",
         "enableMonteCarloLabel": "Monte Carlo Simulatie inschakelen",
         "monteCarloSuccessRateMessage": "Het huidige scenario heeft een slaagkans van {successRate}%.",
-        "helpModalWelcome": "Welkom bij de Interactieve Vermogensplanner!",
+        "helpModalWelcome": "Welkom bij SquirrelPlan!",
+        "helpModalSampleData": "Voorbeeldgegevens worden standaard geladen om de functies van de tool te demonstreren. U kunt deze wissen met de knop \"Wissen\" in het bovenste menu.",
         "helpModalIntro": "Deze gratis en open source tool helpt u uw financiële toekomst te plannen en te visualiseren.",
         "helpModalHowToUse": "Hoe te gebruiken:",
         "helpModalStep1": "<strong>Financiële Gegevens:</strong> Vul uw activa (bv. spaargeld, beleggingen), passiva (bv. leningen), maandelijks inkomen en maandelijkse uitgaven in. Voor activa en passiva kunt u een jaarlijks rendement of rentepercentage opgeven. Voor inkomen en uitgaven kunt u een jaarlijkse stijging opgeven.",
@@ -704,6 +715,7 @@ const ALL_TRANSLATIONS = {
         "netWorthLabel": "Netto vermogen",
         "yearHeader": "Jaar",
         "ageHeader": "Leeftijd",
+        "ageLabel": "Leeftijd",
         "netIncomeHeader": "Netto inkomen",
         "expensesHeader": "Uitgaven",
         "savingsCapacityHeader": "Spaarcapaciteit",
@@ -762,9 +774,9 @@ const ALL_TRANSLATIONS = {
         "autoRebalanceTooltip": "Indien aangevinkt, blijven de percentages van de activaspreiding gedurende de simulatie behouden door de portefeuille automatisch te herbalanceren."
     },
     "pt": {
-        "pageTitle": "Planejador de Riqueza Interativo",
+        "pageTitle": "SquirrelPlan",
         "languageSelector": "Idioma",
-        "navbarBrand": "Planejador de Riqueza",
+        "navbarBrand": "SquirrelPlan",
         "darkModeLabel": "Modo escuro",
         "importButton": "Importar",
         "exportButton": "Exportar",
@@ -795,7 +807,8 @@ const ALL_TRANSLATIONS = {
         "earlyRetirementAgeLabel": "Idade de aposentadoria antecipada",
         "enableMonteCarloLabel": "Ativar Simulação Monte Carlo",
         "monteCarloSuccessRateMessage": "O cenário atual tem uma taxa de sucesso de {successRate}%.",
-        "helpModalWelcome": "Bem-vindo ao Planejador de Riqueza Interativo!",
+        "helpModalWelcome": "Bem-vindo ao SquirrelPlan!",
+        "helpModalSampleData": "Os dados de exemplo são carregados por padrão para demonstrar os recursos da ferramenta. Você pode limpá-los usando o botão \"Limpar\" no menu superior.",
         "helpModalIntro": "Esta ferramenta gratuita e de código aberto ajuda você a planejar e visualizar seu futuro financeiro.",
         "helpModalHowToUse": "Como usar:",
         "helpModalStep1": "<strong>Dados Financeiros:</strong> Preencha os seus ativos (por exemplo, poupanças, investimentos), passivos (por exemplo, empréstimos), rendimento mensal e despesas mensais. Para ativos e passivos, pode especificar um retorno anual ou taxa de juro. Para rendimentos e despesas, pode especificar um aumento anual.",
@@ -831,6 +844,7 @@ const ALL_TRANSLATIONS = {
         "netWorthLabel": "Patrimônio líquido",
         "yearHeader": "Ano",
         "ageHeader": "Idade",
+        "ageLabel": "Idade",
         "netIncomeHeader": "Renda líquida",
         "expensesHeader": "Despesas",
         "savingsCapacityHeader": "Capacidade de poupança",
@@ -895,6 +909,7 @@ let currentLang = 'en';
 async function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
+    localStorage.setItem('preferredLanguage', lang);
 
     // Use embedded translations instead of fetching
     if (!ALL_TRANSLATIONS[lang]) {
@@ -962,6 +977,7 @@ function getTranslation(key, replacements = {}) {
 window.getTranslation = getTranslation;
 
 document.addEventListener('DOMContentLoaded', () => {
+    const preferredLang = localStorage.getItem('preferredLanguage');
     const userLang = (navigator.language || navigator.userLanguage).split('-')[0];
     const supportedLangs = [
         { code: 'en', name: 'English' },
@@ -974,7 +990,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
     let langToSet = 'en';
-    if (supportedLangs.some(l => l.code === userLang)) {
+    if (preferredLang && supportedLangs.some(l => l.code === preferredLang)) {
+        langToSet = preferredLang;
+    } else if (supportedLangs.some(l => l.code === userLang)) {
         langToSet = userLang;
     }
     
