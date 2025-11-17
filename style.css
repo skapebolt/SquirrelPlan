@@ -19,7 +19,7 @@
     --primary-hover-color: #1baa80;
     --background-color: #212529;
     --surface-color: #2b3035;
-    --text-color: #f8f9fa;
+    --text-color: #f0f2f5;
     --muted-text-color: #adb5bd;
     --border-color: #495057;
     --danger-color: #dc3545;
@@ -217,5 +217,45 @@ th {
     .col-md-8,
     .col-md-4 {
         width: 100%;
+    }
+}
+
+#portrait-mode-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+    color: white;
+    text-align: center;
+}
+
+#portrait-mode-message {
+    padding-top: 50vh;
+}
+
+@media screen and (orientation: portrait) {
+    #app-content {
+        display: none;
+    }
+    #portrait-mode-overlay {
+        display: block;
+    }
+}
+
+@media (max-width: 992px) {
+    #financial-nav .nav-link {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #financial-nav .nav-link {
+        font-size: 0.7rem;
+        padding: 0.4rem;
     }
 }

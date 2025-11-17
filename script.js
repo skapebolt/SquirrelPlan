@@ -7,11 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let hasSimulationRanOnce = false;
     let assetColors = {};
+    let forceLoadDefaultData = false;
 
     function autoRunSimulationIfEnabled() {
         if (hasSimulationRanOnce) {
             runAndRender(false);
         }
+        updateSectionTitles();
     }
 
     function getAssetColor(assetName) {
@@ -209,7 +211,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const tooltipTriggerList = row.querySelectorAll('[data-bs-toggle="tooltip"]');
         [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-        row.querySelector('.delete-category-btn').addEventListener('click', () => row.remove());
+        row.querySelector('.delete-category-btn').addEventListener('click', () => {
+            row.remove();
+            autoRunSimulationIfEnabled();
+        });
         
         applyNumberFormatting(row);
     }
@@ -310,7 +315,10 @@ document.addEventListener('DOMContentLoaded', function () {
         allocationPeriodsContainer.appendChild(row);
         updateAllocationAssets(row, period.allocation || {});
 
-        row.querySelector('.delete-period-btn').addEventListener('click', () => row.remove());
+        row.querySelector('.delete-period-btn').addEventListener('click', () => {
+            row.remove();
+            autoRunSimulationIfEnabled();
+        });
         applyNumberFormatting(row);
 
         const tooltipTriggerList = row.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -370,6 +378,48 @@ document.addEventListener('DOMContentLoaded', function () {
             if(input.value) names.push(input.value);
         });
         return names;
+    }
+
+    function updateSectionTitles() {
+        const inputs = getUserInputs();
+        const currentYear = new Date().getFullYear();
+
+        const assetTotal = inputs.assets.filter(asset => {
+            const startYear = asset.startYear || currentYear;
+            const endYear = asset.endYear || Infinity;
+            return currentYear >= startYear && currentYear <= endYear;
+        }).reduce((sum, asset) => sum + asset.value, 0);
+        document.querySelector('#section-assets h3').innerHTML = `${getTranslation('assetsAccordionButton')} - ${assetTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+
+        const liabilityTotal = inputs.liabilities.filter(liability => {
+            const startYear = liability.startYear || currentYear;
+            const endYear = liability.endYear || Infinity;
+            return currentYear >= startYear && currentYear <= endYear;
+        }).reduce((sum, liability) => sum + liability.value, 0);
+        document.querySelector('#section-liabilities h3').innerHTML = `${getTranslation('liabilitiesAccordionButton')} - ${liabilityTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+
+        const incomeTotal = inputs.incomes.filter(income => {
+            const startYear = income.startYear || currentYear;
+            const endYear = income.endYear || Infinity;
+            return currentYear >= startYear && currentYear <= endYear;
+        }).reduce((sum, income) => {
+            const yearlyValue = income.frequency === 'monthly' ? income.value * 12 : income.value;
+            return sum + yearlyValue;
+        }, 0);
+        document.querySelector('#section-income h3').innerHTML = `${getTranslation('incomeAccordionButton')} - ${incomeTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+
+        const expenseTotal = inputs.expenses.filter(expense => {
+            const startYear = expense.startYear || currentYear;
+            const endYear = expense.endYear || Infinity;
+            return currentYear >= startYear && currentYear <= endYear;
+        }).reduce((sum, expense) => {
+            const yearlyValue = expense.frequency === 'monthly' ? expense.value * 12 : expense.value;
+            return sum + yearlyValue;
+        }, 0);
+        document.querySelector('#section-expenses h3').innerHTML = `${getTranslation('expensesAccordionButton')} - ${expenseTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+
+        const savingsTotal = incomeTotal - expenseTotal;
+        document.querySelector('#section-allocation h3').innerHTML = `${getTranslation('savingsAllocationAccordionButton')} - ${savingsTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
     }
 
     function getUserInputs() {
@@ -477,6 +527,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('#results .table-responsive').style.display = 'block';
 
         const inputs = getUserInputs();
+        saveDataToLocalStorage();
         const { results, earlyRetirementYear, amountPensionMessage } = window.runSimulation(inputs);
         renderTable(results);
         renderCharts(results, isManualRun);
@@ -610,6 +661,49 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function saveDataToLocalStorage() {
+        const autoSaveEnabled = document.getElementById('auto-save-toggle').checked;
+        if (autoSaveEnabled) {
+            const data = getUserInputs();
+            localStorage.setItem('financialData', JSON.stringify(data));
+        }
+    }
+
+    function loadDataFromLocalStorage() {
+        const autoSaveEnabled = localStorage.getItem('autoSaveEnabled');
+        if (autoSaveEnabled === 'false') {
+            document.getElementById('auto-save-toggle').checked = false;
+            return;
+        }
+
+        const savedData = localStorage.getItem('financialData');
+        if (savedData) {
+            setUserValues(JSON.parse(savedData));
+            return true;
+        }
+        return false;
+    }
+
+    function shouldLoadDefaultData() {
+        if (forceLoadDefaultData) {
+            return true;
+        }
+        const autoSaveEnabled = document.getElementById('auto-save-toggle').checked;
+        const hasVisited = localStorage.getItem('hasVisited');
+        const savedData = localStorage.getItem('financialData');
+
+        if (!autoSaveEnabled) {
+            return true;
+        }
+        if (!hasVisited) {
+            return true;
+        }
+        if (!savedData) {
+            return true;
+        }
+        return false;
+    }
+    
     function exportData() {
         const data = getUserInputs();
         const json = JSON.stringify(data, null, 2);
@@ -632,6 +726,7 @@ document.addEventListener('DOMContentLoaded', function () {
         reader.onload = function(e) {
             const data = JSON.parse(e.target.result);
             setUserValues(data);
+            updateSectionTitles();
             event.target.value = '';
         };
         reader.readAsText(file);
@@ -776,6 +871,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function initDefaultData() {
+        if (!shouldLoadDefaultData()) {
+            return;
+        }
         incomeCategoriesContainer.innerHTML = '';
         expenseCategoriesContainer.innerHTML = '';
         assetCategoriesContainer.innerHTML = '';
@@ -983,7 +1081,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    initDefaultData();
+    if (!loadDataFromLocalStorage()) {
+        initDefaultData();
+    }
     initializeTooltips();
     initializeSortable();
     applyNumberFormatting(document.body);
@@ -1002,6 +1102,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (confirm(getTranslation('clearDataConfirmation'))) {
             clearSimulationResults();
             clearAllInputs();
+            updateSectionTitles();
         }
     });
 
@@ -1050,10 +1151,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    document.getElementById('auto-save-toggle').addEventListener('change', (event) => {
+        localStorage.setItem('autoSaveEnabled', event.target.checked);
+        if (!event.target.checked) {
+            localStorage.removeItem('financialData');
+        }
+    });
+
     window.addEventListener('languageChanged', () => {
         clearSimulationResults();
         initDefaultData();
         initializeTooltips();
+        updateSectionTitles();
     });
 
     const darkModeToggle = document.getElementById('dark-mode-toggle');
@@ -1150,5 +1259,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const helpModal = new bootstrap.Modal(document.getElementById('help-modal'));
         helpModal.show();
         localStorage.setItem('hasVisited', 'true');
+    } else {
+        const loadSampleDataBtn = document.getElementById('load-sample-data-btn');
+        loadSampleDataBtn.style.display = 'block';
+        loadSampleDataBtn.addEventListener('click', () => {
+            forceLoadDefaultData = true;
+            initDefaultData();
+            updateSectionTitles();
+            forceLoadDefaultData = false;
+        });
     }
+    updateSectionTitles();
 });

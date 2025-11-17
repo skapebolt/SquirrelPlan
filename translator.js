@@ -44,7 +44,7 @@ const ALL_TRANSLATIONS = {
         "helpModalStep5": "<strong>Simulation durchführen:</strong><ul><li><strong>Standard-Simulation:</strong> Führt eine einzelne Projektion basierend auf den von Ihnen angegebenen genauen Werten aus.</li><li><strong>Monte-Carlo-Simulation:</strong> Aktivieren Sie diese im Abschnitt „Erweitert“, um Hunderte von Simulationen mit zufälligen jährlichen Renditen für Ihre Vermögenswerte durchzuführen. Dies hilft, die Wahrscheinlichkeit zu bewerten, mit der Sie Ihre finanziellen Ziele erreichen.</li></ul>",
         "helpModalResultsInfo": "Die Ergebnisse werden in einem Diagramm und einer Tabelle angezeigt und zeigen die Entwicklung Ihres Vermögens im Laufe der Zeit.",
         "helpModalButtonsInfo": "Mit den Schaltflächen oben rechts können Sie Ihre Daten als JSON-Datei importieren oder exportieren oder alle Felder leeren.",
-        "helpModalPrivacy": "Datenschutz zuerst: Ihre Daten werden niemals in irgendeiner Form gespeichert oder weitergegeben.",
+        "helpModalPrivacy": "Datenschutz zuerst: Wir werden Ihre Daten niemals in irgendeiner Form speichern oder weitergeben.",
         "helpModalSourceCode": "Quellcode verfügbar unter: <a href=\"https://github.com/skapebolt/SquirrelPlan\">https://github.com/skapebolt/SquirrelPlan</a>",
         "nameLabel": "Name",
         "valueLabel": "Wert",
@@ -126,7 +126,11 @@ const ALL_TRANSLATIONS = {
         "endYearBeforeStartYearError": "Endjahr kann nicht vor Startjahr liegen.",
         "retirementAgeBeforeCurrentAgeError": "Rentenalter kann nicht kleiner sein als aktuelles Alter.",
         "autoRebalanceLabel": "Automatisches Auswuchten",
-        "autoRebalanceTooltip": "Wenn diese Option aktiviert ist, werden die prozentualen Anteile der Vermögenswerte während der gesamten Simulation durch automatisches Auswuchten beibehalten."
+        "autoRebalanceTooltip": "Wenn diese Option aktiviert ist, werden die prozentualen Anteile der Vermögenswerte während der gesamten Simulation durch automatisches Auswuchten beibehalten.",
+        "portraitModeMessage": "Bitte drehen Sie Ihr Gerät in den Querformatmodus für die beste Erfahrung.",
+        "autoSaveLabel": "Daten auf diesem Gerät automatisch speichern",
+        "autoSaveTooltip": "Wenn diese Option aktiviert ist, werden Ihre Finanzdaten automatisch im lokalen Speicher Ihres Browsers gespeichert. Deaktivieren Sie diese Option, wenn Sie Bedenken hinsichtlich des Datenschutzes haben.",
+        "loadSampleDataButton": "Beispieldaten laden"
     },
     "en": {
         "pageTitle": "SquirrelPlan",
@@ -173,7 +177,7 @@ const ALL_TRANSLATIONS = {
         "helpModalStep5": "<strong>Run Simulation:</strong><ul><li><strong>Standard Simulation:</strong> Runs a single projection based on the exact values you provided.</li><li><strong>Monte Carlo Simulation:</strong> Enable this in the \"Advanced\" section to run hundreds of simulations with randomized annual returns for your assets. This helps to assess the probability of achieving your financial goals.</li></ul>",
         "helpModalResultsInfo": "The results are displayed in a chart and a table, showing the evolution of your wealth over time.",
         "helpModalButtonsInfo": "With the buttons at the top right, you can import or export your data as a JSON file, or clear all fields.",
-        "helpModalPrivacy": "Privacy first: Your data will never be stored or shared in any way, shape or form.",
+        "helpModalPrivacy": "Privacy first: We will never store or share your data in any way, shape or form.",
         "helpModalSourceCode": "Source code availaible at: <a href=\"https://github.com/skapebolt/SquirrelPlan\">https://github.com/skapebolt/SquirrelPlan</a>",
         "nameLabel": "Name",
         "valueLabel": "Value",
@@ -255,7 +259,11 @@ const ALL_TRANSLATIONS = {
         "endYearBeforeStartYearError": "End year cannot be before start year.",
         "retirementAgeBeforeCurrentAgeError": "Retirement age cannot be less than current age.",
         "autoRebalanceLabel": "Automatic rebalance",
-        "autoRebalanceTooltip": "If checked, the asset allocation percentages will be maintained throughout the simulation by automatically rebalancing the portfolio."
+        "autoRebalanceTooltip": "If checked, the asset allocation percentages will be maintained throughout the simulation by automatically rebalancing the portfolio.",
+        "portraitModeMessage": "Please turn your device to landscape mode for the best experience.",
+        "autoSaveLabel": "Automatically save data on this device",
+        "autoSaveTooltip": "When enabled, your financial data is automatically saved to your browser's local storage. Disable this if you have privacy concerns.",
+        "loadSampleDataButton": "Load Sample Data"
     },
     "es": {
         "pageTitle": "SquirrelPlan",
@@ -302,7 +310,7 @@ const ALL_TRANSLATIONS = {
         "helpModalStep5": "<strong>Ejecutar Simulación:</strong><ul><li><strong>Simulación Estándar:</strong> Ejecuta una única proyección basada en los valores exactos que proporcionó.</li><li><strong>Simulación de Monte Carlo:</strong> Habilite esto en la sección \"Avanzado\" para ejecutar cientos de simulaciones con rendimientos anuales aleatorios para sus activos. Esto ayuda a evaluar la probabilidad de alcanzar sus metas financieras.</li></ul>",
         "helpModalResultsInfo": "Los resultados se muestran en un gráfico y una tabla, que muestran la evolución de su patrimonio a lo largo del tiempo.",
         "helpModalButtonsInfo": "Con los botones en la parte superior derecha, puede importar o exportar sus datos como un archivo JSON, o borrar todos los campos.",
-        "helpModalPrivacy": "La privacidad es lo primero: sus datos nunca se almacenarán ni compartirán de ninguna manera.",
+        "helpModalPrivacy": "La privacidad es lo primero: nunca almacenaremos ni compartiremos sus datos de ninguna manera.",
         "helpModalSourceCode": "Código fuente disponible en: <a href=\"https://github.com/skapebolt/SquirrelPlan\">https://github.com/skapebolt/SquirrelPlan</a>",
         "nameLabel": "Nombre",
         "valueLabel": "Valor",
@@ -384,7 +392,11 @@ const ALL_TRANSLATIONS = {
         "endYearBeforeStartYearError": "El año de fin no puede ser anterior al año de inicio.",
         "retirementAgeBeforeCurrentAgeError": "La edad de jubilación no puede ser menor que la edad actual.",
         "autoRebalanceLabel": "Rebalanceo automático",
-        "autoRebalanceTooltip": "Si está marcada, los porcentajes de asignación de activos se mantendrán a lo largo de la simulación mediante el rebalanceo automático de la cartera."
+        "autoRebalanceTooltip": "Si está marcada, los porcentajes de asignación de activos se mantendrán a lo largo de la simulación mediante el rebalanceo automático de la cartera.",
+        "portraitModeMessage": "Por favor, gire su dispositivo a modo horizontal para una mejor experiencia.",
+        "autoSaveLabel": "Guardar datos automáticamente en este dispositivo",
+        "autoSaveTooltip": "Cuando está habilitado, sus datos financieros se guardan automáticamente en el almacenamiento local de su navegador. Deshabilite esto si tiene preocupaciones de privacidad.",
+        "loadSampleDataButton": "Cargar datos de ejemplo"
     },
     "fr": {
         "pageTitle": "SquirrelPlan",
@@ -431,7 +443,7 @@ const ALL_TRANSLATIONS = {
         "helpModalStep5": "<strong>Lancer la simulation :</strong><ul><li><strong>Simulation standard :</strong> Exécute une projection unique basée sur les valeurs exactes que vous avez fournies.</li><li><strong>Simulation Monte-Carlo :</strong> Activez cette option dans la section \"Avancé\" pour exécuter des centaines de simulations avec des rendements annuels aléatoires pour vos actifs. Cela permet d'évaluer la probabilité d'atteindre vos objectifs financiers.</li></ul>",
         "helpModalResultsInfo": "Les résultats sont affichés dans un graphique et un tableau, montrant l'évolution de votre patrimoine dans le temps.",
         "helpModalButtonsInfo": "Avec les boutons en haut à droite, vous pouvez importer ou exporter vos données sous forme de fichier JSON, ou effacer tous les champs.",
-        "helpModalPrivacy": "La confidentialité d'abord : Vos données ne seront jamais stockées ou partagées de quelque manière que ce soit.",
+        "helpModalPrivacy": "La confidentialité d'abord : nous ne stockerons ni ne partagerons jamais vos données de quelque manière que ce soit.",
         "helpModalSourceCode": "Code source disponible sur: <a href=\"https://github.com/skapebolt/SquirrelPlan\">https://github.com/skapebolt/SquirrelPlan</a>",
         "nameLabel": "Nom",
         "valueLabel": "Valeur",
@@ -513,7 +525,11 @@ const ALL_TRANSLATIONS = {
         "endYearBeforeStartYearError": "L'année de fin ne peut pas être antérieure à l'année de début.",
         "retirementAgeBeforeCurrentAgeError": "L'âge de la retraite ne peut pas être inférieur à l'âge actuel.",
         "autoRebalanceLabel": "Rééquilibrage automatique",
-        "autoRebalanceTooltip": "Si cette case est cochée, les pourcentages d'allocation d'actifs seront maintenus tout au long de la simulation en rééquilibrant automatiquement le portefeuille."
+        "autoRebalanceTooltip": "Si cette case est cochée, les pourcentages d'allocation d'actifs seront maintenus tout au long de la simulation en rééquilibrant automatiquement le portefeuille.",
+        "portraitModeMessage": "Veuillez tourner votre appareil en mode paysage pour une meilleure expérience.",
+        "autoSaveLabel": "Enregistrer automatiquement les données sur cet appareil",
+        "autoSaveTooltip": "Lorsqu'il est activé, vos données financières sont automatiquement enregistrées dans le stockage local de votre navigateur. Désactivez-le si vous avez des problèmes de confidentialité.",
+        "loadSampleDataButton": "Charger les données d'exemple"
     },
     "it": {
         "pageTitle": "SquirrelPlan",
@@ -560,7 +576,7 @@ const ALL_TRANSLATIONS = {
         "helpModalStep5": "<strong>Esegui Simulazione:</strong><ul><li><strong>Simulazione Standard:</strong> Esegue una singola proiezione basata sui valori esatti forniti.</li><li><strong>Simulazione Monte Carlo:</strong> Abilita questa opzione nella sezione \"Avanzate\" per eseguire centinaia di simulazioni con rendimenti annui casuali per le tue attività. Questo aiuta a valutare la probabilità di raggiungere i tuoi obiettivi finanziari.</li></ul>",
         "helpModalResultsInfo": "I risultati vengono visualizzati in un grafico e in una tabella, mostrando l'evoluzione del tuo patrimonio nel tempo.",
         "helpModalButtonsInfo": "Con i pulsanti in alto a destra, puoi importare o esportare i tuoi dati come file JSON o cancellare tutti i campi.",
-        "helpModalPrivacy": "La privacy prima di tutto: i tuoi dati non verranno mai archiviati o condivisi in alcun modo.",
+        "helpModalPrivacy": "La privacy prima di tutto: non archivieremo né condivideremo mai i tuoi dati in alcun modo.",
         "helpModalSourceCode": "Codice sorgente disponibile su: <a href=\"https://github.com/skapebolt/SquirrelPlan\">https://github.com/skapebolt/SquirrelPlan</a>",
         "nameLabel": "Nome",
         "valueLabel": "Valore",
@@ -642,7 +658,11 @@ const ALL_TRANSLATIONS = {
         "endYearBeforeStartYearError": "L'anno di fine non può essere precedente all'anno di inizio.",
         "retirementAgeBeforeCurrentAgeError": "L'età pensionabile non può essere inferiore all'età attuale.",
         "autoRebalanceLabel": "Ribilanciamento automatico",
-        "autoRebalanceTooltip": "Se selezionato, le percentuali di allocazione degli asset verranno mantenute durante la simulazione ribilanciando automaticamente il portafoglio."
+        "autoRebalanceTooltip": "Se selezionato, le percentuali di allocazione degli asset verranno mantenute durante la simulazione ribilanciando automaticamente il portafoglio.",
+        "portraitModeMessage": "Per favore, ruota il tuo dispositivo in modalità orizzontale per la migliore esperienza.",
+        "autoSaveLabel": "Salva automaticamente i dati su questo dispositivo",
+        "autoSaveTooltip": "Quando abilitato, i tuoi dati finanziari vengono salvati automaticamente nella memoria locale del tuo browser. Disabilitalo se hai problemi di privacy.",
+        "loadSampleDataButton": "Carica dati di esempio"
     },
     "nl": {
         "pageTitle": "SquirrelPlan",
@@ -689,7 +709,7 @@ const ALL_TRANSLATIONS = {
         "helpModalStep5": "<strong>Simulatie Uitvoeren:</strong><ul><li><strong>Standaard Simulatie:</strong> Voert een enkele projectie uit op basis van de exacte waarden die u hebt opgegeven.</li><li><strong>Monte Carlo Simulatie:</strong> Schakel dit in de sectie \"Geavanceerd\" in om honderden simulaties uit te voeren met gerandomiseerde jaarlijkse rendementen voor uw activa. Dit helpt om de waarschijnlijkheid van het bereiken van uw financiële doelen te beoordelen.</li></ul>",
         "helpModalResultsInfo": "De resultaten worden weergegeven in een grafiek en een tabel, die de evolutie van uw vermogen in de tijd tonen.",
         "helpModalButtonsInfo": "Met de knoppen rechtsboven kunt u uw gegevens importeren of exporteren als een JSON-bestand, of alle velden wissen.",
-        "helpModalPrivacy": "Privacy voorop: uw gegevens worden nooit opgeslagen of gedeeld, in welke vorm dan ook.",
+        "helpModalPrivacy": "Privacy voorop: we zullen uw gegevens nooit opslaan of delen, in welke vorm dan ook.",
         "helpModalSourceCode": "Broncode beschikbaar op: <a href=\"https://github.com/skapebolt/SquirrelPlan\">https://github.com/skapebolt/SquirrelPlan</a>",
         "nameLabel": "Naam",
         "valueLabel": "Waarde",
@@ -771,7 +791,11 @@ const ALL_TRANSLATIONS = {
         "endYearBeforeStartYearError": "Eindjaar kan niet vóór startjaar liggen.",
         "retirementAgeBeforeCurrentAgeError": "Pensioenleeftijd kan niet lager zijn dan huidige leeftijd.",
         "autoRebalanceLabel": "Automatisch herbalanceren",
-        "autoRebalanceTooltip": "Indien aangevinkt, blijven de percentages van de activaspreiding gedurende de simulatie behouden door de portefeuille automatisch te herbalanceren."
+        "autoRebalanceTooltip": "Indien aangevinkt, blijven de percentages van de activaspreiding gedurende de simulatie behouden door de portefeuille automatisch te herbalanceren.",
+        "portraitModeMessage": "Draai uw toestel naar de landschapsmodus voor de beste ervaring.",
+        "autoSaveLabel": "Gegevens automatisch opslaan op dit apparaat",
+        "autoSaveTooltip": "Indien ingeschakeld, worden uw financiële gegevens automatisch opgeslagen in de lokale opslag van uw browser. Schakel dit uit als u zich zorgen maakt over uw privacy.",
+        "loadSampleDataButton": "Voorbeeldgegevens laden"
     },
     "pt": {
         "pageTitle": "SquirrelPlan",
@@ -818,7 +842,7 @@ const ALL_TRANSLATIONS = {
         "helpModalStep5": "<strong>Executar Simulação:</strong><ul><li><strong>Simulação Padrão:</strong> Executa uma única projeção com base nos valores exatos que forneceu.</li><li><strong>Simulação Monte Carlo:</strong> Ative esta opção na secção \"Avançado\" para executar centenas de simulações com retornos anuais aleatórios para os seus ativos. Isto ajuda a avaliar a probabilidade de atingir os seus objetivos financeiros.</li></ul>",
         "helpModalResultsInfo": "Os resultados são apresentados num gráfico e numa tabela, mostrando a evolução do seu património ao longo do tempo.",
         "helpModalButtonsInfo": "Com os botões no canto superior direito, pode importar ou exportar os seus dados como um ficheiro JSON, ou limpar todos os campos.",
-        "helpModalPrivacy": "Privacidade em primeiro lugar: seus dados nunca serão armazenados ou compartilhados de forma alguma.",
+        "helpModalPrivacy": "Privacidade em primeiro lugar: nunca armazenaremos ou compartilharemos seus dados de forma alguma.",
         "helpModalSourceCode": "Código-fonte disponível em: <a href=\"https://github.com/skapebolt/SquirrelPlan\">https://github.com/skapebolt/SquirrelPlan</a>",
         "nameLabel": "Nome",
         "valueLabel": "Valor",
@@ -900,7 +924,11 @@ const ALL_TRANSLATIONS = {
         "endYearBeforeStartYearError": "O ano final não pode ser anterior ao ano inicial.",
         "retirementAgeBeforeCurrentAgeError": "A idade de aposentadoria não pode ser menor que a idade atual.",
         "autoRebalanceLabel": "Rebalanceamento automático",
-        "autoRebalanceTooltip": "Se marcada, as percentagens de alocação de ativos serão mantidas ao longo da simulação através do rebalanceamento automático da carteira."
+        "autoRebalanceTooltip": "Se marcada, as percentagens de alocação de ativos serão mantidas ao longo da simulação através do rebalanceamento automático da carteira.",
+        "portraitModeMessage": "Por favor, vire o seu dispositivo para o modo paisagem para a melhor experiência.",
+        "autoSaveLabel": "Salvar dados automaticamente neste dispositivo",
+        "autoSaveTooltip": "Quando ativado, seus dados financeiros são salvos automaticamente no armazenamento local do seu navegador. Desative se tiver preocupações com a privacidade.",
+        "loadSampleDataButton": "Carregar dados de exemplo"
     }
 };
 

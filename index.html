@@ -10,149 +10,160 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#" data-i18n-key="navbarBrand"><i class="bi bi-cash-coin"></i> SquirrelPlan</a>
-            <div class="d-flex align-items-center">
-			    <div class="form-check form-switch ms-3 d-none d-md-block">
-                    <input class="form-check-input" type="checkbox" id="dark-mode-toggle" aria-label="Toggle dark mode">
-                    <label class="form-check-label" for="dark-mode-toggle"><span class="text-white" data-i18n-key="darkModeLabel">Dark mode</span></label>
+    <div id="portrait-mode-overlay">
+        <p id="portrait-mode-message" data-i18n-key="portraitModeMessage">Please turn your device to landscape mode for the best experience.</p>
+    </div>
+
+    <div id="app-content">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#" data-i18n-key="navbarBrand"><i class="bi bi-cash-coin"></i> SquirrelPlan</a>
+                <div class="d-flex align-items-center">
+                    <div class="form-check form-switch ms-3 d-none d-md-block">
+                        <input class="form-check-input" type="checkbox" id="dark-mode-toggle" aria-label="Toggle dark mode">
+                        <label class="form-check-label" for="dark-mode-toggle"><span class="text-white" data-i18n-key="darkModeLabel">Dark mode</span></label>
+                    </div>
+                    <button class="btn btn-info me-2 d-none d-md-block" id="import-btn" aria-label="Import data" data-i18n-key="importButton">Import</button>
+                    <input type="file" id="import-file-input" class="d-none" accept=".json">
+                    <button class="btn btn-primary me-2 d-none d-md-block" id="export-btn" aria-label="Export data" data-i18n-key="exportButton">Export</button>
+                    <button class="btn btn-danger me-2" id="clear-btn" data-i18n-key="clearButton">Clear</button>
+                    <button class="btn btn-info" id="help-btn" aria-label="Help" data-bs-toggle="modal" data-bs-target="#help-modal"><i class="bi bi-question-lg"></i></button>
                 </div>
-                <button class="btn btn-info me-2 d-none d-md-block" id="import-btn" aria-label="Import data" data-i18n-key="importButton">Import</button>
-                <input type="file" id="import-file-input" class="d-none" accept=".json">
-                <button class="btn btn-primary me-2 d-none d-md-block" id="export-btn" aria-label="Export data" data-i18n-key="exportButton">Export</button>
-                <button class="btn btn-danger me-2" id="clear-btn" data-i18n-key="clearButton">Clear</button>
-                <button class="btn btn-info" id="help-btn" aria-label="Help" data-bs-toggle="modal" data-bs-target="#help-modal"><i class="bi bi-question-lg"></i></button>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <div id="alerts-container" class="container"></div>
+        <div id="alerts-container" class="container"></div>
 
-    <main class="container mt-4">
-        <h1 class="visually-hidden" data-i18n-key="pageTitle">SquirrelPlan</h1>
-        <div class="row">
-            <!-- Left Column: Navigation -->
-            <div class="col-md-2">
-                <nav id="financial-nav" class="nav flex-column">
-                    <a class="nav-link active" href="#section-assets" data-i18n-key="assetsAccordionButton">Assets</a>
-                    <a class="nav-link" href="#section-liabilities" data-i18n-key="liabilitiesAccordionButton">Liabilities</a>
-                    <a class="nav-link" href="#section-income" data-i18n-key="incomeAccordionButton">Income</a>
-                    <a class="nav-link" href="#section-expenses" data-i18n-key="expensesAccordionButton">Expenses</a>
-                    <a class="nav-link" href="#section-allocation" data-i18n-key="savingsAllocationAccordionButton">Savings Allocation</a>
-                    <a class="nav-link" href="#section-retirement" data-i18n-key="retirementPlanningAccordionButton">Retirement Planning</a>
-                    <a class="nav-link" href="#section-advanced" data-i18n-key="advancedAccordionButton">Advanced</a>
-					<button class="btn btn-primary mt-3" id="run-standard-simulation-btn" data-i18n-key="runStandardSimulationButton">Run Standard Simulation</button>
-					<button class="btn btn-warning mt-3 d-none" id="run-monte-carlo-btn" data-i18n-key="runMonteCarloSimulationButton">Run Monte Carlo Simulation</button>
-                </nav>
-            </div>
+        <main class="container mt-4">
+            <h1 class="visually-hidden" data-i18n-key="pageTitle">SquirrelPlan</h1>
+            <div class="row">
+                <!-- Left Column: Navigation -->
+                <div class="col-md-2">
+                    <nav id="financial-nav" class="nav flex-column">
+                        <a class="nav-link active" href="#section-assets" data-i18n-key="assetsAccordionButton">Assets</a>
+                        <a class="nav-link" href="#section-liabilities" data-i18n-key="liabilitiesAccordionButton">Liabilities</a>
+                        <a class="nav-link" href="#section-income" data-i18n-key="incomeAccordionButton">Income</a>
+                        <a class="nav-link" href="#section-expenses" data-i18n-key="expensesAccordionButton">Expenses</a>
+                        <a class="nav-link" href="#section-allocation" data-i18n-key="savingsAllocationAccordionButton">Savings Allocation</a>
+                        <a class="nav-link" href="#section-retirement" data-i18n-key="retirementPlanningAccordionButton">Retirement Planning</a>
+                        <a class="nav-link" href="#section-advanced" data-i18n-key="advancedAccordionButton">Advanced</a>
+                        <button class="btn btn-primary mt-3" id="run-standard-simulation-btn" data-i18n-key="runStandardSimulationButton">Run Standard Simulation</button>
+                        <button class="btn btn-warning mt-3 d-none" id="run-monte-carlo-btn" data-i18n-key="runMonteCarloSimulationButton">Run Monte Carlo Simulation</button>
+                    </nav>
+                </div>
 
-            <!-- Right Column: Content -->
-            <div class="col-md-10">
-                <section id="financial-data-content">
-                    <!-- Assets Section -->
-                    <div id="section-assets" class="content-section">
-                        <h3 data-i18n-key="assetsAccordionButton">Assets</h3>
-                        <div id="asset-categories-container"></div>
-                        <button class="btn btn-secondary mt-3" id="add-asset-category-btn" data-i18n-key="newAssetButton">New Asset Class</button>
-                    </div>
-
-                    <!-- Liabilities Section -->
-                    <div id="section-liabilities" class="content-section" style="display: none;">
-                        <h3 data-i18n-key="liabilitiesAccordionButton">Liabilities</h3>
-                        <div id="liability-categories-container"></div>
-                        <button class="btn btn-secondary mt-3" id="add-liability-category-btn" data-i18n-key="newLiabilityButton">New Liability Class</button>
-                    </div>
-
-                    <!-- Income Section -->
-                    <div id="section-income" class="content-section" style="display: none;">
-                        <h3 data-i18n-key="incomeAccordionButton">Income</h3>
-                        <div id="income-categories-container"></div>
-                        <button class="btn btn-secondary mt-3" id="add-income-category-btn" data-i18n-key="newIncomeButton">New Income Category</button>
-                    </div>
-
-                    <!-- Expenses Section -->
-                    <div id="section-expenses" class="content-section" style="display: none;">
-                        <h3 data-i18n-key="expensesAccordionButton">Expenses</h3>
-                        <div id="expense-categories-container"></div>
-                        <button class="btn btn-secondary mt-3" id="add-expense-category-btn" data-i18n-key="newExpenseButton">New Expense Category</button>
-                    </div>
-
-                    <!-- Savings Allocation Section -->
-                    <div id="section-allocation" class="content-section" style="display: none;">
-                        <h3 data-i18n-key="savingsAllocationAccordionButton">Savings Allocation</h3>
-                        <div id="allocation-periods-container"></div>
-                        <button class="btn btn-secondary mt-3" id="add-allocation-period-btn" data-i18n-key="newAllocationPeriodButton">New Allocation Period</button>
-                    </div>
-
-                    <!-- Retirement Section -->
-                    <div id="section-retirement" class="content-section" style="display: none;">
-                        <h3 data-i18n-key="retirementPlanningAccordionButton">Retirement Planning</h3>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="current-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="currentAgeTooltip" data-i18n-key="currentAgeLabel">Current Age <i class="bi bi-info-circle"></i></label>
-                                <input type="text" class="form-control" id="current-age" value="30" aria-label="Current age">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="pension-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="legalRetirementAgeTooltip" data-i18n-key="legalRetirementAgeLabel">Legal Retirement Age <i class="bi bi-info-circle"></i></label>
-                                <input type="text" class="form-control" id="pension-age" value="67" aria-label="Retirement age">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="estimated-pension" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="monthlyPensionTooltip" data-i18n-key="monthlyPensionLabel">Monthly Pension (net) <i class="bi bi-info-circle"></i></label>
-                                <input type="text" class="form-control" id="estimated-pension" value="1500" aria-label="Estimated monthly pension net">
-                            </div>
+                <!-- Right Column: Content -->
+                <div class="col-md-10">
+                    <section id="financial-data-content">
+                        <!-- Assets Section -->
+                        <div id="section-assets" class="content-section">
+                            <h3 data-i18n-key="assetsAccordionButton">Assets</h3>
+                            <div id="asset-categories-container"></div>
+                            <button class="btn btn-secondary mt-3" id="add-asset-category-btn" data-i18n-key="newAssetButton">New Asset Class</button>
                         </div>
-                    </div>
 
-                    <!-- Advanced Section -->
-                    <div id="section-advanced" class="content-section" style="display: none;">
-                        <h3 data-i18n-key="advancedAccordionButton">Advanced</h3>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label for="inflation" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="inflationTooltip" data-i18n-key="inflationLabel">Inflation (%) <i class="bi bi-info-circle"></i></label>
-                                <input type="text" class="form-control" id="inflation" value="2.50" aria-label="Inflation in percent">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="withdrawal-rate" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="withdrawalRateTooltip" data-i18n-key="withdrawalRateLabel">Withdrawal Rate (%) <i class="bi bi-info-circle"></i></label>
-                                <input type="text" class="form-control" id="withdrawal-rate" value="0" aria-label="Withdrawal rate in percent">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="early-retirement-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="earlyRetirementAgeTooltip" data-i18n-key="earlyRetirementAgeLabel">Early Retirement Age <i class="bi bi-info-circle"></i></label>
-                                <input type="text" class="form-control" id="early-retirement-age" aria-label="Early retirement age">
-                            </div>
-                            <div class="col-md-3 d-flex align-items-center mt-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="enable-monte-carlo">
-                                    <label class="form-check-label" for="enable-monte-carlo" data-i18n-key="enableMonteCarloLabel" data-bs-toggle="tooltip" data-i18n-title-key="enableMonteCarloTooltip">Enable Monte Carlo Simulation <i class="bi bi-info-circle"></i></label>
+                        <!-- Liabilities Section -->
+                        <div id="section-liabilities" class="content-section" style="display: none;">
+                            <h3 data-i18n-key="liabilitiesAccordionButton">Liabilities</h3>
+                            <div id="liability-categories-container"></div>
+                            <button class="btn btn-secondary mt-3" id="add-liability-category-btn" data-i18n-key="newLiabilityButton">New Liability Class</button>
+                        </div>
+
+                        <!-- Income Section -->
+                        <div id="section-income" class="content-section" style="display: none;">
+                            <h3 data-i18n-key="incomeAccordionButton">Income</h3>
+                            <div id="income-categories-container"></div>
+                            <button class="btn btn-secondary mt-3" id="add-income-category-btn" data-i18n-key="newIncomeButton">New Income Category</button>
+                        </div>
+
+                        <!-- Expenses Section -->
+                        <div id="section-expenses" class="content-section" style="display: none;">
+                            <h3 data-i18n-key="expensesAccordionButton">Expenses</h3>
+                            <div id="expense-categories-container"></div>
+                            <button class="btn btn-secondary mt-3" id="add-expense-category-btn" data-i18n-key="newExpenseButton">New Expense Category</button>
+                        </div>
+
+                        <!-- Savings Allocation Section -->
+                        <div id="section-allocation" class="content-section" style="display: none;">
+                            <h3 data-i18n-key="savingsAllocationAccordionButton">Savings Allocation</h3>
+                            <div id="allocation-periods-container"></div>
+                            <button class="btn btn-secondary mt-3" id="add-allocation-period-btn" data-i18n-key="newAllocationPeriodButton">New Allocation Period</button>
+                        </div>
+
+                        <!-- Retirement Section -->
+                        <div id="section-retirement" class="content-section" style="display: none;">
+                            <h3 data-i18n-key="retirementPlanningAccordionButton">Retirement Planning</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="current-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="currentAgeTooltip" data-i18n-key="currentAgeLabel">Current Age <i class="bi bi-info-circle"></i></label>
+                                    <input type="text" class="form-control" id="current-age" value="30" aria-label="Current age">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="pension-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="legalRetirementAgeTooltip" data-i18n-key="legalRetirementAgeLabel">Legal Retirement Age <i class="bi bi-info-circle"></i></label>
+                                    <input type="text" class="form-control" id="pension-age" value="67" aria-label="Retirement age">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="estimated-pension" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="monthlyPensionTooltip" data-i18n-key="monthlyPensionLabel">Monthly Pension (net) <i class="bi bi-info-circle"></i></label>
+                                    <input type="text" class="form-control" id="estimated-pension" value="1500" aria-label="Estimated monthly pension net">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-        <hr class="my-4">
 
-        <section id="results" class="mt-4" style="display: none;" aria-labelledby="results-heading">
-            <h3 id="results-heading" data-i18n-key="resultsTitle">Results</h3>
-            <div id="monte-carlo-success-message" class="alert alert-success" style="display: none;" role="alert"></div>
-            <div id="early-retirement-message" class="alert alert-success" style="display: none;" role="alert"></div>
-            <div id="pension-withdrawal-message" class="alert alert-info" style="display: none;" role="alert"></div>
-            <div class="row">
-                <div class="col-lg-12 mx-auto">
-                    <canvas id="wealth-evolution-chart" role="img" aria-label="Chart of wealth evolution"></canvas>
+                        <!-- Advanced Section -->
+                        <div id="section-advanced" class="content-section" style="display: none;">
+                            <h3 data-i18n-key="advancedAccordionButton">Advanced</h3>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="inflation" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="inflationTooltip" data-i18n-key="inflationLabel">Inflation (%) <i class="bi bi-info-circle"></i></label>
+                                    <input type="text" class="form-control" id="inflation" value="2.50" aria-label="Inflation in percent">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="withdrawal-rate" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="withdrawalRateTooltip" data-i18n-key="withdrawalRateLabel">Withdrawal Rate (%) <i class="bi bi-info-circle"></i></label>
+                                    <input type="text" class="form-control" id="withdrawal-rate" value="0" aria-label="Withdrawal rate in percent">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="early-retirement-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="earlyRetirementAgeTooltip" data-i18n-key="earlyRetirementAgeLabel">Early Retirement Age <i class="bi bi-info-circle"></i></label>
+                                    <input type="text" class="form-control" id="early-retirement-age" aria-label="Early retirement age">
+                                </div>
+                                <div class="col-md-3 d-flex align-items-center mt-3">
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox" id="enable-monte-carlo">
+                                                                        <label class="form-check-label" for="enable-monte-carlo" data-i18n-key="enableMonteCarloLabel" data-bs-toggle="tooltip" data-i18n-title-key="enableMonteCarloTooltip">Enable Monte Carlo Simulation <i class="bi bi-info-circle"></i></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 d-flex align-items-center mt-3">
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox" id="auto-save-toggle" checked>
+                                                                        <label class="form-check-label" for="auto-save-toggle" data-i18n-key="autoSaveLabel" data-bs-toggle="tooltip" data-i18n-title-key="autoSaveTooltip">Automatically save data on this device <i class="bi bi-info-circle"></i></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>            <hr class="my-4">
+
+            <section id="results" class="mt-4" style="display: none;" aria-labelledby="results-heading">
+                <h3 id="results-heading" data-i18n-key="resultsTitle">Results</h3>
+                <div id="monte-carlo-success-message" class="alert alert-success" style="display: none;" role="alert"></div>
+                <div id="early-retirement-message" class="alert alert-success" style="display: none;" role="alert"></div>
+                <div id="pension-withdrawal-message" class="alert alert-info" style="display: none;" role="alert"></div>
+                <div class="row">
+                    <div class="col-lg-12 mx-auto">
+                        <canvas id="wealth-evolution-chart" role="img" aria-label="Chart of wealth evolution"></canvas>
+                    </div>
                 </div>
-            </div>
-            <div class="mt-4 table-responsive">
-                <table class="table table-striped" aria-label="Results table">
-                    <thead id="results-table-head">
-                    </thead>
-                    <tbody id="results-table-body">
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+                <div class="mt-4 table-responsive">
+                    <table class="table table-striped" aria-label="Results table">
+                        <thead id="results-table-head">
+                        </thead>
+                        <tbody id="results-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <div id="help-modal" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -164,9 +175,9 @@
                 <div class="modal-body">
                     <p data-i18n-key="helpModalWelcome">Welcome to the Interactive Wealth Planner!</p>
                     <p data-i18n-key="helpModalIntro">This free and open source tool helps you plan and visualize your financial future.</p>
-					<p data-i18n-key="helpModalSampleData" class="alert alert-info">Sample data is loaded by default to demonstrate the tool's features. You can clear it using the "Clear" button in the top menu.</p>
-                    <h6 data-i18n-key="helpModalHowToUse">How to use:</h6>
-                    <ol>
+                    					<p data-i18n-key="helpModalSampleData" class="alert alert-info">Sample data is loaded by default to demonstrate the tool's features. You can clear it using the "Clear" button in the top menu.</p>
+                                        <button id="load-sample-data-btn" class="btn btn-primary" data-i18n-key="loadSampleDataButton" style="display: none;">Load Sample Data</button>
+                                        <h6 data-i18n-key="helpModalHowToUse">How to use:</h6>                    <ol>
                         <li data-i18n-key="helpModalStep1"><strong>Financial Data:</strong> Fill in your assets (e.g., savings, investments), liabilities (e.g., loans), monthly income, and monthly expenses. For assets and liabilities, you can specify an annual return or interest rate. For income and expenses, you can specify an annual increase.</li>
                         <li data-i18n-key="helpModalStep2"><strong>Savings Allocation:</strong> Define how your surplus savings are allocated to your different asset classes. You can set up different allocation strategies for different periods of your life.</li>
                         <li data-i18n-key="helpModalStep3"><strong>Retirement Planning:</strong> Enter your current age, the legal retirement age, and your estimated net monthly pension from the government.</li>
@@ -180,8 +191,8 @@
                     </ol>
                     <p data-i18n-key="helpModalResultsInfo">The results are displayed in a chart and a table, showing the evolution of your wealth over time.</p>
                     <p data-i18n-key="helpModalButtonsInfo">With the buttons at the top right, you can import or export your data as a JSON file, or clear all fields.</p>
-					<p data-i18n-key="helpModalPrivacy">Privacy first: Your data will never be stored or shared in any way, shape or form.</p>
-					<p data-i18n-key="helpModalSourceCode">Source code availaible at: <a href="https://github.com/skapebolt/SquirrelPlan">https://github.com/skapebolt/SquirrelPlan</a></p>
+                    <p data-i18n-key="helpModalPrivacy">Privacy first: Your data will never be stored or shared in any way, shape or form.</p>
+                    <p data-i18n-key="helpModalSourceCode">Source code availaible at: <a href="https://github.com/skapebolt/SquirrelPlan">https://github.com/skapebolt/SquirrelPlan</a></p>
                 </div>
             </div>
         </div>
