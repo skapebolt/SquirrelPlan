@@ -96,15 +96,15 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label for="current-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="currentAgeTooltip" data-i18n-key="currentAgeLabel">Current Age <i class="bi bi-info-circle"></i></label>
-                                    <input type="text" class="form-control" id="current-age" value="30" aria-label="Current age">
+                                    <input type="text" class="form-control" id="current-age" aria-label="Current age">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="pension-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="legalRetirementAgeTooltip" data-i18n-key="legalRetirementAgeLabel">Legal Retirement Age <i class="bi bi-info-circle"></i></label>
-                                    <input type="text" class="form-control" id="pension-age" value="67" aria-label="Retirement age">
+                                    <input type="text" class="form-control" id="pension-age" aria-label="Retirement age">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="estimated-pension" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="monthlyPensionTooltip" data-i18n-key="monthlyPensionLabel">Monthly Pension (net) <i class="bi bi-info-circle"></i></label>
-                                    <input type="text" class="form-control" id="estimated-pension" value="1500" aria-label="Estimated monthly pension net">
+                                    <input type="text" class="form-control" id="estimated-pension" aria-label="Estimated monthly pension net">
                                 </div>
                             </div>
                         </div>
@@ -113,35 +113,35 @@
                         <div id="section-advanced" class="content-section" style="display: none;">
                             <h3 data-i18n-key="advancedAccordionButton">Advanced</h3>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="inflation" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="inflationTooltip" data-i18n-key="inflationLabel">Inflation (%) <i class="bi bi-info-circle"></i></label>
-                                    <input type="text" class="form-control" id="inflation" value="2.50" aria-label="Inflation in percent">
+                                    <input type="text" class="form-control" id="inflation" aria-label="Inflation in percent">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="withdrawal-rate" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="withdrawalRateTooltip" data-i18n-key="withdrawalRateLabel">Withdrawal Rate (%) <i class="bi bi-info-circle"></i></label>
-                                    <input type="text" class="form-control" id="withdrawal-rate" value="0" aria-label="Withdrawal rate in percent">
+                                    <input type="text" class="form-control" id="withdrawal-rate" aria-label="Withdrawal rate in percent">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="early-retirement-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="earlyRetirementAgeTooltip" data-i18n-key="earlyRetirementAgeLabel">Early Retirement Age <i class="bi bi-info-circle"></i></label>
                                     <input type="text" class="form-control" id="early-retirement-age" aria-label="Early retirement age">
                                 </div>
-                                <div class="col-md-3 d-flex align-items-center mt-3">
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="enable-monte-carlo">
-                                                                        <label class="form-check-label" for="enable-monte-carlo" data-i18n-key="enableMonteCarloLabel" data-bs-toggle="tooltip" data-i18n-title-key="enableMonteCarloTooltip">Enable Monte Carlo Simulation <i class="bi bi-info-circle"></i></label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4 d-flex align-items-center mt-3">
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="auto-save-toggle" checked>
-                                                                        <label class="form-check-label" for="auto-save-toggle" data-i18n-key="autoSaveLabel" data-bs-toggle="tooltip" data-i18n-title-key="autoSaveTooltip">Automatically save data on this device <i class="bi bi-info-circle"></i></label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </section>
-                                                </div>
-                                            </div>            <hr class="my-4">
+                                <div class="col-md-12 d-flex align-items-center mt-3">
+                                    <div class="form-check form-switch">
+										<input class="form-check-input" type="checkbox" id="enable-monte-carlo">
+										<label class="form-check-label" for="enable-monte-carlo" data-i18n-key="enableMonteCarloLabel" data-bs-toggle="tooltip" data-i18n-title-key="enableMonteCarloTooltip">Enable Monte Carlo Simulation <i class="bi bi-info-circle"></i></label>
+                                    </div>
+                                 </div>
+								<div class="col-md-12 d-flex align-items-center mt-3">
+									<div class="form-check form-switch">
+										<input class="form-check-input" type="checkbox" id="auto-save-toggle" checked>
+										<label class="form-check-label" for="auto-save-toggle" data-i18n-key="autoSaveLabel" data-bs-toggle="tooltip" data-i18n-title-key="autoSaveTooltip">Automatically save data on this device <i class="bi bi-info-circle"></i></label>
+									</div>
+								</div>
+							</div>
+                        </div>
+                    </section>
+                </div>
+            </div>            <hr class="my-4">
 
             <section id="results" class="mt-4" style="display: none;" aria-labelledby="results-heading">
                 <h3 id="results-heading" data-i18n-key="resultsTitle">Results</h3>

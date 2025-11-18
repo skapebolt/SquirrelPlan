@@ -389,14 +389,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const endYear = asset.endYear || Infinity;
             return currentYear >= startYear && currentYear <= endYear;
         }).reduce((sum, asset) => sum + asset.value, 0);
-        document.querySelector('#section-assets h3').innerHTML = `${getTranslation('assetsAccordionButton')} - ${assetTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        document.querySelector('#section-assets h3').innerHTML = `${getTranslation('assetsAccordionButton')} - Total ${currentYear}: ${assetTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 
         const liabilityTotal = inputs.liabilities.filter(liability => {
             const startYear = liability.startYear || currentYear;
             const endYear = liability.endYear || Infinity;
             return currentYear >= startYear && currentYear <= endYear;
         }).reduce((sum, liability) => sum + liability.value, 0);
-        document.querySelector('#section-liabilities h3').innerHTML = `${getTranslation('liabilitiesAccordionButton')} - ${liabilityTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        document.querySelector('#section-liabilities h3').innerHTML = `${getTranslation('liabilitiesAccordionButton')} - Total ${currentYear}: ${liabilityTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 
         const incomeTotal = inputs.incomes.filter(income => {
             const startYear = income.startYear || currentYear;
@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const yearlyValue = income.frequency === 'monthly' ? income.value * 12 : income.value;
             return sum + yearlyValue;
         }, 0);
-        document.querySelector('#section-income h3').innerHTML = `${getTranslation('incomeAccordionButton')} - ${incomeTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        document.querySelector('#section-income h3').innerHTML = `${getTranslation('incomeAccordionButton')} - Total ${currentYear}: ${incomeTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 
         const expenseTotal = inputs.expenses.filter(expense => {
             const startYear = expense.startYear || currentYear;
@@ -416,10 +416,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const yearlyValue = expense.frequency === 'monthly' ? expense.value * 12 : expense.value;
             return sum + yearlyValue;
         }, 0);
-        document.querySelector('#section-expenses h3').innerHTML = `${getTranslation('expensesAccordionButton')} - ${expenseTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        document.querySelector('#section-expenses h3').innerHTML = `${getTranslation('expensesAccordionButton')} - Total ${currentYear}: ${expenseTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 
         const savingsTotal = incomeTotal - expenseTotal;
-        document.querySelector('#section-allocation h3').innerHTML = `${getTranslation('savingsAllocationAccordionButton')} - ${savingsTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        document.querySelector('#section-allocation h3').innerHTML = `${getTranslation('savingsAllocationAccordionButton')} - Total ${currentYear}: ${savingsTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
     }
 
     function getUserInputs() {
@@ -894,7 +894,11 @@ document.addEventListener('DOMContentLoaded', function () {
         addAllocationPeriod({ allocation: { [getTranslation('stocks')]: 90, [getTranslation('savingsAccount')]: 10 } });
 		addAllocationPeriod({ startYear: 2035, allocation: { [getTranslation('stocks')]: 80, [getTranslation('bonds')]: 20 }, rebalance: true });
 		addAllocationPeriod({ startYear: 2055, allocation: { [getTranslation('stocks')]: 60, [getTranslation('bonds')]: 40 }, rebalance: true });
-        document.getElementById('withdrawal-rate').value = '0';
+        document.getElementById('current-age').value = '30';
+		document.getElementById('pension-age').value = '65';
+		document.getElementById('estimated-pension').value = '1500';
+		document.getElementById('inflation').value = '2.5';
+		document.getElementById('withdrawal-rate').value = '0';
     }
 
     function clearSimulationResults() {
