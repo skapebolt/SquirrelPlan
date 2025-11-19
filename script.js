@@ -389,14 +389,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const endYear = asset.endYear || Infinity;
             return currentYear >= startYear && currentYear <= endYear;
         }).reduce((sum, asset) => sum + asset.value, 0);
-        document.querySelector('#section-assets h3').innerHTML = `${getTranslation('assetsAccordionButton')} - Total ${currentYear}: ${assetTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        document.querySelector('#section-assets h3').innerHTML = `${getTranslation('assetsAccordionButton')} - ${getTranslation('total')} ${currentYear}: ${assetTotal.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 
         const liabilityTotal = inputs.liabilities.filter(liability => {
             const startYear = liability.startYear || currentYear;
             const endYear = liability.endYear || Infinity;
             return currentYear >= startYear && currentYear <= endYear;
         }).reduce((sum, liability) => sum + liability.value, 0);
-        document.querySelector('#section-liabilities h3').innerHTML = `${getTranslation('liabilitiesAccordionButton')} - Total ${currentYear}: ${liabilityTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        document.querySelector('#section-liabilities h3').innerHTML = `${getTranslation('liabilitiesAccordionButton')} - ${getTranslation('total')} ${currentYear}: ${liabilityTotal.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 
         const incomeTotal = inputs.incomes.filter(income => {
             const startYear = income.startYear || currentYear;
@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const yearlyValue = income.frequency === 'monthly' ? income.value * 12 : income.value;
             return sum + yearlyValue;
         }, 0);
-        document.querySelector('#section-income h3').innerHTML = `${getTranslation('incomeAccordionButton')} - Total ${currentYear}: ${incomeTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        document.querySelector('#section-income h3').innerHTML = `${getTranslation('incomeAccordionButton')} - ${getTranslation('total')} ${currentYear}: ${incomeTotal.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 
         const expenseTotal = inputs.expenses.filter(expense => {
             const startYear = expense.startYear || currentYear;
@@ -416,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const yearlyValue = expense.frequency === 'monthly' ? expense.value * 12 : expense.value;
             return sum + yearlyValue;
         }, 0);
-        document.querySelector('#section-expenses h3').innerHTML = `${getTranslation('expensesAccordionButton')} - Total ${currentYear}: ${expenseTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        document.querySelector('#section-expenses h3').innerHTML = `${getTranslation('expensesAccordionButton')} - ${getTranslation('total')} ${currentYear}: ${expenseTotal.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 
         const savingsTotal = incomeTotal - expenseTotal;
         document.querySelector('#section-allocation h3').innerHTML = `${getTranslation('savingsAllocationAccordionButton')} - Total ${currentYear}: ${savingsTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
@@ -684,25 +684,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return false;
     }
 
-    function shouldLoadDefaultData() {
-        if (forceLoadDefaultData) {
-            return true;
-        }
-        const autoSaveEnabled = document.getElementById('auto-save-toggle').checked;
-        const hasVisited = localStorage.getItem('hasVisited');
-        const savedData = localStorage.getItem('financialData');
 
-        if (!autoSaveEnabled) {
-            return true;
-        }
-        if (!hasVisited) {
-            return true;
-        }
-        if (!savedData) {
-            return true;
-        }
-        return false;
-    }
     
     function exportData() {
         const data = getUserInputs();
@@ -726,6 +708,7 @@ document.addEventListener('DOMContentLoaded', function () {
         reader.onload = function(e) {
             const data = JSON.parse(e.target.result);
             setUserValues(data);
+            runAndRender(false);
             updateSectionTitles();
             event.target.value = '';
         };
@@ -870,35 +853,24 @@ document.addEventListener('DOMContentLoaded', function () {
         allocationPeriodsContainer.innerHTML = '';
     }
 
-    function initDefaultData() {
-        if (!shouldLoadDefaultData()) {
-            return;
-        }
-        incomeCategoriesContainer.innerHTML = '';
-        expenseCategoriesContainer.innerHTML = '';
-        assetCategoriesContainer.innerHTML = '';
-        liabilityCategoriesContainer.innerHTML = '';
-        allocationPeriodsContainer.innerHTML = '';
+    function initDefaultData(stage = 'early-career') {
+        const data = getSampleData(stage);
 
-        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('ownHome'), value: '300000', return: '4', tax: '0', withdrawalOrder: 4 });
-        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('stocks'), value: '25000', return: '8', tax: '0', withdrawalOrder: 1 });
-		addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('bonds'), value: '0', return: '4', tax: '0', withdrawalOrder: 2 });
-        addCategory(assetCategoriesContainer, 'asset', { name: getTranslation('savingsAccount'), value: '25000', return: '1', tax: '0', withdrawalOrder: 3 });
-        addCategory(liabilityCategoriesContainer, 'liability', { name: getTranslation('mortgage'), value: '250000', endYear: '2044', interestRate: '4.0' });
-        addCategory(incomeCategoriesContainer, 'income', { name: getTranslation('salary'), value: '3000', frequency: 'monthly', indexed: true });
-        addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('livingExpenses'), value: '1700', frequency: 'monthly', indexed: true });
-        addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('mortgageRepayment'), value: '1250', frequency: 'monthly', indexed: false, endYear: '2044' });
-		addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('bigexpense1'), value: '500', frequency: 'monthly', indexed: true, startYear: '2045', endYear: '2054' });
-		addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('bigexpense2'), value: '1000', frequency: 'monthly', indexed: true, startYear: '2055', endYear: '2064' });
-		addCategory(expenseCategoriesContainer, 'expense', { name: getTranslation('bigexpense3'), value: '1500', frequency: 'monthly', indexed: true, startYear: '2065' });
-        addAllocationPeriod({ allocation: { [getTranslation('stocks')]: 90, [getTranslation('savingsAccount')]: 10 } });
-		addAllocationPeriod({ startYear: 2035, allocation: { [getTranslation('stocks')]: 80, [getTranslation('bonds')]: 20 }, rebalance: true });
-		addAllocationPeriod({ startYear: 2055, allocation: { [getTranslation('stocks')]: 60, [getTranslation('bonds')]: 40 }, rebalance: true });
-        document.getElementById('current-age').value = '30';
-		document.getElementById('pension-age').value = '65';
-		document.getElementById('estimated-pension').value = '1500';
-		document.getElementById('inflation').value = '2.5';
-		document.getElementById('withdrawal-rate').value = '0';
+        clearAllInputs();
+
+        data.assets.forEach(asset => addCategory(assetCategoriesContainer, 'asset', asset));
+        data.liabilities.forEach(liability => addCategory(liabilityCategoriesContainer, 'liability', liability));
+        data.incomes.forEach(income => addCategory(incomeCategoriesContainer, 'income', income));
+        data.expenses.forEach(expense => addCategory(expenseCategoriesContainer, 'expense', expense));
+        data.allocationPeriods.forEach(period => addAllocationPeriod(period));
+
+        document.getElementById('current-age').value = data.currentAge;
+        document.getElementById('pension-age').value = data.pensionAge;
+        document.getElementById('estimated-pension').value = data.estimatedPension;
+        document.getElementById('inflation').value = data.inflation;
+        document.getElementById('withdrawal-rate').value = data.withdrawalRate;
+        
+        applyNumberFormatting(document.body);
     }
 
     function clearSimulationResults() {
@@ -1085,9 +1057,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (!loadDataFromLocalStorage()) {
-        initDefaultData();
-    }
     initializeTooltips();
     initializeSortable();
     applyNumberFormatting(document.body);
@@ -1139,18 +1108,23 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('enable-monte-carlo').checked = monteCarloEnabled === 'true';
         if (document.getElementById('enable-monte-carlo').checked) {
             document.getElementById('run-monte-carlo-btn').classList.remove('d-none');
+            document.getElementById('run-standard-simulation-btn').classList.remove('d-none');
         } else {
             document.getElementById('run-monte-carlo-btn').classList.add('d-none');
+            document.getElementById('run-standard-simulation-btn').classList.add('d-none');
         }
     }
 
     document.getElementById('enable-monte-carlo').addEventListener('change', (event) => {
         const monteCarloBtn = document.getElementById('run-monte-carlo-btn');
+        const standardSimBtn = document.getElementById('run-standard-simulation-btn');
         if (event.target.checked) {
             monteCarloBtn.classList.remove('d-none');
+            standardSimBtn.classList.remove('d-none');
             localStorage.setItem('monteCarloEnabled', 'true');
         } else {
             monteCarloBtn.classList.add('d-none');
+            standardSimBtn.classList.add('d-none');
             localStorage.setItem('monteCarloEnabled', 'false');
         }
     });
@@ -1164,7 +1138,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('languageChanged', () => {
         clearSimulationResults();
-        initDefaultData();
+        // We don't want to load default data on language change, just translate the existing one
+        const currentData = getUserInputs();
+        setUserValues(currentData);
         initializeTooltips();
         updateSectionTitles();
     });
@@ -1258,20 +1234,33 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('withdrawal-rate').addEventListener('focus', (e) => manageSlider(e.target));
     document.getElementById('early-retirement-age').addEventListener('focus', (e) => manageSlider(e.target));
 
-    // First-time user onboarding
+    // First-time user onboarding & data loading logic
     if (!localStorage.getItem('hasVisited')) {
         const helpModal = new bootstrap.Modal(document.getElementById('help-modal'));
         helpModal.show();
         localStorage.setItem('hasVisited', 'true');
     } else {
-        const loadSampleDataBtn = document.getElementById('load-sample-data-btn');
-        loadSampleDataBtn.style.display = 'block';
-        loadSampleDataBtn.addEventListener('click', () => {
-            forceLoadDefaultData = true;
-            initDefaultData();
+        if (loadDataFromLocalStorage()) {
+            runAndRender(false);
             updateSectionTitles();
-            forceLoadDefaultData = false;
-        });
+        }
     }
+
+    const loadSampleDataBtn = document.getElementById('load-sample-data-btn');
+    const sampleDataModal = new bootstrap.Modal(document.getElementById('sample-data-modal'));
+    loadSampleDataBtn.addEventListener('click', () => {
+        sampleDataModal.show();
+    });
+
+    document.querySelectorAll('#sample-data-modal .list-group-item').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const stage = e.target.dataset.stage;
+            initDefaultData(stage);
+            runAndRender(false);
+            updateSectionTitles();
+            sampleDataModal.hide();
+        });
+    });
+
     updateSectionTitles();
 });

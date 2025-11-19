@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="portrait-mode-overlay">
-        <p id="portrait-mode-message" data-i18n-key="portraitModeMessage">Please turn your device to landscape mode for the best experience.</p>
+        <p id="portrait-mode-message" data-i18n-key="portraitModeMessage"><i class="bi bi-phone-landscape"></i> Please turn your device to landscape mode for the best experience.</p>
     </div>
 
     <div id="app-content">
@@ -176,7 +176,7 @@
                     <p data-i18n-key="helpModalWelcome">Welcome to the Interactive Wealth Planner!</p>
                     <p data-i18n-key="helpModalIntro">This free and open source tool helps you plan and visualize your financial future.</p>
                     					<p data-i18n-key="helpModalSampleData" class="alert alert-info">Sample data is loaded by default to demonstrate the tool's features. You can clear it using the "Clear" button in the top menu.</p>
-                                        <button id="load-sample-data-btn" class="btn btn-primary" data-i18n-key="loadSampleDataButton" style="display: none;">Load Sample Data</button>
+                                        <button id="load-sample-data-btn" class="btn btn-primary" data-i18n-key="loadSampleDataButton">Load Sample Data</button>
                                         <h6 data-i18n-key="helpModalHowToUse">How to use:</h6>                    <ol>
                         <li data-i18n-key="helpModalStep1"><strong>Financial Data:</strong> Fill in your assets (e.g., savings, investments), liabilities (e.g., loans), monthly income, and monthly expenses. For assets and liabilities, you can specify an annual return or interest rate. For income and expenses, you can specify an annual increase.</li>
                         <li data-i18n-key="helpModalStep2"><strong>Savings Allocation:</strong> Define how your surplus savings are allocated to your different asset classes. You can set up different allocation strategies for different periods of your life.</li>
@@ -198,9 +198,32 @@
         </div>
     </div>
 
+    <div id="sample-data-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" data-i18n-key="sampleDataModalTitle">Select a life stage</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="list-group">
+                        <button type="button" class="list-group-item list-group-item-action" data-stage="recent-graduate" data-i18n-key="recentGraduate">Recent Graduate</button>
+                        <button type="button" class="list-group-item list-group-item-action" data-stage="early-career" data-i18n-key="earlyCareer">Early Career</button>
+                        <button type="button" class="list-group-item list-group-item-action" data-stage="mid-career" data-i18n-key="midCareer">Mid Career</button>
+                        <button type="button" class="list-group-item list-group-item-action" data-stage="late-career" data-i18n-key="lateCareer">Late Career</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/bootstrap.bundle.min.js"></script>
     <script src="assets/chart.js"></script>
     <script src="assets/sortable.min.js"></script>
+    <script src="sample-data.js"></script>
     <script src="translator.js"></script>
     <script src="simulation.js"></script>
     <script src="script.js"></script>
