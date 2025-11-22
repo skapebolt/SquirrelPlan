@@ -254,13 +254,21 @@ th {
 }
 
 @media (max-width: 768px) {
+
     #financial-nav .nav-link {
+
         font-size: 0.7rem;
+
         padding: 0.4rem;
+
     }
+
 }
 
-#user-plans-container .list-group-item .dropdown.show {
+
+
+#user-plans-container .list-group-item:hover {
+
     z-index: 3;
-    position: relative;
+
 }

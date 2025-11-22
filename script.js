@@ -571,6 +571,19 @@ window.SquirrelPlanApp = {};
                 assetColors = {};
                 colorIndex = 0;
             }
+
+            let inputs;
+            if (!hasSimulationRanOnce) { 
+                const activePlan = getActivePlan();
+                if (activePlan && activePlan.data) {
+                    inputs = activePlan.data; 
+                } else {
+                    inputs = getUserInputs(); 
+                }
+            } else { 
+                inputs = getUserInputs(); 
+            }
+            
             hasSimulationRanOnce = true;
 
             const errors = validateAllInputs();
@@ -582,7 +595,6 @@ window.SquirrelPlanApp = {};
             document.getElementById('monte-carlo-success-message').style.display = 'none';
             document.querySelector('#results .table-responsive').style.display = 'block';
 
-            const inputs = getUserInputs();
             saveActivePlanData(inputs);
             const { results, earlyRetirementYear, amountPensionMessage } = window.runSimulation(inputs);
             renderTable(results);
