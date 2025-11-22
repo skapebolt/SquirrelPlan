@@ -19,7 +19,7 @@ The application is built with vanilla HTML, CSS, and JavaScript. It leverages th
 # Building and Running
 
 This is a static web project with no build process. To run the application, simply open the `index.html` file in a modern web browser.
-The main branch is live at [squirrelplan.app](squirrelplan.app)
+The main branch is live at [squirrelplan.app](https://squirrelplan.app)
 
 # Development Conventions
 
