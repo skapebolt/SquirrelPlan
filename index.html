@@ -23,11 +23,27 @@
                         <input class="form-check-input" type="checkbox" id="dark-mode-toggle" aria-label="Toggle dark mode">
                         <label class="form-check-label" for="dark-mode-toggle"><span class="text-white" data-i18n-key="darkModeLabel">Dark mode</span></label>
                     </div>
-                    <button class="btn btn-info me-2 d-none d-md-block" id="import-btn" aria-label="Import data" data-i18n-key="importButton">Import</button>
+					
+                    <div id="language-picker-container" class="ms-2"></div>
+					
+                    <button class="btn btn-success ms-2 me-2" id="plans-btn" data-i18n-key="plansButton">Plans</button>
+
+                    <div class="dropdown me-2">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="actions-dropdown" data-bs-toggle="dropdown" aria-expanded="false" data-i18n-key="actionsButton">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="actions-dropdown">
+                            <li><a class="dropdown-item" href="#" id="import-btn-dropdown" data-i18n-key="importButton">Import</a></li>
+                            <li><a class="dropdown-item" href="#" id="export-btn-dropdown" data-i18n-key="exportButton">Export</a></li>
+                            <li><a class="dropdown-item" href="#" id="clear-plan-btn-dropdown" data-i18n-key="clearPlanButton">Clear Plan</a></li>
+                        </ul>
+                    </div>
+                    
                     <input type="file" id="import-file-input" class="d-none" accept=".json">
-                    <button class="btn btn-primary me-2 d-none d-md-block" id="export-btn" aria-label="Export data" data-i18n-key="exportButton">Export</button>
-                    <button class="btn btn-danger me-2" id="clear-btn" data-i18n-key="clearButton">Clear</button>
+
                     <button class="btn btn-info" id="help-btn" aria-label="Help" data-bs-toggle="modal" data-bs-target="#help-modal"><i class="bi bi-question-lg"></i></button>
+
+
                 </div>
             </div>
         </nav>
@@ -47,8 +63,6 @@
                         <a class="nav-link" href="#section-allocation" data-i18n-key="savingsAllocationAccordionButton">Savings Allocation</a>
                         <a class="nav-link" href="#section-retirement" data-i18n-key="retirementPlanningAccordionButton">Retirement Planning</a>
                         <a class="nav-link" href="#section-advanced" data-i18n-key="advancedAccordionButton">Advanced</a>
-                        <button class="btn btn-primary mt-3" id="run-standard-simulation-btn" data-i18n-key="runStandardSimulationButton">Run Standard Simulation</button>
-                        <button class="btn btn-warning mt-3 d-none" id="run-monte-carlo-btn" data-i18n-key="runMonteCarloSimulationButton">Run Monte Carlo Simulation</button>
                     </nav>
                 </div>
 
@@ -125,20 +139,20 @@
                                     <label for="early-retirement-age" class="form-label" data-bs-toggle="tooltip" data-i18n-title-key="earlyRetirementAgeTooltip" data-i18n-key="earlyRetirementAgeLabel">Early Retirement Age <i class="bi bi-info-circle"></i></label>
                                     <input type="text" class="form-control" id="early-retirement-age" aria-label="Early retirement age">
                                 </div>
-                                <div class="col-md-12 d-flex align-items-center mt-3">
-                                    <div class="form-check form-switch">
-										<input class="form-check-input" type="checkbox" id="enable-monte-carlo">
-										<label class="form-check-label" for="enable-monte-carlo" data-i18n-key="enableMonteCarloLabel" data-bs-toggle="tooltip" data-i18n-title-key="enableMonteCarloTooltip">Enable Monte Carlo Simulation <i class="bi bi-info-circle"></i></label>
-                                    </div>
-                                 </div>
 								<div class="col-md-12 d-flex align-items-center mt-3">
 									<div class="form-check form-switch">
-										<input class="form-check-input" type="checkbox" id="auto-save-toggle" checked>
-										<label class="form-check-label" for="auto-save-toggle" data-i18n-key="autoSaveLabel" data-bs-toggle="tooltip" data-i18n-title-key="autoSaveTooltip">Automatically save data on this device <i class="bi bi-info-circle"></i></label>
+										<input class="form-check-input" type="checkbox" id="enable-monte-carlo">
+										<label class="form-check-label" for="enable-monte-carlo" data-i18n-key="enableMonteCarloLabel" data-bs-toggle="tooltip" data-i18n-title-key="enableMonteCarloTooltip">Enable Monte Carlo Simulation <i class="bi bi-info-circle"></i></label>
 									</div>
-								</div>
+								 </div>
 							</div>
-                        </div>
+							<div class="row">
+								<button class="btn btn-primary col-md-2 mt-3 d-none" id="run-standard-simulation-btn" data-i18n-key="runStandardSimulationButton">Run Standard Simulation</button>
+							</div>
+							<div class="row">
+								<button class="btn btn-warning col-md-2 mt-3 d-none" id="run-monte-carlo-btn" data-i18n-key="runMonteCarloSimulationButton">Run Monte Carlo Simulation</button>
+							</div>                        
+						</div>
                     </section>
                 </div>
             </div>            <hr class="my-4">
@@ -175,8 +189,6 @@
                 <div class="modal-body">
                     <p data-i18n-key="helpModalWelcome">Welcome to the Interactive Wealth Planner!</p>
                     <p data-i18n-key="helpModalIntro">This free and open source tool helps you plan and visualize your financial future.</p>
-                    					<p data-i18n-key="helpModalSampleData" class="alert alert-info">Sample data is loaded by default to demonstrate the tool's features. You can clear it using the "Clear" button in the top menu.</p>
-                                        <button id="load-sample-data-btn" class="btn btn-primary" data-i18n-key="loadSampleDataButton">Load Sample Data</button>
                                         <h6 data-i18n-key="helpModalHowToUse">How to use:</h6>                    <ol>
                         <li data-i18n-key="helpModalStep1"><strong>Financial Data:</strong> Fill in your assets (e.g., savings, investments), liabilities (e.g., loans), monthly income, and monthly expenses. For assets and liabilities, you can specify an annual return or interest rate. For income and expenses, you can specify an annual increase.</li>
                         <li data-i18n-key="helpModalStep2"><strong>Savings Allocation:</strong> Define how your surplus savings are allocated to your different asset classes. You can set up different allocation strategies for different periods of your life.</li>
@@ -198,23 +210,27 @@
         </div>
     </div>
 
-    <div id="sample-data-modal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+    <!-- Onboarding Modals -->
+
+    <div id="plans-modal" class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" data-i18n-key="sampleDataModalTitle">Select a life stage</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" data-i18n-key="plansModalTitle">Choose a Plan</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="list-group">
-                        <button type="button" class="list-group-item list-group-item-action" data-stage="recent-graduate" data-i18n-key="recentGraduate">Recent Graduate</button>
-                        <button type="button" class="list-group-item list-group-item-action" data-stage="early-career" data-i18n-key="earlyCareer">Early Career</button>
-                        <button type="button" class="list-group-item list-group-item-action" data-stage="mid-career" data-i18n-key="midCareer">Mid Career</button>
-                        <button type="button" class="list-group-item list-group-item-action" data-stage="late-career" data-i18n-key="lateCareer">Late Career</button>
+                    <h6 data-i18n-key="presetPlansTitle">Preset Plans</h6>
+                    <div id="preset-plans-container" class="list-group">
+                        <!-- Preset plans will be injected here by script.js -->
+                    </div>
+                    
+                    <h6 class="mt-4" data-i18n-key="userPlansTitle">Your Plans</h6>
+                    <div id="user-plans-container" class="list-group">
+                        <p class="text-muted" data-i18n-key="noUserPlans">You haven't created any plans yet.</p>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -224,9 +240,9 @@
     <script src="assets/chart.js"></script>
     <script src="assets/sortable.min.js"></script>
     <script src="sample-data.js"></script>
-    <script src="translator.js"></script>
     <script src="simulation.js"></script>
     <script src="script.js"></script>
+	<script src="translator.js"></script>
 
 </body>
 </html>

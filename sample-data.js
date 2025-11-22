@@ -12,12 +12,12 @@ function getSampleData(stage) {
             { name: getTranslation('livingExpenses'), value: '2000', frequency: 'monthly', indexed: true }
         ],
         allocationPeriods: [
-            { allocation: { [getTranslation('stocks')]: 100 } }
+            { allocation: { [getTranslation('stocks')]: 1.00 } }
         ],
         currentAge: '22',
         pensionAge: '65',
         estimatedPension: '1200',
-        inflation: '2.5',
+        inflation: '0.025',
         withdrawalRate: '0'
     };
 
@@ -35,13 +35,13 @@ function getSampleData(stage) {
             { name: getTranslation('livingExpenses'), value: '2500', frequency: 'monthly', indexed: true }
         ],
         allocationPeriods: [
-            { allocation: { [getTranslation('stocks')]: 90, [getTranslation('savingsAccount')]: 10 } },
-            { startYear: 2035, allocation: { [getTranslation('stocks')]: 80, [getTranslation('bonds')]: 20 }, rebalance: true }
+            { allocation: { [getTranslation('stocks')]: 0.90, [getTranslation('savingsAccount')]: 0.10 } },
+            { startYear: 2035, allocation: { [getTranslation('stocks')]: 0.80, [getTranslation('bonds')]: 0.20 }, rebalance: true }
         ],
         currentAge: '30',
         pensionAge: '65',
         estimatedPension: '1500',
-        inflation: '2.5',
+        inflation: '0.025',
         withdrawalRate: '0'
     };
 
@@ -63,13 +63,13 @@ function getSampleData(stage) {
             { name: getTranslation('mortgageRepayment'), value: '1500', frequency: 'monthly', indexed: false, endYear: '2044' }
         ],
         allocationPeriods: [
-            { allocation: { [getTranslation('stocks')]: 70, [getTranslation('bonds')]: 30 }, rebalance: true },
-            { startYear: 2045, allocation: { [getTranslation('stocks')]: 60, [getTranslation('bonds')]: 40 }, rebalance: true }
+            { allocation: { [getTranslation('stocks')]: 0.70, [getTranslation('bonds')]: 0.30 }, rebalance: true },
+            { startYear: 2045, allocation: { [getTranslation('stocks')]: 0.60, [getTranslation('bonds')]: 0.40 }, rebalance: true }
         ],
         currentAge: '45',
         pensionAge: '65',
         estimatedPension: '2000',
-        inflation: '2.5',
+        inflation: '0.025',
         withdrawalRate: '0'
     };
 
@@ -88,12 +88,12 @@ function getSampleData(stage) {
             { name: getTranslation('livingExpenses'), value: '3500', frequency: 'monthly', indexed: true }
         ],
         allocationPeriods: [
-            { allocation: { [getTranslation('stocks')]: 50, [getTranslation('bonds')]: 50 }, rebalance: true }
+            { allocation: { [getTranslation('stocks')]: 0.50, [getTranslation('bonds')]: 0.50 }, rebalance: true }
         ],
         currentAge: '55',
         pensionAge: '65',
         estimatedPension: '2500',
-        inflation: '2.5',
+        inflation: '0.025',
         withdrawalRate: '0'
     };
 

@@ -206,11 +206,10 @@ function runSimulation(inputs, isMonteCarlo = false) {
             }
 
             const withdrawalAmount = initialPensionWithdrawal;
-            let amountToWithdrawFromAssets = withdrawalAmount;
+            const deficit = savingsCapacity < 0 ? -savingsCapacity : 0;
+            let amountToWithdrawFromAssets = Math.max(withdrawalAmount, deficit);
 
-            if (savingsCapacity < 0) {
-                amountToWithdrawFromAssets += -savingsCapacity; // Cover deficit
-            } else if (savingsCapacity > 0) {
+            if (savingsCapacity > 0) {
                 // Surplus from pension, invest it
                 let savings = savingsCapacity;
                 const expenseBuffer = totalAnnualExpenses / 2;

@@ -259,3 +259,8 @@ th {
         padding: 0.4rem;
     }
 }
+
+#user-plans-container .list-group-item .dropdown.show {
+    z-index: 3;
+    position: relative;
+}

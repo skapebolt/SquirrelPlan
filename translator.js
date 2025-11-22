@@ -32,7 +32,7 @@ const ALL_TRANSLATIONS = {
         "advancedAccordionButton": "Fortgeschritten",
         "earlyRetirementAgeLabel": "Frührentenalter",
         "enableMonteCarloLabel": "Monte-Carlo-Simulation aktivieren",
-        "monteCarloSuccessRateMessage": "Das aktuelle Szenario hat eine Erfolgsquote von {successRate}%.",
+        "monteCarloSuccessRateMessage": "Das aktuelle Szenario hat eine Erfolgsquote von <strong>{successRate}%</strong>.",
         "helpModalWelcome": "Willkommen bei SquirrelPlan!",
         "helpModalSampleData": "Klicken Sie auf die Schaltfläche unten, um mit dem Laden einiger Beispieldaten zu beginnen.",
         "helpModalIntro": "Dieses kostenlose und quelloffene Tool hilft Ihnen bei der Planung und Visualisierung Ihrer finanziellen Zukunft.",
@@ -41,7 +41,7 @@ const ALL_TRANSLATIONS = {
         "helpModalStep2": "<strong>Sparzuweisung:</strong> Legen Sie fest, wie Ihre überschüssigen Ersparnisse auf Ihre verschiedenen Anlageklassen verteilt werden. Sie können unterschiedliche Zuweisungsstrategien für verschiedene Lebensabschnitte einrichten.",
         "helpModalStep3": "<strong>Ruhestandsplanung:</strong> Geben Sie Ihr aktuelles Alter, das gesetzliche Rentenalter und Ihre geschätzte monatliche Nettorente vom Staat ein.",
         "helpModalStep4": "<strong>Erweiterte Einstellungen:</strong> Passen Sie die Simulation mit Parametern wie der erwarteten jährlichen Inflationsrate an. Sie können auch ein gewünschtes Frührentenalter und eine Entnahmerate für Ihre Investitionen im Ruhestand festlegen.",
-        "helpModalStep5": "<strong>Simulation durchführen:</strong><ul><li><strong>Standard-Simulation:</strong> Führt eine einzelne Projektion basierend auf den von Ihnen angegebenen genauen Werten aus.</li><li><strong>Monte-Carlo-Simulation:</strong> Aktivieren Sie diese im Abschnitt „Erweitert“, um Hunderte von Simulationen mit zufälligen jährlichen Renditen für Ihre Vermögenswerte durchzuführen. Dies hilft, die Wahrscheinlichkeit zu bewerten, mit der Sie Ihre finanziellen Ziele erreichen.</li></ul>",
+        "helpModalStep5": "<strong>Simulation durchführen:</strong><ul><li><strong>Standard-Simulation:</strong> Führt eine einzelne Projektion basierend auf den von Ihnen angegebenen genauen Werten aus.</li><li><strong>Monte-Carlo-Simulation:</strong> Aktivieren Sie diese im Abschnitt \"Erweitert\", um Hunderte von Simulationen mit zufälligen jährlichen Renditen für Ihre Vermögenswerte durchzuführen. Dies hilft, die Wahrscheinlichkeit zu bewerten, mit der Sie Ihre finanziellen Ziele erreichen.</li></ul>",
         "helpModalResultsInfo": "Die Ergebnisse werden in einem Diagramm und einer Tabelle angezeigt und zeigen die Entwicklung Ihres Vermögens im Laufe der Zeit.",
         "helpModalButtonsInfo": "Mit den Schaltflächen oben rechts können Sie Ihre Daten als JSON-Datei importieren oder exportieren oder alle Felder leeren.",
         "helpModalPrivacy": "Datenschutz zuerst: Wir werden Ihre Daten niemals in irgendeiner Form speichern oder weitergeben.",
@@ -135,7 +135,34 @@ const ALL_TRANSLATIONS = {
         "recentGraduate": "Kürzlich graduiert",
         "earlyCareer": "Frühe Karriere",
         "midCareer": "Mitte der Karriere",
-        "lateCareer": "Späte Karriere"
+        "lateCareer": "Späte Karriere",
+        "onboardingWelcomeTitle": "Willkommen bei SquirrelPlan!",
+        "onboardingIntro": "Entdecken Sie, wie kleine Änderungen heute zu erheblichem Vermögenswachstum im Laufe der Zeit führen können. Dieses Tool hilft Ihnen, Ihr Vermögen in die Zukunft zu projizieren. Passen Sie Ihre monatlichen Ersparnisse an, um zu sehen, wie sich dies auf Ihre 30-Jahres-Projektion auswirkt.",
+        "onboardingSliderLabel": "Monatliche Ersparnisse",
+        "onboardingStartBlank": "Mit einem leeren Plan beginnen",
+        "onboardingNext": "Nächste",
+        "onboardingNextButtonExplanation": "Klicken Sie auf 'Weiter', um loszulegen: Sie werden gebeten, zwischen einem voreingestellten Plan und einem leeren Plan zu wählen.",
+        "newBlankPlanButton": "Neuer leerer Plan",
+        "plansModalTitle": "Wählen Sie einen Plan",
+        "presetPlansTitle": "Voreingestellte Pläne",
+        "userPlansTitle": "Ihre Pläne",
+        "noUserPlans": "Sie haben noch keine Pläne erstellt.",
+        "onboardingPrevious": "Bisherige",
+        "projectedWealthLabel": "Projiziertes Vermögen",
+        "plansButton": "Pläne",
+        "actionsButton": "Aktionen",
+        "clearPlanButton": "Plan löschen",
+        "renamePlanButton": "Umbenennen",
+        "duplicatePlanButton": "Duplizieren",
+        "deletePlanButton": "Löschen",
+        "assetDeletionWarning": "Warnung: Sie haben ein Asset ('{assetName}') gelöscht, das Teil Ihrer Sparzuweisung war. Bitte überprüfen Sie Ihre Zuweisung.",
+        "enterNewPlanNamePrompt": "Geben Sie einen neuen Namen für den Plan ein:",
+        "deletePlanConfirmation": "Sind Sie sicher, dass Sie den Plan '{planName}' löschen möchten?",
+        "copyOf": "Kopie von ",
+        "newPlanName": "Neuer Plan",
+        "planNameExistsError": "Ein Plan mit diesem Namen existiert bereits.",
+        "cannotDeleteLastPlanError": "Sie können den letzten Plan nicht löschen.",
+        "savePresetAsNewPlanPrompt": "Sie haben eine Voreinstellung bearbeitet. Möchten Sie Ihre Änderungen als neuen Plan speichern? Bitte geben Sie einen Namen für den neuen Plan ein."
     },
     "en": {
         "pageTitle": "SquirrelPlan",
@@ -170,7 +197,7 @@ const ALL_TRANSLATIONS = {
         "advancedAccordionButton": "Advanced",
         "earlyRetirementAgeLabel": "Early Retirement Age",
         "enableMonteCarloLabel": "Enable Monte Carlo Simulation",
-        "monteCarloSuccessRateMessage": "The current scenario has a success rate of {successRate}%.",
+        "monteCarloSuccessRateMessage": "The current scenario has a success rate of <strong>{successRate}%</strong>.",
         "helpModalWelcome": "Welcome to SquirrelPlan!",
         "helpModalSampleData": "Click the button below to get you started by loading some sample data.",
         "helpModalIntro": "This free and open source tool helps you plan and visualize your financial future.",
@@ -273,7 +300,34 @@ const ALL_TRANSLATIONS = {
         "recentGraduate": "Recent Graduate",
         "earlyCareer": "Early Career",
         "midCareer": "Mid Career",
-        "lateCareer": "Late Career"
+        "lateCareer": "Late Career",
+        "plansButton": "Plans",
+        "actionsButton": "Actions",
+        "clearPlanButton": "Clear Plan",
+        "renamePlanButton": "Rename",
+        "duplicatePlanButton": "Duplicate",
+        "deletePlanButton": "Delete",
+        "onboardingWelcomeTitle": "Welcome to SquirrelPlan!",
+        "onboardingIntro": "Discover how small changes today can lead to significant wealth growth over time. This tool helps you project your wealth into the future. Adjust your monthly savings to see how it impacts your 30-year projection.",
+        "onboardingSliderLabel": "Monthly Savings",
+        "onboardingStartBlank": "Start with a Blank Plan",
+        "onboardingNext": "Next",
+        "onboardingNextButtonExplanation": "Click 'Next' to get started: you will be asked to choose between a preset plan or a blank one.",
+        "newBlankPlanButton": "New Blank Plan",
+        "plansModalTitle": "Choose a Plan",
+        "presetPlansTitle": "Preset Plans",
+        "userPlansTitle": "Your Plans",
+        "noUserPlans": "You haven't created any plans yet.",
+        "onboardingPrevious": "Previous",
+        "projectedWealthLabel": "Projected Wealth",
+        "assetDeletionWarning": "Warning: You deleted an asset ('{assetName}') that was part of your savings allocation. Please review your allocation.",
+        "enterNewPlanNamePrompt": "Enter a new name for the plan:",
+        "deletePlanConfirmation": "Are you sure you want to delete the plan '{planName}'?",
+        "copyOf": "Copy of ",
+        "newPlanName": "New Plan",
+        "planNameExistsError": "A plan with this name already exists.",
+        "cannotDeleteLastPlanError": "You cannot delete the last plan.",
+        "savePresetAsNewPlanPrompt": "You've edited a preset. Would you like to save your changes as a new plan? Please enter a name for the new plan."
     },
     "es": {
         "pageTitle": "SquirrelPlan",
@@ -308,7 +362,7 @@ const ALL_TRANSLATIONS = {
         "advancedAccordionButton": "Avanzado",
         "earlyRetirementAgeLabel": "Edad de Jubilación Temprana",
         "enableMonteCarloLabel": "Habilitar Simulación Monte Carlo",
-        "monteCarloSuccessRateMessage": "El escenario actual tiene una tasa de éxito de {successRate}%.",
+        "monteCarloSuccessRateMessage": "El escenario actual tiene una tasa de éxito de <strong>{successRate}%</strong>.",
         "helpModalWelcome": "¡Bienvenido a SquirrelPlan!",
         "helpModalSampleData": "Haga clic en el botón de abajo para empezar cargando algunos datos de ejemplo.",
         "helpModalIntro": "Esta herramienta gratuita y de código abierto le ayuda a planificar y visualizar su futuro financiero.",
@@ -411,7 +465,34 @@ const ALL_TRANSLATIONS = {
         "recentGraduate": "Recién graduado",
         "earlyCareer": "Carrera temprana",
         "midCareer": "Mitad de carrera",
-        "lateCareer": "Carrera tardía"
+        "lateCareer": "Carrera tardía",
+        "plansButton": "Planes",
+        "actionsButton": "Acciones",
+        "clearPlanButton": "Limpiar plan",
+        "renamePlanButton": "Renombrar",
+        "duplicatePlanButton": "Duplicar",
+        "deletePlanButton": "Eliminar",
+        "onboardingWelcomeTitle": "¡Bienvenido a SquirrelPlan!",
+        "onboardingIntro": "Descubra cómo pequeños cambios hoy pueden conducir a un importante crecimiento de la riqueza con el tiempo. Esta herramienta le ayuda a proyectar su patrimonio en el futuro. Ajuste sus ahorros mensuales para ver cómo afecta su proyección a 30 años.",
+        "onboardingSliderLabel": "Ahorros mensuales",
+        "onboardingStartBlank": "Comenzar con un plan en blanco",
+        "onboardingNext": "Siguiente",
+        "onboardingNextButtonExplanation": "Haga clic en 'Siguiente' para comenzar: se le pedirá que elija entre un plan preestablecido o uno en blanco.",
+        "newBlankPlanButton": "Nuevo plan en blanco",
+        "plansModalTitle": "Elige un plan",
+        "presetPlansTitle": "Planes preestablecidos",
+        "userPlansTitle": "Tus planes",
+        "noUserPlans": "Aún no has creado ningún plan.",
+        "onboardingPrevious": "Anterior",
+        "projectedWealthLabel": "Riqueza proyectada",
+        "assetDeletionWarning": "Advertencia: Ha eliminado un activo ('{assetName}') que formaba parte de su asignación de ahorros. Revise su asignación.",
+		"enterNewPlanNamePrompt": "Introduzca un nuevo nombre para el plan:",
+		"deletePlanConfirmation": "¿Está seguro de que desea eliminar el plan '{planName}'?",
+		"copyOf": "Copia de ",
+		"newPlanName": "Nuevo plan",
+		"planNameExistsError": "Ya existe un plan con este nombre.",
+		"cannotDeleteLastPlanError": "No puede eliminar el último plan.",
+		"savePresetAsNewPlanPrompt": "Ha editado un preajuste. ¿Desea guardar los cambios como un nuevo plan? Introduzca un nombre para el nuevo plan."
     },
     "fr": {
         "pageTitle": "SquirrelPlan",
@@ -446,7 +527,7 @@ const ALL_TRANSLATIONS = {
         "advancedAccordionButton": "Avancé",
         "earlyRetirementAgeLabel": "Âge de la retraite anticipée",
         "enableMonteCarloLabel": "Activer la simulation Monte Carlo",
-        "monteCarloSuccessRateMessage": "Le scénario actuel a un taux de réussite de {successRate}%.",
+        "monteCarloSuccessRateMessage": "Le scénario actuel a un taux de réussite de <strong>{successRate}%</strong>.",
         "helpModalWelcome": "Bienvenue sur SquirrelPlan!",
         "helpModalSampleData": "Cliquez sur le bouton ci-dessous pour commencer par charger des exemples de données.",
         "helpModalIntro": "Cet outil gratuit et open source vous aide à planifier et à visualiser votre avenir financier.",
@@ -549,7 +630,34 @@ const ALL_TRANSLATIONS = {
         "recentGraduate": "Jeune diplômé",
         "earlyCareer": "Début de carrière",
         "midCareer": "Milieu de carrière",
-        "lateCareer": "Fin de carrière"
+        "lateCareer": "Fin de carrière",
+        "plansButton": "Plans",
+        "actionsButton": "Actions",
+        "clearPlanButton": "Effacer le plan",
+        "renamePlanButton": "Renommer",
+        "duplicatePlanButton": "Dupliquer",
+        "deletePlanButton": "Supprimer",
+        "onboardingWelcomeTitle": "Bienvenue sur SquirrelPlan!",
+        "onboardingIntro": "Découvrez comment de petits changements aujourd'hui peuvent entraîner une croissance significative de votre patrimoine au fil du temps. Cet outil vous aide à projeter votre patrimoine dans le futur. Ajustez votre épargne mensuelle pour voir son impact sur votre projection à 30 ans.",
+        "onboardingSliderLabel": "Épargne mensuelle",
+        "onboardingStartBlank": "Commencer avec un plan vierge",
+        "onboardingNext": "Suivant",
+        "onboardingNextButtonExplanation": "Cliquez sur 'Suivant' pour commencer : il vous sera demandé de choisir entre un plan prédéfini ou un plan vierge.",
+        "newBlankPlanButton": "Nouveau plan vierge",
+        "plansModalTitle": "Choisissez un plan",
+        "presetPlansTitle": "Plans prédéfinis",
+        "userPlansTitle": "Vos plans",
+        "noUserPlans": "Vous n'avez pas encore créé de plans.",
+        "onboardingPrevious": "Précédent",
+        "projectedWealthLabel": "Richesse projetée",
+        "assetDeletionWarning": "Avertissement : Vous avez supprimé un actif ('{assetName}') qui faisait partie de votre allocation d'épargne. Veuillez revoir votre allocation.",
+        "enterNewPlanNamePrompt": "Saisissez un nouveau nom pour le plan :",
+        "deletePlanConfirmation": "Êtes-vous sûr de vouloir supprimer le plan '{planName}' ?",
+        "copyOf": "Copie de ",
+        "newPlanName": "Nouveau plan",
+        "planNameExistsError": "Un plan avec ce nom existe déjà.",
+        "cannotDeleteLastPlanError": "Vous ne pouvez pas supprimer le dernier plan.",
+        "savePresetAsNewPlanPrompt": "Vous avez modifié un préréglage. Souhaitez-vous enregistrer vos modifications en tant que nouveau plan ? Veuillez saisir un nom pour le nouveau plan."
     },
     "it": {
         "pageTitle": "SquirrelPlan",
@@ -584,7 +692,7 @@ const ALL_TRANSLATIONS = {
         "advancedAccordionButton": "Avanzate",
         "earlyRetirementAgeLabel": "Età di pensionamento anticipato",
         "enableMonteCarloLabel": "Abilita Simulazione Monte Carlo",
-        "monteCarloSuccessRateMessage": "Lo scenario attuale ha un tasso di successo del {successRate}%.",
+        "monteCarloSuccessRateMessage": "Lo scenario attuale ha un tasso di successo del <strong>{successRate}%</strong>.",
         "helpModalWelcome": "Benvenuti in SquirrelPlan!",
         "helpModalSampleData": "Fai clic sul pulsante qui sotto per iniziare caricando alcuni dati di esempio.",
         "helpModalIntro": "Questo strumento gratuito e open source ti aiuta a pianificare e visualizzare il tuo futuro finanziario.",
@@ -652,25 +760,25 @@ const ALL_TRANSLATIONS = {
         "assetValueTooltip": "Il valore corrente nella tua valuta.",
         "assetReturnTooltip": "Il rendimento annuo previsto di questa attività, al netto dei costi.",
         "assetTaxTooltip": "L\'imposta annuale sul rendimento o sulla plusvalenza.",
-        "assetStartYearTooltip": "L\'anno in cui questa categoria diventa attiva.",
+        "assetStartYearTooltip": "L\'anno in cui questa categoria diventa activa.",
         "assetEndYearTooltip": "L\'anno in cui questa categoria si ferma. Lasciare vuoto se non applicabile.",
         "assetWithdrawalOrderTooltip": "L\'ordine di prelievo in caso di disavanzo o dopo il pensionamento (1 = primo, 99 = ultimo).",
         "liabilityNameTooltip": "Un nome univoco per questa categoria.",
         "liabilityValueTooltip": "Il valore corrente nella tua valuta.",
-        "liabilityStartYearTooltip": "L\'anno in cui questa categoria diventa attiva.",
+        "liabilityStartYearTooltip": "L\'anno in cui questa categoria diventa activa.",
         "liabilityEndYearTooltip": "L\'anno in cui questa categoria si ferma. Lasciare vuoto se non applicabile.",
         "liabilityInterestRateTooltip": "Il tasso di interesse annuale del prestito. Se vuoto, la passività diminuirà linearmente.",
         "incomeNameTooltip": "Un nome univoco per questa categoria.",
         "incomeValueTooltip": "Il valore corrente nella tua valuta.",
         "incomeFrequencyTooltip": "Con quale frequenza si verifica questo reddito.",
         "incomeIndexedTooltip": "Controlla se questo importo dovrebbe aumentare annualmente con l\'inflazione.",
-        "incomeStartYearTooltip": "L\'anno in cui questa categoria diventa attiva.",
+        "incomeStartYearTooltip": "L\'anno in cui questa categoria diventa activa.",
         "incomeEndYearTooltip": "L\'anno in cui questa categoria si ferma. Lasciare vuoto se non applicabile.",
         "expenseNameTooltip": "Un nome univoco per questa categoria.",
         "expenseValueTooltip": "Il valore corrente nella tua valuta.",
         "expenseFrequencyTooltip": "Con quale frequenza si verifica questa spesa.",
         "expenseIndexedTooltip": "Controlla se questo importo dovrebbe aumentare annualmente con l\'inflazione.",
-        "expenseStartYearTooltip": "L\'anno in cui questa categoria diventa attiva.",
+        "expenseStartYearTooltip": "L\'anno in cui questa categoria diventa activa.",
         "expenseEndYearTooltip": "L\'anno in cui questa categoria si ferma. Lasciare vuoto se non applicabile.",
         "languageAlreadySelected": "Questa lingua è già selezionata.",
         "notificationTitle": "Notifica",
@@ -687,7 +795,34 @@ const ALL_TRANSLATIONS = {
         "recentGraduate": "Neolaureato",
         "earlyCareer": "Inizio carriera",
         "midCareer": "Metà carriera",
-        "lateCareer": "Fine carriera"
+        "lateCareer": "Fine carriera",
+        "plansButton": "Piani",
+        "actionsButton": "Azioni",
+        "clearPlanButton": "Cancella piano",
+        "renamePlanButton": "Rinomina",
+        "duplicatePlanButton": "Duplica",
+        "deletePlanButton": "Elimina",
+        "onboardingWelcomeTitle": "Benvenuti in SquirrelPlan!",
+        "onboardingIntro": "Scopri come piccoli cambiamenti oggi possono portare a una significativa crescita del patrimonio nel tempo. Questo strumento ti aiuta a proiettare la tua ricchezza nel futuro. Regola i tuoi risparmi mensili per vedere come influisce sulla tua proiezione a 30 anni.",
+        "onboardingSliderLabel": "Risparmio mensile",
+        "onboardingStartBlank": "Inizia con un piano vuoto",
+        "onboardingNext": "Seguente",
+        "onboardingNextButtonExplanation": "Fai clic su 'Avanti' per iniziare: ti verrà chiesto di scegliere tra un piano preimpostato o uno vuoto.",
+        "newBlankPlanButton": "Nuovo piano vuoto",
+        "plansModalTitle": "Scegli un piano",
+        "presetPlansTitle": "Piani preimpostati",
+        "userPlansTitle": "I tuoi piani",
+        "noUserPlans": "Non hai ancora creato alcun piano.",
+        "onboardingPrevious": "Precedente",
+        "projectedWealthLabel": "Ricchezza prevista",
+        "assetDeletionWarning": "Attenzione: hai eliminato un asset ('{assetName}') che faceva parte della tua allocazione di risparmio. Rivedi la tua allocazione.",
+        "enterNewPlanNamePrompt": "Inserisci un nuovo nome per il piano:",
+        "deletePlanConfirmation": "Sei sicuro di voler eliminare il piano '{planName}'?",
+        "copyOf": "Copia di ",
+        "newPlanName": "Nuovo piano",
+        "planNameExistsError": "Esiste già un piano con questo nome.",
+        "cannotDeleteLastPlanError": "Non è possibile eliminare l'ultimo piano.",
+        "savePresetAsNewPlanPrompt": "Hai modificato un predefinito. Vuoi salvare le modifiche come nuovo piano? Inserisci un nome per il nuovo piano."
     },
     "nl": {
         "pageTitle": "SquirrelPlan",
@@ -722,7 +857,7 @@ const ALL_TRANSLATIONS = {
         "advancedAccordionButton": "Geavanceerd",
         "earlyRetirementAgeLabel": "Vervroegde pensioenleeftijd",
         "enableMonteCarloLabel": "Monte Carlo Simulatie inschakelen",
-        "monteCarloSuccessRateMessage": "Het huidige scenario heeft een slaagkans van {successRate}%.",
+        "monteCarloSuccessRateMessage": "Het huidige scenario heeft een slaagkans van <strong>{successRate}%</strong>.",
         "helpModalWelcome": "Welkom bij SquirrelPlan!",
         "helpModalSampleData": "Klik op de onderstaande knop om aan de slag te gaan door enkele voorbeeldgegevens te laden.",
         "helpModalIntro": "Deze gratis en open source tool helpt u uw financiële toekomst te plannen en te visualiseren.",
@@ -822,10 +957,37 @@ const ALL_TRANSLATIONS = {
         "loadSampleDataButton": "Voorbeeldgegevens laden",
         "total": "Totaal",
         "sampleDataModalTitle": "Selecteer een levensfase",
+        "plansButton": "Plannen",
+        "actionsButton": "Acties",
+        "clearPlanButton": "Plan wissen",
+        "renamePlanButton": "Hernoemen",
+        "duplicatePlanButton": "Dupliceren",
+        "deletePlanButton": "Verwijderen",
+        "onboardingWelcomeTitle": "Welkom bij SquirrelPlan!",
+        "onboardingIntro": "Ontdek hoe kleine veranderingen vandaag kunnen leiden tot aanzienlijke vermogensgroei in de loop van de tijd. Deze tool helpt u uw vermogen in de toekomst te projecteren. Pas uw maandelijkse besparingen aan om te zien hoe dit uw 30-jarenprojectie beïnvloedt.",
+        "onboardingSliderLabel": "Maandelijkse besparingen",
+        "onboardingStartBlank": "Begin met een leeg plan",
+        "onboardingNext": "Volgende",
+        "onboardingNextButtonExplanation": "Klik op 'Volgende' om te beginnen: u wordt gevraagd te kiezen tussen een vooraf ingesteld plan of een leeg plan.",
+        "plansModalTitle": "Kies een plan",
+        "presetPlansTitle": "Vooraf ingestelde plannen",
+        "userPlansTitle": "Uw plannen",
+        "onboardingPrevious": "Vorige",
+        "projectedWealthLabel": "Geprojecteerd vermogen",
+        "assetDeletionWarning": "Waarschuwing: U hebt een activum ('{assetName}') verwijderd dat deel uitmaakte van uw spaartoewijzing. Controleer uw toewijzing.",
+        "enterNewPlanNamePrompt": "Voer een nieuwe naam in voor het plan:",
+        "deletePlanConfirmation": "Weet u zeker dat u het plan '{planName}' wilt verwijderen?",
+        "copyOf": "Kopie van ",
+        "newPlanName": "Nieuw plan",
+        "planNameExistsError": "Er bestaat al een plan met deze naam.",
+        "cannotDeleteLastPlanError": "U kunt het laatste plan niet verwijderen.",
+        "savePresetAsNewPlanPrompt": "U heeft een voorinstelling bewerkt. Wilt u uw wijzigingen opslaan als een nieuw plan? Voer een naam in voor het nieuwe plan.",
         "recentGraduate": "Recent afgestudeerd",
         "earlyCareer": "Vroege carrière",
         "midCareer": "Midden carrière",
-        "lateCareer": "Late carrière"
+        "lateCareer": "Late carrière",
+        "noUserPlans": "U heeft nog geen plannen gemaakt.",
+        "newBlankPlanButton": "Nieuw leeg plan"
     },
     "pt": {
         "pageTitle": "SquirrelPlan",
@@ -860,7 +1022,7 @@ const ALL_TRANSLATIONS = {
         "advancedAccordionButton": "Avançado",
         "earlyRetirementAgeLabel": "Idade de aposentadoria antecipada",
         "enableMonteCarloLabel": "Ativar Simulação Monte Carlo",
-        "monteCarloSuccessRateMessage": "O cenário atual tem uma taxa de sucesso de {successRate}%.",
+        "monteCarloSuccessRateMessage": "O cenário atual tem uma taxa de sucesso de <strong>{successRate}%</strong>.",
         "helpModalWelcome": "Bem-vindo ao SquirrelPlan!",
         "helpModalSampleData": "Clique no botão abaixo para começar carregando alguns dados de exemplo.",
         "helpModalIntro": "Esta ferramenta gratuita e de código aberto ajuda você a planejar e visualizar seu futuro financeiro.",
@@ -869,7 +1031,7 @@ const ALL_TRANSLATIONS = {
         "helpModalStep2": "<strong>Alocação de Poupança:</strong> Defina como as suas poupanças excedentes são alocadas às suas diferentes classes de ativos. Pode configurar diferentes estratégias de alocação para diferentes períodos da sua vida.",
         "helpModalStep3": "<strong>Planeamento de Reforma:</strong> Introduza a sua idade atual, a idade legal de reforma e a sua pensão mensal líquida estimada do governo.",
         "helpModalStep4": "<strong>Definições Avançadas:</strong> Afine a simulação com parâmetros como a taxa de inflação anual esperada. Pode também definir uma idade de reforma antecipada desejada e uma taxa de levantamento para os seus investimentos durante a reforma.",
-        "helpModalStep5": "<strong>Executar Simulação:</strong><ul><li><strong>Simulação Padrão:</strong> Executa uma única projeção com base nos valores exatos que forneceu.</li><li><strong>Simulação Monte Carlo:</strong> Ative esta opção na secção \"Avançado\" para executar centenas de simulações com retornos anuais aleatórios para os seus ativos. Isto ajuda a avaliar a probabilidade de atingir os seus objetivos financeiros.</li></ul>",
+        "helpModalStep5": "<strong>Executar Simulação:</strong><ul><li><strong>Simulação Padrão:</strong> Executa uma única projeção com base nos valores exatos que forneceu.</li><li><strong>Simulação Monte Carlo:</strong> Ative esta opção na secção \"Avançado\" para executar centenas de simulações com retornos anuais aleatórios para os seus ativos. Isto ajuda a avaliar a probabilitade de atingir os seus objetivos financeiros.</li></ul>",
         "helpModalResultsInfo": "Os resultados são apresentados num gráfico e numa tabela, mostrando a evolução do seu património ao longo do tempo.",
         "helpModalButtonsInfo": "Com os botões no canto superior direito, pode importar ou exportar os seus dados como um ficheiro JSON, ou limpar todos os campos.",
         "helpModalPrivacy": "Privacidade em primeiro lugar: nunca armazenaremos ou compartilharemos seus dados de forma alguma.",
@@ -963,8 +1125,35 @@ const ALL_TRANSLATIONS = {
         "recentGraduate": "Recém-formado",
         "earlyCareer": "Início de carreira",
         "midCareer": "Meio de carreira",
-        "lateCareer": "Fim de carreira"
-    }
+        "lateCareer": "Fim de carreira",
+        "plansButton": "Planos",
+        "actionsButton": "Ações",
+        "clearPlanButton": "Limpar plano",
+        "renamePlanButton": "Renomear",
+        "duplicatePlanButton": "Duplicar",
+        "deletePlanButton": "Excluir",
+        "onboardingWelcomeTitle": "Bem-vindo ao SquirrelPlan!",
+        "onboardingIntro": "Descubra como pequenas mudanças hoje podem levar a um crescimento significativo de riqueza ao longo do tempo. Esta ferramenta ajuda-o a projetar a sua riqueza para o futuro. Ajuste as suas poupanças mensais para ver como isso afeta a sua projeção a 30 anos.",
+        "onboardingSliderLabel": "Poupança mensal",
+        "onboardingStartBlank": "Começar com um plano em branco",
+        "onboardingNext": "Próximo",
+        "onboardingNextButtonExplanation": "Clique em 'Avançar' para começar: você será solicitado a escolher entre um plano predefinido ou um em branco.",
+        "newBlankPlanButton": "Novo plano em branco",
+        "plansModalTitle": "Escolha um plano",
+        "presetPlansTitle": "Planos predefinidos",
+        "userPlansTitle": "Os seus planos",
+        "noUserPlans": "Ainda não criou nenhum plano.",
+        "onboardingPrevious": "Anterior",
+        "projectedWealthLabel": "Riqueza projetada",
+        "assetDeletionWarning": "Aviso: você excluiu um ativo ('{assetName}') que fazia parte de sua alocação de poupança. Revise sua alocação.",
+        "enterNewPlanNamePrompt": "Digite um novo nome para o plano:",
+        "deletePlanConfirmation": "Tem certeza de que deseja excluir o plano '{planName}'?",
+        "copyOf": "Cópia de ",
+        "newPlanName": "Novo Plano",
+        "planNameExistsError": "Já existe um plano com este nome.",
+        "cannotDeleteLastPlanError": "Você não pode excluir o último plano.",
+        "savePresetAsNewPlanPrompt": "Você editou uma predefinição. Deseja salvar suas alterações como um novo plano? Digite um nome para o novo plano."
+    },
 };
 
 let currentLang = 'en';
@@ -972,22 +1161,24 @@ let currentLang = 'en';
 async function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
-    localStorage.setItem('preferredLanguage', lang);
+    
+    if (window.SquirrelPlanApp && window.SquirrelPlanApp.saveSettings && window.SquirrelPlanApp.getSettings) {
+        const settings = window.SquirrelPlanApp.getSettings();
+        settings.language = lang;
+        window.SquirrelPlanApp.saveSettings(settings);
+    }
 
-    // Use embedded translations instead of fetching
     if (!ALL_TRANSLATIONS[lang]) {
-        console.error(`Translations for language '${lang}' not found in embedded data.`);
-        // Fallback to English if the language data is not found
+        console.error(`Translations for language '${lang}' not found.`);
         if (lang !== 'en' && ALL_TRANSLATIONS['en']) {
             currentLang = 'en';
             document.documentElement.lang = 'en';
         } else {
-            return; // No fallback possible
+            return; 
         }
     }
 
     translatePage();
-    // Dispatch a custom event to notify other scripts that the language has changed
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: currentLang } }));
 }
 
@@ -1000,13 +1191,8 @@ function translatePage() {
     document.querySelectorAll('[data-i18n-key]').forEach(element => {
         const key = element.getAttribute('data-i18n-key');
         if (langTranslations[key]) {
-            // Preserve the icon if it exists
             const icon = element.querySelector('i.bi');
-            
-            // Set the inner HTML from the translation
             element.innerHTML = langTranslations[key];
-            
-            // If there was an icon, re-append it
             if (icon) {
                 element.appendChild(document.createTextNode(' '));
                 element.appendChild(icon);
@@ -1038,72 +1224,6 @@ function getTranslation(key, replacements = {}) {
 }
 
 window.getTranslation = getTranslation;
-
-document.addEventListener('DOMContentLoaded', () => {
-    const preferredLang = localStorage.getItem('preferredLanguage');
-    const userLang = (navigator.language || navigator.userLanguage).split('-')[0];
-    const supportedLangs = [
-        { code: 'en', name: 'English' },
-        { code: 'fr', name: 'Français' },
-        { code: 'es', name: 'Español' },
-        { code: 'de', name: 'Deutsch' },
-        { code: 'it', name: 'Italiano' },
-        { code: 'pt', name: 'Português' },
-        { code: 'nl', name: 'Nederlands' },
-    ];
-    
-    let langToSet = 'en';
-    if (preferredLang && supportedLangs.some(l => l.code === preferredLang)) {
-        langToSet = preferredLang;
-    } else if (supportedLangs.some(l => l.code === userLang)) {
-        langToSet = userLang;
-    }
-    
-        // Add the language selector to the navbar
-    const darkModeToggleContainer = document.querySelector('.form-check.form-switch');
-    if (darkModeToggleContainer) {
-        const dropdownDiv = document.createElement('div');
-        dropdownDiv.className = 'dropdown ms-2 me-2';
-
-        const dropdownButton = document.createElement('button');
-        dropdownButton.className = 'btn btn-secondary dropdown-toggle';
-        dropdownButton.type = 'button';
-        dropdownButton.id = 'language-selector';
-        dropdownButton.setAttribute('data-bs-toggle', 'dropdown');
-        dropdownButton.setAttribute('aria-expanded', 'false');
-        dropdownButton.textContent = 'Language';
-
-        const dropdownMenu = document.createElement('ul');
-        dropdownMenu.className = 'dropdown-menu';
-        dropdownMenu.setAttribute('aria-labelledby', 'language-selector');
-
-        supportedLangs.forEach(lang => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.className = 'dropdown-item';
-            a.href = '#';
-            a.textContent = lang.name;
-            a.onclick = (e) => {
-                e.preventDefault();
-                if (lang.code === currentLang) {
-                    alert(getTranslation('languageAlreadySelected'));
-                    return;
-                }
-                if (confirm(getTranslation('languageChangeWarning'))) {
-                    setLanguage(lang.code);
-                }
-            };
-            li.appendChild(a);
-            dropdownMenu.appendChild(li);
-        });
-
-        dropdownDiv.appendChild(dropdownButton);
-        dropdownDiv.appendChild(dropdownMenu);
-        darkModeToggleContainer.insertAdjacentElement('afterend', dropdownDiv);
-    }
-
-    setLanguage(langToSet);
-});
 
 window.addEventListener('languageChanged', (e) => {
     const lang = e.detail.lang;
