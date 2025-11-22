@@ -272,3 +272,9 @@ th {
     z-index: 3;
 
 }
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

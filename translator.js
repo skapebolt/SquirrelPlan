@@ -1192,7 +1192,11 @@ function translatePage() {
         const key = element.getAttribute('data-i18n-key');
         if (langTranslations[key]) {
             const icon = element.querySelector('i.bi');
+            const img = element.querySelector('img');
             element.innerHTML = langTranslations[key];
+            if (img) {
+                element.prepend(img);
+            }
             if (icon) {
                 element.appendChild(document.createTextNode(' '));
                 element.appendChild(icon);
